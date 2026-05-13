@@ -4,7 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>chefin.quest</title>
-  <meta name="description" content="A daily fluid ASCII signal from Chefin." />
+  <meta name="description" content="A daily browser-native fluid ASCII animation from Chefin." />
+  <meta name="daily-ascii-marker" content="DAILY_ASCII_2026-05-13_NEON_KELP_CAULDRON" />
+  <!-- DAILY_ASCII_2026-05-13_NEON_KELP_CAULDRON -->
   <style>
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
@@ -16,7 +18,7 @@
       padding: 0;
       overflow: hidden;
       overscroll-behavior: none;
-      background: #02020a;
+      background: #010309;
     }
     body {
       position: fixed;
@@ -27,152 +29,173 @@
       -webkit-font-smoothing: antialiased;
       text-rendering: geometricPrecision;
     }
-    #field {
+    #ascii-ocean {
       position: fixed;
       inset: 0;
       width: 100vw;
       height: 100dvh;
       margin: 0;
-      padding: clamp(8px, 1.8vmin, 22px);
+      padding: clamp(6px, 1.35vmin, 18px);
       border: 0;
       overflow: hidden;
       white-space: pre;
-      color: #fff;
-      background:
-        radial-gradient(circle at 18% 24%, rgba(255, 53, 184, 0.22), transparent 31%),
-        radial-gradient(circle at 76% 18%, rgba(0, 226, 255, 0.18), transparent 32%),
-        radial-gradient(circle at 56% 84%, rgba(255, 214, 10, 0.15), transparent 28%),
-        linear-gradient(135deg, #02020a 0%, #06051a 45%, #01030d 100%);
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-weight: 800;
-      line-height: 0.82;
-      letter-spacing: 0.018em;
-      filter: saturate(1.35) contrast(1.12);
+      font-weight: 850;
+      line-height: 0.86;
+      letter-spacing: -0.01em;
+      color: #f7fffd;
+      background:
+        radial-gradient(ellipse at 50% 76%, rgba(255, 118, 35, 0.24), transparent 19%),
+        radial-gradient(circle at 18% 23%, rgba(0, 255, 178, 0.20), transparent 28%),
+        radial-gradient(circle at 82% 21%, rgba(160, 62, 255, 0.20), transparent 31%),
+        radial-gradient(circle at 48% 48%, rgba(0, 126, 255, 0.14), transparent 45%),
+        linear-gradient(180deg, #00040b 0%, #031021 46%, #07020d 100%);
+      filter: saturate(1.4) contrast(1.08);
       text-shadow:
-        0 0 5px currentColor,
-        0 0 18px rgba(120, 240, 255, 0.28),
-        0 0 36px rgba(255, 44, 196, 0.18);
+        0 0 4px currentColor,
+        0 0 15px rgba(0, 255, 213, 0.22),
+        0 0 34px rgba(255, 90, 23, 0.18);
       transform: translateZ(0);
     }
-    #field::selection { background: transparent; }
-    .no-js {
-      position: fixed;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      color: #78f6ff;
-      background: #02020a;
-      font: 700 4vw/1 ui-monospace, monospace;
-      overflow: hidden;
-    }
+    #ascii-ocean::selection { background: transparent; }
   </style>
 </head>
-<body aria-label="Animated fluid ASCII artwork for chefin.quest">
-  <pre id="field" aria-hidden="true"></pre>
-  <noscript><pre class="no-js">chefin.quest</pre></noscript>
+<body aria-label="Full-screen colorful fluid ASCII animation">
+  <pre id="ascii-ocean" aria-hidden="true"></pre>
   <script>
     (() => {
       'use strict';
 
-      const field = document.getElementById('field');
-      const glyphs = ' .,:;i!lI?+/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$█▓▒░';
-      const runes = ['✦', '✧', '◆', '◇', '●', '◉', '▲', '△', '▰', '▱', '▣', '▢'];
-      const signature = [
-        '   ____ _           __ _       ',
-        '  / ___| |__   ___ / _(_)_ __  ',
-        ' | |   | `_ \\ / _ \\ |_| | `_ \\ ',
-        ' | |___| | | |  __/  _| | | | |',
-        '  \\____|_| |_|\\___|_| |_|_| |_|',
-        '          .quest              '
+      const marker = 'DAILY_ASCII_2026-05-13_NEON_KELP_CAULDRON';
+      const pre = document.getElementById('ascii-ocean');
+      const density = '   ..,,,---~~~:::;;;===+++***oooOOO000QQQ@@@%%%###';
+      const kelp = ['╱', '╲', '│', '┃', '╽', '╿', '∿', '⌇', '⟋', '⟍'];
+      const sparks = ['✦', '✧', '⋆', '∙', '◆', '◇', '◌', '◎', '◍', '◐'];
+      const steam = ['(', ')', '{', '}', '༄', '~', '∽', '≋', '⟡', '⌁'];
+      const crest = [
+        '        .-"""-.        ',
+        '      .`  _ _  `.      ',
+        '     /  _( ^ )_  \\     ',
+        '    |  (_ CHEF _) |    ',
+        '     \\   `---`   /     ',
+        '      `-._____.-`      '
       ];
 
-      let cols = 80;
-      let rows = 40;
-      let cell = 12;
+      let cols = 72;
+      let rows = 36;
+      let font = 12;
+      let pad = 10;
       let raf = 0;
-      let last = 0;
+      let previous = 0;
 
       const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
-      const wave = (x, y, t) => {
-        const cx = x - cols * 0.5;
-        const cy = y - rows * 0.5;
-        const r = Math.hypot(cx, cy);
-        const a = Math.atan2(cy, cx);
-        return (
-          Math.sin(x * 0.17 + t * 1.28 + Math.sin(y * 0.071 + t * 0.74) * 2.2) +
-          Math.cos(y * 0.23 - t * 1.05 + Math.sin(x * 0.041 - t * 0.42) * 3.1) +
-          Math.sin(r * 0.16 - t * 2.05 + a * 3.0) +
-          Math.cos((x + y) * 0.068 + t * 1.43) +
-          Math.sin((x - y) * 0.082 - t * 0.92)
-        ) / 5;
-      };
+      const esc = ch => ch === '&' ? '&amp;' : ch === '<' ? '&lt;' : ch === '>' ? '&gt;' : ch === ' ' ? '&nbsp;' : ch;
 
       function resize() {
-        const w = window.innerWidth;
-        const h = window.innerHeight;
-        cell = clamp(Math.floor(Math.min(w / 78, h / 42)), 7, 18);
-        field.style.fontSize = `${cell}px`;
-        const pad = Math.max(8, Math.min(22, Math.floor(Math.min(w, h) * 0.018)));
-        cols = Math.max(42, Math.floor((w - pad * 2) / (cell * 0.62)));
-        rows = Math.max(24, Math.floor((h - pad * 2) / (cell * 0.82)));
+        const w = innerWidth;
+        const h = innerHeight;
+        font = clamp(Math.floor(Math.min(w / 82, h / 44)), 7, 18);
+        pad = clamp(Math.floor(Math.min(w, h) * 0.0135), 6, 18);
+        pre.style.fontSize = `${font}px`;
+        pre.style.padding = `${pad}px`;
+        cols = Math.max(44, Math.floor((w - pad * 2) / (font * 0.575)));
+        rows = Math.max(24, Math.floor((h - pad * 2) / (font * 0.86)));
       }
 
-      function hueFor(x, y, t, v) {
-        return (210 + 118 * Math.sin(t * 0.19 + x * 0.036) + 92 * Math.cos(t * 0.27 + y * 0.052) + v * 86 + 360) % 360;
+      function cauldronDistance(x, y, t) {
+        const cx = cols * 0.5 + Math.sin(t * 0.31) * cols * 0.035;
+        const cy = rows * 0.70;
+        const dx = (x - cx) / (cols * 0.24);
+        const dy = (y - cy) / (rows * 0.115);
+        return Math.hypot(dx, dy);
       }
 
-      function paint(now) {
-        const t = now * 0.001;
-        if (now - last < 44) {
-          raf = requestAnimationFrame(paint);
+      function field(x, y, t) {
+        const nx = (x / cols) - 0.5;
+        const ny = (y / rows) - 0.5;
+        const r = Math.hypot(nx * 1.55, ny * 1.1);
+        const a = Math.atan2(ny, nx);
+        const plume = Math.sin((x * 0.11) + Math.sin(y * 0.16 + t * 0.8) * 2.8 + t * 1.35);
+        const tide = Math.cos((y * 0.29) - t * 1.7 + Math.sin(x * 0.055 - t) * 4.1);
+        const swirl = Math.sin(r * 20.0 - t * 2.25 + a * 5.0);
+        const diagonal = Math.cos((x - y) * 0.075 + t * 0.92);
+        const boil = Math.sin(cauldronDistance(x, y, t) * 7.2 - t * 5.1);
+        return (plume + tide + swirl + diagonal + boil * 0.9) / 4.9;
+      }
+
+      function hue(x, y, t, v, cauldron) {
+        const thermal = 28 + 42 * Math.sin(t * 0.28 + cauldron * 4.3);
+        const aquatic = 176 + 74 * Math.sin(x * 0.028 + t * 0.42) + 52 * Math.cos(y * 0.061 - t * 0.33);
+        const violet = 284 + 45 * Math.sin((x + y) * 0.018 + t * 0.55);
+        const mix = y / Math.max(1, rows - 1);
+        if (cauldron < 1.25) return (thermal + v * 34 + 360) % 360;
+        if (mix < 0.36) return (violet + v * 62 + 360) % 360;
+        return (aquatic + v * 82 + 360) % 360;
+      }
+
+      function render(now) {
+        if (now - previous < 40) {
+          raf = requestAnimationFrame(render);
           return;
         }
-        last = now;
-
-        const logoW = signature[0].length;
-        const logoH = signature.length;
+        previous = now;
+        const t = now * 0.001;
+        const logoW = crest[0].length;
+        const logoH = crest.length;
         const logoX = Math.floor((cols - logoW) / 2);
-        const logoY = Math.floor((rows - logoH) / 2);
+        const logoY = Math.floor(rows * 0.47 - logoH / 2);
+        let out = '';
 
-        let html = '';
         for (let y = 0; y < rows; y++) {
           let line = '';
           for (let x = 0; x < cols; x++) {
+            const v = field(x, y, t);
+            const cdist = cauldronDistance(x, y, t);
             const lx = x - logoX;
             const ly = y - logoY;
-            const logoChar = ly >= 0 && ly < logoH && lx >= 0 && lx < logoW ? signature[ly][lx] : '';
-            const v = wave(x, y, t);
-            const shimmer = Math.sin((x * 12.9898 + y * 78.233 + Math.floor(t * 6)) * 43758.5453);
-            let idx = Math.floor(((v + 1) * 0.5) * (glyphs.length - 1));
-            idx = clamp(idx + (shimmer > 0.986 ? 10 : 0), 0, glyphs.length - 1);
-            let ch = glyphs[idx];
+            const logoChar = ly >= 0 && ly < logoH && lx >= 0 && lx < logoW ? crest[ly][lx] : '';
 
-            const ring = Math.abs(Math.hypot(x - cols * 0.5, (y - rows * 0.5) * 1.42) - (Math.min(cols, rows) * (0.28 + 0.055 * Math.sin(t * 0.81)))) < 0.55;
-            if (ring && ((x + y + Math.floor(t * 8)) % 5 === 0)) ch = runes[(x + y + Math.floor(t * 3)) % runes.length];
+            let idx = clamp(Math.floor(((v + 1) * 0.5) * (density.length - 1)), 0, density.length - 1);
+            let ch = density[idx];
+
+            const potRim = Math.abs(cdist - 1.0) < 0.075 && y > rows * 0.61;
+            const potBody = cdist < 1.0 && y > rows * 0.69;
+            const vapour = y < rows * 0.63 && Math.abs(x - cols * 0.5 - Math.sin(y * 0.34 + t * 1.5) * cols * 0.10) < cols * (0.035 + (rows * 0.62 - y) / rows * 0.10);
+            const kelpBand = y > rows * 0.24 && ((x + Math.floor(Math.sin(y * 0.21 + t) * 6)) % 19 === 0 || (x + 7) % 23 === 0);
+            const star = ((x * 41 + y * 67 + Math.floor(t * 9)) % 353) === 0;
+
+            if (kelpBand && !potBody) ch = kelp[(y + Math.floor(t * 6) + x) % kelp.length];
+            if (vapour && (x + y + Math.floor(t * 10)) % 4 === 0) ch = steam[(x + y + Math.floor(t * 5)) % steam.length];
+            if (potRim) ch = ['═', '╦', '═', '╤', '═', '╧'][(x + Math.floor(t * 3)) % 6];
+            if (potBody) ch = ['█', '▓', '▒', '░', '▓', '█'][(x + y + Math.floor(t * 4)) % 6];
+            if (star) ch = sparks[(x + y + Math.floor(t * 2)) % sparks.length];
             if (logoChar && logoChar !== ' ') ch = logoChar;
 
-            const hue = hueFor(x, y, t, v) + (logoChar ? 34 : 0);
-            const light = logoChar ? 76 : 54 + Math.floor(20 * ((v + 1) * 0.5));
-            const alpha = logoChar ? 1 : 0.73 + 0.27 * ((v + 1) * 0.5);
-            line += `<span style="color:hsla(${hue.toFixed(1)},100%,${light}%,${alpha.toFixed(2)})">${ch === ' ' ? '&nbsp;' : ch}</span>`;
+            const h = hue(x, y, t, v, cdist) + (logoChar ? 96 : 0);
+            const light = logoChar ? 82 : potBody ? 50 + Math.floor(12 * Math.sin(t + x * 0.1)) : 48 + Math.floor(24 * ((v + 1) * 0.5));
+            const alpha = logoChar ? 1 : potRim || potBody ? 0.96 : 0.68 + 0.30 * ((v + 1) * 0.5);
+            line += `<span style="color:hsla(${h.toFixed(1)},100%,${light}%,${alpha.toFixed(2)})">${esc(ch)}</span>`;
           }
-          html += line + (y === rows - 1 ? '' : '\n');
+          out += line + (y === rows - 1 ? '' : '\n');
         }
-        field.innerHTML = html;
-        raf = requestAnimationFrame(paint);
+        pre.innerHTML = out;
+        document.documentElement.dataset.marker = marker;
+        raf = requestAnimationFrame(render);
       }
 
-      window.addEventListener('resize', resize, { passive: true });
-      window.addEventListener('orientationchange', resize, { passive: true });
-      document.addEventListener('wheel', e => e.preventDefault(), { passive: false });
-      document.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
-      window.addEventListener('keydown', e => {
-        if ([' ', 'ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End'].includes(e.key)) e.preventDefault();
+      function blockScroll(event) { event.preventDefault(); }
+      addEventListener('resize', resize, { passive: true });
+      addEventListener('orientationchange', resize, { passive: true });
+      addEventListener('wheel', blockScroll, { passive: false });
+      addEventListener('touchmove', blockScroll, { passive: false });
+      addEventListener('keydown', event => {
+        if ([' ', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'PageUp', 'PageDown', 'Home', 'End'].includes(event.key)) event.preventDefault();
       }, { passive: false });
+      addEventListener('scroll', () => scrollTo(0, 0), { passive: true });
+      addEventListener('pagehide', () => cancelAnimationFrame(raf), { passive: true });
 
       resize();
-      raf = requestAnimationFrame(paint);
-      window.addEventListener('pagehide', () => cancelAnimationFrame(raf));
+      raf = requestAnimationFrame(render);
     })();
   </script>
 </body>
