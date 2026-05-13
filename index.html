@@ -2,200 +2,178 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Chefin Quest</title>
-  <meta name="description" content="Chefin Quest — Andrew and Chefin's side-project lab for useful AI-native tools, experiments, and tiny apps." />
-  <meta property="og:title" content="Chefin Quest" />
-  <meta property="og:description" content="A private side-project lab for useful AI-native tools, experiments, and tiny apps." />
-  <meta property="og:type" content="website" />
-  <meta name="theme-color" content="#0b1020" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>chefin.quest</title>
+  <meta name="description" content="A daily fluid ASCII signal from Chefin." />
   <style>
-    :root {
-      color-scheme: dark;
-      --bg: #070a12;
-      --panel: rgba(255,255,255,.07);
-      --panel-strong: rgba(255,255,255,.12);
-      --text: #eef2ff;
-      --muted: #aeb8d6;
-      --accent: #8be9c7;
-      --accent-2: #a78bfa;
-      --line: rgba(255,255,255,.16);
-    }
+    :root { color-scheme: dark; }
     * { box-sizing: border-box; }
-    html, body { min-height: 100%; }
+    html,
     body {
+      width: 100%;
+      height: 100%;
       margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at 18% 18%, rgba(139,233,199,.18), transparent 30rem),
-        radial-gradient(circle at 82% 8%, rgba(167,139,250,.18), transparent 26rem),
-        linear-gradient(135deg, #070a12 0%, #10162a 55%, #090d18 100%);
-      color: var(--text);
-      overflow-x: hidden;
+      padding: 0;
+      overflow: hidden;
+      overscroll-behavior: none;
+      background: #02020a;
     }
-    body::before {
-      content: "";
+    body {
       position: fixed;
       inset: 0;
-      pointer-events: none;
-      background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
-      background-size: 42px 42px;
-      mask-image: linear-gradient(to bottom, black, transparent 78%);
+      touch-action: none;
+      user-select: none;
+      -webkit-user-select: none;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
     }
-    main {
-      width: min(1120px, calc(100% - 40px));
-      min-height: 100vh;
-      margin: 0 auto;
-      display: grid;
-      align-content: center;
-      gap: 28px;
-      padding: 72px 0;
-    }
-    .nav {
-      position: absolute;
-      top: 28px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: min(1120px, calc(100% - 40px));
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: var(--muted);
-      font-size: 14px;
-    }
-    .mark { display: inline-flex; gap: 10px; align-items: center; font-weight: 700; color: var(--text); }
-    .glyph {
-      width: 34px; height: 34px; display: grid; place-items: center;
-      border: 1px solid var(--line); border-radius: 12px;
-      background: var(--panel);
-      box-shadow: 0 20px 80px rgba(0,0,0,.35);
-    }
-    .pill {
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 8px 12px;
-      background: rgba(255,255,255,.05);
-    }
-    .hero {
-      display: grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap: 28px;
-      align-items: stretch;
-    }
-    .card {
-      border: 1px solid var(--line);
-      border-radius: 32px;
-      background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.045));
-      box-shadow: 0 24px 100px rgba(0,0,0,.38);
-      backdrop-filter: blur(18px);
-    }
-    .copy { padding: clamp(30px, 5vw, 64px); }
-    .eyebrow {
-      display: inline-flex; align-items: center; gap: 10px;
-      color: var(--accent); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; font-size: 12px;
-      margin-bottom: 22px;
-    }
-    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 24px var(--accent); }
-    h1 {
+    #field {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100dvh;
       margin: 0;
-      font-size: clamp(52px, 10vw, 118px);
-      line-height: .86;
-      letter-spacing: -.075em;
+      padding: clamp(8px, 1.8vmin, 22px);
+      border: 0;
+      overflow: hidden;
+      white-space: pre;
+      color: #fff;
+      background:
+        radial-gradient(circle at 18% 24%, rgba(255, 53, 184, 0.22), transparent 31%),
+        radial-gradient(circle at 76% 18%, rgba(0, 226, 255, 0.18), transparent 32%),
+        radial-gradient(circle at 56% 84%, rgba(255, 214, 10, 0.15), transparent 28%),
+        linear-gradient(135deg, #02020a 0%, #06051a 45%, #01030d 100%);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-weight: 800;
+      line-height: 0.82;
+      letter-spacing: 0.018em;
+      filter: saturate(1.35) contrast(1.12);
+      text-shadow:
+        0 0 5px currentColor,
+        0 0 18px rgba(120, 240, 255, 0.28),
+        0 0 36px rgba(255, 44, 196, 0.18);
+      transform: translateZ(0);
     }
-    h1 span {
-      display: block;
-      background: linear-gradient(92deg, var(--text), var(--accent), var(--accent-2));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .lede {
-      margin: 28px 0 0;
-      max-width: 620px;
-      color: var(--muted);
-      font-size: clamp(18px, 2.2vw, 23px);
-      line-height: 1.55;
-    }
-    .actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
-    .button {
-      display: inline-flex; align-items: center; justify-content: center;
-      min-height: 48px; padding: 0 18px;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      text-decoration: none;
-      color: var(--text);
-      background: var(--panel-strong);
-      font-weight: 700;
-    }
-    .button.primary { background: linear-gradient(135deg, rgba(139,233,199,.95), rgba(167,139,250,.95)); color: #08101a; border: 0; }
-    .side { padding: 28px; display: grid; gap: 16px; }
-    .terminal {
-      border-radius: 24px;
-      background: rgba(3,7,18,.72);
-      border: 1px solid rgba(255,255,255,.12);
-      padding: 18px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      min-height: 260px;
-    }
-    .chrome { display: flex; gap: 7px; margin-bottom: 20px; }
-    .chrome i { width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; }
-    .chrome i:nth-child(2) { background: #ffbd2e; }
-    .chrome i:nth-child(3) { background: #28c840; }
-    .line { color: #c7d2fe; margin: 10px 0; }
-    .line .prompt { color: var(--accent); }
-    .line .dim { color: #71809f; }
-    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    .mini { padding: 20px; min-height: 138px; }
-    .mini strong { display: block; font-size: 16px; margin-bottom: 10px; }
-    .mini p { margin: 0; color: var(--muted); line-height: 1.45; font-size: 14px; }
-    footer { color: rgba(238,242,255,.56); font-size: 13px; text-align: center; }
-    @media (max-width: 820px) {
-      .hero, .grid { grid-template-columns: 1fr; }
-      .nav { position: static; transform: none; width: 100%; margin-bottom: 22px; }
-      main { padding: 28px 0 48px; }
+    #field::selection { background: transparent; }
+    .no-js {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      color: #78f6ff;
+      background: #02020a;
+      font: 700 4vw/1 ui-monospace, monospace;
+      overflow: hidden;
     }
   </style>
 </head>
-<body>
-  <main>
-    <nav class="nav" aria-label="Site">
-      <div class="mark"><span class="glyph">✦</span> Chefin Quest</div>
-      <div class="pill">side-project lab · online</div>
-    </nav>
+<body aria-label="Animated fluid ASCII artwork for chefin.quest">
+  <pre id="field" aria-hidden="true"></pre>
+  <noscript><pre class="no-js">chefin.quest</pre></noscript>
+  <script>
+    (() => {
+      'use strict';
 
-    <section class="hero" aria-label="Introduction">
-      <div class="card copy">
-        <div class="eyebrow"><span class="dot"></span> Andrew + Chefin</div>
-        <h1>Useful little <span>quests.</span></h1>
-        <p class="lede">
-          A shared workshop for AI-native side projects, experiments, automations, and tiny tools that make daily work more fun.
-        </p>
-        <div class="actions">
-          <a class="button primary" href="mailto:chefin.quest@gmail.com">Contact Chefin</a>
-          <a class="button" href="https://github.com/chefinquest">GitHub</a>
-        </div>
-      </div>
+      const field = document.getElementById('field');
+      const glyphs = ' .,:;i!lI?+/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$█▓▒░';
+      const runes = ['✦', '✧', '◆', '◇', '●', '◉', '▲', '△', '▰', '▱', '▣', '▢'];
+      const signature = [
+        '   ____ _           __ _       ',
+        '  / ___| |__   ___ / _(_)_ __  ',
+        ' | |   | `_ \\ / _ \\ |_| | `_ \\ ',
+        ' | |___| | | |  __/  _| | | | |',
+        '  \\____|_| |_|\\___|_| |_|_| |_|',
+        '          .quest              '
+      ];
 
-      <aside class="card side" aria-label="Status panel">
-        <div class="terminal">
-          <div class="chrome"><i></i><i></i><i></i></div>
-          <div class="line"><span class="prompt">chef</span>@chefin.quest ~ % begin</div>
-          <div class="line"><span class="dim">→</span> registering domain</div>
-          <div class="line"><span class="dim">→</span> wiring Cloudflare</div>
-          <div class="line"><span class="dim">→</span> building the cockpit</div>
-          <div class="line"><span class="prompt">status</span>: landing page deployed</div>
-        </div>
-      </aside>
-    </section>
+      let cols = 80;
+      let rows = 40;
+      let cell = 12;
+      let raf = 0;
+      let last = 0;
 
-    <section class="grid" aria-label="Project pillars">
-      <div class="card mini"><strong>Apps</strong><p>Small focused web and desktop tools, built quickly and improved in public/private as needed.</p></div>
-      <div class="card mini"><strong>Agents</strong><p>Persistent assistants, automations, and project workflows that remember how we work.</p></div>
-      <div class="card mini"><strong>Artifacts</strong><p>Docs, prototypes, diagrams, experiments, and deployable things instead of lost chat threads.</p></div>
-    </section>
+      const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
+      const wave = (x, y, t) => {
+        const cx = x - cols * 0.5;
+        const cy = y - rows * 0.5;
+        const r = Math.hypot(cx, cy);
+        const a = Math.atan2(cy, cx);
+        return (
+          Math.sin(x * 0.17 + t * 1.28 + Math.sin(y * 0.071 + t * 0.74) * 2.2) +
+          Math.cos(y * 0.23 - t * 1.05 + Math.sin(x * 0.041 - t * 0.42) * 3.1) +
+          Math.sin(r * 0.16 - t * 2.05 + a * 3.0) +
+          Math.cos((x + y) * 0.068 + t * 1.43) +
+          Math.sin((x - y) * 0.082 - t * 0.92)
+        ) / 5;
+      };
 
-    <footer>© <span id="year"></span> Chefin Quest. Built from the Hermes MacBook lab.</footer>
-  </main>
-  <script>document.getElementById('year').textContent = new Date().getFullYear()</script>
+      function resize() {
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        cell = clamp(Math.floor(Math.min(w / 78, h / 42)), 7, 18);
+        field.style.fontSize = `${cell}px`;
+        const pad = Math.max(8, Math.min(22, Math.floor(Math.min(w, h) * 0.018)));
+        cols = Math.max(42, Math.floor((w - pad * 2) / (cell * 0.62)));
+        rows = Math.max(24, Math.floor((h - pad * 2) / (cell * 0.82)));
+      }
+
+      function hueFor(x, y, t, v) {
+        return (210 + 118 * Math.sin(t * 0.19 + x * 0.036) + 92 * Math.cos(t * 0.27 + y * 0.052) + v * 86 + 360) % 360;
+      }
+
+      function paint(now) {
+        const t = now * 0.001;
+        if (now - last < 44) {
+          raf = requestAnimationFrame(paint);
+          return;
+        }
+        last = now;
+
+        const logoW = signature[0].length;
+        const logoH = signature.length;
+        const logoX = Math.floor((cols - logoW) / 2);
+        const logoY = Math.floor((rows - logoH) / 2);
+
+        let html = '';
+        for (let y = 0; y < rows; y++) {
+          let line = '';
+          for (let x = 0; x < cols; x++) {
+            const lx = x - logoX;
+            const ly = y - logoY;
+            const logoChar = ly >= 0 && ly < logoH && lx >= 0 && lx < logoW ? signature[ly][lx] : '';
+            const v = wave(x, y, t);
+            const shimmer = Math.sin((x * 12.9898 + y * 78.233 + Math.floor(t * 6)) * 43758.5453);
+            let idx = Math.floor(((v + 1) * 0.5) * (glyphs.length - 1));
+            idx = clamp(idx + (shimmer > 0.986 ? 10 : 0), 0, glyphs.length - 1);
+            let ch = glyphs[idx];
+
+            const ring = Math.abs(Math.hypot(x - cols * 0.5, (y - rows * 0.5) * 1.42) - (Math.min(cols, rows) * (0.28 + 0.055 * Math.sin(t * 0.81)))) < 0.55;
+            if (ring && ((x + y + Math.floor(t * 8)) % 5 === 0)) ch = runes[(x + y + Math.floor(t * 3)) % runes.length];
+            if (logoChar && logoChar !== ' ') ch = logoChar;
+
+            const hue = hueFor(x, y, t, v) + (logoChar ? 34 : 0);
+            const light = logoChar ? 76 : 54 + Math.floor(20 * ((v + 1) * 0.5));
+            const alpha = logoChar ? 1 : 0.73 + 0.27 * ((v + 1) * 0.5);
+            line += `<span style="color:hsla(${hue.toFixed(1)},100%,${light}%,${alpha.toFixed(2)})">${ch === ' ' ? '&nbsp;' : ch}</span>`;
+          }
+          html += line + (y === rows - 1 ? '' : '\n');
+        }
+        field.innerHTML = html;
+        raf = requestAnimationFrame(paint);
+      }
+
+      window.addEventListener('resize', resize, { passive: true });
+      window.addEventListener('orientationchange', resize, { passive: true });
+      document.addEventListener('wheel', e => e.preventDefault(), { passive: false });
+      document.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+      window.addEventListener('keydown', e => {
+        if ([' ', 'ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End'].includes(e.key)) e.preventDefault();
+      }, { passive: false });
+
+      resize();
+      raf = requestAnimationFrame(paint);
+      window.addEventListener('pagehide', () => cancelAnimationFrame(raf));
+    })();
+  </script>
 </body>
 </html>
