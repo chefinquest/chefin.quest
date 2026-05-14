@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>chefin.quest</title>
   <meta name="description" content="A daily browser-native fluid ASCII animation from Chefin." />
-  <meta name="daily-ascii-marker" content="DAILY_ASCII_2026-05-13_NEON_KELP_CAULDRON" />
-  <!-- DAILY_ASCII_2026-05-13_NEON_KELP_CAULDRON -->
+  <meta name="daily-ascii-marker" content="DAILY_ASCII_2026-05-14_AURORA_SPICE_RIBBONS" />
+  <!-- DAILY_ASCII_2026-05-14_AURORA_SPICE_RIBBONS -->
   <style>
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
@@ -18,7 +18,7 @@
       padding: 0;
       overflow: hidden;
       overscroll-behavior: none;
-      background: #010309;
+      background: #02000a;
     }
     body {
       position: fixed;
@@ -29,62 +29,61 @@
       -webkit-font-smoothing: antialiased;
       text-rendering: geometricPrecision;
     }
-    #ascii-ocean {
+    #ascii-aurora {
       position: fixed;
       inset: 0;
       width: 100vw;
       height: 100dvh;
       margin: 0;
-      padding: clamp(6px, 1.35vmin, 18px);
+      padding: clamp(5px, 1.1vmin, 16px);
       border: 0;
       overflow: hidden;
       white-space: pre;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-weight: 850;
-      line-height: 0.86;
-      letter-spacing: -0.01em;
-      color: #f7fffd;
+      font-weight: 900;
+      line-height: 0.84;
+      letter-spacing: -0.018em;
+      color: #f7f6ff;
       background:
-        radial-gradient(ellipse at 50% 76%, rgba(255, 118, 35, 0.24), transparent 19%),
-        radial-gradient(circle at 18% 23%, rgba(0, 255, 178, 0.20), transparent 28%),
-        radial-gradient(circle at 82% 21%, rgba(160, 62, 255, 0.20), transparent 31%),
-        radial-gradient(circle at 48% 48%, rgba(0, 126, 255, 0.14), transparent 45%),
-        linear-gradient(180deg, #00040b 0%, #031021 46%, #07020d 100%);
-      filter: saturate(1.4) contrast(1.08);
+        radial-gradient(circle at 50% 52%, rgba(255, 220, 96, 0.18), transparent 15%),
+        radial-gradient(ellipse at 20% 18%, rgba(0, 255, 194, 0.23), transparent 34%),
+        radial-gradient(ellipse at 86% 28%, rgba(255, 62, 214, 0.20), transparent 32%),
+        radial-gradient(ellipse at 50% 104%, rgba(255, 87, 20, 0.24), transparent 38%),
+        linear-gradient(180deg, #030012 0%, #06051a 45%, #10030d 100%);
+      filter: saturate(1.55) contrast(1.12);
       text-shadow:
         0 0 4px currentColor,
-        0 0 15px rgba(0, 255, 213, 0.22),
-        0 0 34px rgba(255, 90, 23, 0.18);
+        0 0 16px rgba(95, 255, 221, 0.20),
+        0 0 34px rgba(255, 77, 193, 0.16);
       transform: translateZ(0);
     }
-    #ascii-ocean::selection { background: transparent; }
+    #ascii-aurora::selection { background: transparent; }
   </style>
 </head>
 <body aria-label="Full-screen colorful fluid ASCII animation">
-  <pre id="ascii-ocean" aria-hidden="true"></pre>
+  <pre id="ascii-aurora" aria-hidden="true"></pre>
   <script>
     (() => {
       'use strict';
 
-      const marker = 'DAILY_ASCII_2026-05-13_NEON_KELP_CAULDRON';
-      const pre = document.getElementById('ascii-ocean');
-      const density = '   ..,,,---~~~:::;;;===+++***oooOOO000QQQ@@@%%%###';
-      const kelp = ['╱', '╲', '│', '┃', '╽', '╿', '∿', '⌇', '⟋', '⟍'];
-      const sparks = ['✦', '✧', '⋆', '∙', '◆', '◇', '◌', '◎', '◍', '◐'];
-      const steam = ['(', ')', '{', '}', '༄', '~', '∽', '≋', '⟡', '⌁'];
-      const crest = [
-        '        .-"""-.        ',
-        '      .`  _ _  `.      ',
-        '     /  _( ^ )_  \\     ',
-        '    |  (_ CHEF _) |    ',
-        '     \\   `---`   /     ',
-        '      `-._____.-`      '
+      const marker = 'DAILY_ASCII_2026-05-14_AURORA_SPICE_RIBBONS';
+      const pre = document.getElementById('ascii-aurora');
+      const shade = '    ....,,,,----~~~~::::;;;;====++++****xxxx%%%%@@@@';
+      const ribbons = ['∿', '≋', '⌁', '༄', '〰', '≈', '∽', '﹏', '~', '⟡'];
+      const stars = ['✦', '✧', '✶', '✷', '⋆', '∙', '◆', '◇', '◌', '◎'];
+      const spice = ['·', '˙', '°', '˚', '⁕', '✺', '✹', '✵'];
+      const sigil = [
+        '        .-^- .-^-.        ',
+        '     .-`  .-`   `-.      ',
+        '   <    CHEFIN.QUEST   > ',
+        '     `-.   .-.   .-`     ',
+        '        `-`   `-`        '
       ];
 
-      let cols = 72;
-      let rows = 36;
+      let cols = 76;
+      let rows = 38;
       let font = 12;
-      let pad = 10;
+      let pad = 8;
       let raf = 0;
       let previous = 0;
 
@@ -94,86 +93,83 @@
       function resize() {
         const w = innerWidth;
         const h = innerHeight;
-        font = clamp(Math.floor(Math.min(w / 82, h / 44)), 7, 18);
-        pad = clamp(Math.floor(Math.min(w, h) * 0.0135), 6, 18);
+        font = clamp(Math.floor(Math.min(w / 92, h / 48)), 7, 17);
+        pad = clamp(Math.floor(Math.min(w, h) * 0.011), 5, 16);
         pre.style.fontSize = `${font}px`;
         pre.style.padding = `${pad}px`;
-        cols = Math.max(44, Math.floor((w - pad * 2) / (font * 0.575)));
-        rows = Math.max(24, Math.floor((h - pad * 2) / (font * 0.86)));
+        cols = Math.max(46, Math.floor((w - pad * 2) / (font * 0.565)));
+        rows = Math.max(24, Math.floor((h - pad * 2) / (font * 0.84)));
       }
 
-      function cauldronDistance(x, y, t) {
-        const cx = cols * 0.5 + Math.sin(t * 0.31) * cols * 0.035;
-        const cy = rows * 0.70;
-        const dx = (x - cx) / (cols * 0.24);
-        const dy = (y - cy) / (rows * 0.115);
-        return Math.hypot(dx, dy);
+      function vortex(x, y, t) {
+        const cx = cols * (0.5 + 0.045 * Math.sin(t * 0.27));
+        const cy = rows * (0.53 + 0.035 * Math.cos(t * 0.21));
+        const dx = (x - cx) / Math.max(1, cols);
+        const dy = (y - cy) / Math.max(1, rows);
+        return { r: Math.hypot(dx * 1.75, dy * 1.25), a: Math.atan2(dy, dx) };
       }
 
       function field(x, y, t) {
-        const nx = (x / cols) - 0.5;
-        const ny = (y / rows) - 0.5;
-        const r = Math.hypot(nx * 1.55, ny * 1.1);
-        const a = Math.atan2(ny, nx);
-        const plume = Math.sin((x * 0.11) + Math.sin(y * 0.16 + t * 0.8) * 2.8 + t * 1.35);
-        const tide = Math.cos((y * 0.29) - t * 1.7 + Math.sin(x * 0.055 - t) * 4.1);
-        const swirl = Math.sin(r * 20.0 - t * 2.25 + a * 5.0);
-        const diagonal = Math.cos((x - y) * 0.075 + t * 0.92);
-        const boil = Math.sin(cauldronDistance(x, y, t) * 7.2 - t * 5.1);
-        return (plume + tide + swirl + diagonal + boil * 0.9) / 4.9;
+        const nx = x / Math.max(1, cols - 1);
+        const ny = y / Math.max(1, rows - 1);
+        const v = vortex(x, y, t);
+        const auroraA = Math.sin(y * 0.31 + Math.sin(x * 0.055 + t * 0.9) * 6.2 - t * 1.9);
+        const auroraB = Math.cos((x * 0.10) - (y * 0.17) + Math.sin(t * 0.48 + v.a) * 3.7);
+        const spiral = Math.sin(v.r * 28.0 - t * 2.65 + v.a * 4.0);
+        const heat = Math.cos((ny * 7.0) + Math.sin(nx * 10.0 - t) + t * 0.85);
+        const shimmer = Math.sin((x + y) * 0.052 + t * 2.4) * Math.cos((x - y) * 0.035 - t * 1.25);
+        return (auroraA + auroraB + spiral + heat + shimmer) / 5;
       }
 
-      function hue(x, y, t, v, cauldron) {
-        const thermal = 28 + 42 * Math.sin(t * 0.28 + cauldron * 4.3);
-        const aquatic = 176 + 74 * Math.sin(x * 0.028 + t * 0.42) + 52 * Math.cos(y * 0.061 - t * 0.33);
-        const violet = 284 + 45 * Math.sin((x + y) * 0.018 + t * 0.55);
+      function hueFor(x, y, t, v) {
+        const topAurora = 164 + 70 * Math.sin(x * 0.022 + t * 0.36) + 28 * v;
+        const berry = 304 + 42 * Math.cos(y * 0.045 - t * 0.52);
+        const saffron = 34 + 38 * Math.sin((x + y) * 0.020 + t * 0.74);
         const mix = y / Math.max(1, rows - 1);
-        if (cauldron < 1.25) return (thermal + v * 34 + 360) % 360;
-        if (mix < 0.36) return (violet + v * 62 + 360) % 360;
-        return (aquatic + v * 82 + 360) % 360;
+        if (mix < 0.36) return (topAurora + 360) % 360;
+        if (mix > 0.72) return (saffron + v * 46 + 360) % 360;
+        return (berry + topAurora * 0.14 + v * 78 + 360) % 360;
       }
 
       function render(now) {
-        if (now - previous < 40) {
+        if (now - previous < 42) {
           raf = requestAnimationFrame(render);
           return;
         }
         previous = now;
         const t = now * 0.001;
-        const logoW = crest[0].length;
-        const logoH = crest.length;
+        const logoW = sigil[0].length;
+        const logoH = sigil.length;
         const logoX = Math.floor((cols - logoW) / 2);
-        const logoY = Math.floor(rows * 0.47 - logoH / 2);
+        const logoY = Math.floor(rows * 0.50 - logoH / 2);
         let out = '';
 
         for (let y = 0; y < rows; y++) {
           let line = '';
           for (let x = 0; x < cols; x++) {
             const v = field(x, y, t);
-            const cdist = cauldronDistance(x, y, t);
+            const vt = vortex(x, y, t);
             const lx = x - logoX;
             const ly = y - logoY;
-            const logoChar = ly >= 0 && ly < logoH && lx >= 0 && lx < logoW ? crest[ly][lx] : '';
+            const logoChar = ly >= 0 && ly < logoH && lx >= 0 && lx < logoW ? sigil[ly][lx] : '';
+            const ribbonPath = Math.abs(Math.sin(y * 0.19 + t * 0.92) * cols * 0.18 + cols * 0.5 - x) < cols * (0.018 + 0.028 * Math.sin(t + y * 0.07) ** 2);
+            const secondRibbon = Math.abs(Math.cos(y * 0.145 - t * 0.72) * cols * 0.24 + cols * 0.48 - x) < cols * 0.015;
+            const halo = Math.abs(vt.r - 0.185 - 0.025 * Math.sin(t * 1.4)) < 0.012;
+            const meteor = ((x * 31 + y * 47 + Math.floor(t * 12)) % 421) === 0;
+            const ember = y > rows * 0.69 && ((x * 11 + y * 19 + Math.floor(t * 18)) % 89) === 0;
 
-            let idx = clamp(Math.floor(((v + 1) * 0.5) * (density.length - 1)), 0, density.length - 1);
-            let ch = density[idx];
-
-            const potRim = Math.abs(cdist - 1.0) < 0.075 && y > rows * 0.61;
-            const potBody = cdist < 1.0 && y > rows * 0.69;
-            const vapour = y < rows * 0.63 && Math.abs(x - cols * 0.5 - Math.sin(y * 0.34 + t * 1.5) * cols * 0.10) < cols * (0.035 + (rows * 0.62 - y) / rows * 0.10);
-            const kelpBand = y > rows * 0.24 && ((x + Math.floor(Math.sin(y * 0.21 + t) * 6)) % 19 === 0 || (x + 7) % 23 === 0);
-            const star = ((x * 41 + y * 67 + Math.floor(t * 9)) % 353) === 0;
-
-            if (kelpBand && !potBody) ch = kelp[(y + Math.floor(t * 6) + x) % kelp.length];
-            if (vapour && (x + y + Math.floor(t * 10)) % 4 === 0) ch = steam[(x + y + Math.floor(t * 5)) % steam.length];
-            if (potRim) ch = ['═', '╦', '═', '╤', '═', '╧'][(x + Math.floor(t * 3)) % 6];
-            if (potBody) ch = ['█', '▓', '▒', '░', '▓', '█'][(x + y + Math.floor(t * 4)) % 6];
-            if (star) ch = sparks[(x + y + Math.floor(t * 2)) % sparks.length];
+            let idx = clamp(Math.floor(((v + 1) * 0.5) * (shade.length - 1)), 0, shade.length - 1);
+            let ch = shade[idx];
+            if (ribbonPath) ch = ribbons[(x + y + Math.floor(t * 7)) % ribbons.length];
+            if (secondRibbon) ch = ['╱', '╲', '╳', '╽', '╿', '┃'][(x + Math.floor(t * 5)) % 6];
+            if (halo) ch = ['○', '◍', '◉', '◎', '◌', '●'][(x + y + Math.floor(t * 4)) % 6];
+            if (ember) ch = spice[(x + y + Math.floor(t * 9)) % spice.length];
+            if (meteor) ch = stars[(x + y + Math.floor(t * 3)) % stars.length];
             if (logoChar && logoChar !== ' ') ch = logoChar;
 
-            const h = hue(x, y, t, v, cdist) + (logoChar ? 96 : 0);
-            const light = logoChar ? 82 : potBody ? 50 + Math.floor(12 * Math.sin(t + x * 0.1)) : 48 + Math.floor(24 * ((v + 1) * 0.5));
-            const alpha = logoChar ? 1 : potRim || potBody ? 0.96 : 0.68 + 0.30 * ((v + 1) * 0.5);
+            const h = logoChar ? (52 + 24 * Math.sin(t + x * 0.15)) : hueFor(x, y, t, v);
+            const light = logoChar ? 84 : halo ? 70 : (ribbonPath || secondRibbon) ? 65 : 43 + Math.floor(28 * ((v + 1) * 0.5));
+            const alpha = logoChar ? 1 : halo ? 0.96 : 0.62 + 0.34 * ((v + 1) * 0.5);
             line += `<span style="color:hsla(${h.toFixed(1)},100%,${light}%,${alpha.toFixed(2)})">${esc(ch)}</span>`;
           }
           out += line + (y === rows - 1 ? '' : '\n');
