@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>chefin.quest</title>
   <meta name="description" content="A daily browser-native fluid ASCII animation from Chefin." />
-  <meta name="daily-ascii-marker" content="DAILY_ASCII_2026-05-16_AURORA_RAMEN_NEBULA" />
-  <!-- DAILY_ASCII_2026-05-16_AURORA_RAMEN_NEBULA -->
+  <meta name="daily-ascii-marker" content="DAILY_ASCII_2026-05-17_PRISMATIC_KELP_STARGATE" />
+  <!-- DAILY_ASCII_2026-05-17_PRISMATIC_KELP_STARGATE -->
   <style>
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
@@ -18,7 +18,7 @@
       padding: 0;
       overflow: hidden;
       overscroll-behavior: none;
-      background: #02020a;
+      background: #010412;
     }
     body {
       position: fixed;
@@ -29,63 +29,65 @@
       -webkit-font-smoothing: antialiased;
       text-rendering: geometricPrecision;
     }
-    #aurora-ramen {
+    #stargate {
       position: fixed;
       inset: 0;
       width: 100vw;
       height: 100dvh;
       margin: 0;
-      padding: clamp(3px, 0.75vmin, 12px);
+      padding: clamp(2px, 0.55vmin, 10px);
       border: 0;
       overflow: hidden;
       white-space: pre;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-weight: 850;
-      line-height: 0.84;
-      letter-spacing: -0.034em;
-      color: #eaffff;
+      font-weight: 900;
+      line-height: 0.82;
+      letter-spacing: -0.045em;
+      color: #dffcff;
       background:
-        radial-gradient(circle at 50% 58%, rgba(255, 198, 76, 0.16), transparent 13%),
-        radial-gradient(ellipse at 24% 22%, rgba(28, 255, 178, 0.28), transparent 35%),
-        radial-gradient(ellipse at 76% 18%, rgba(182, 77, 255, 0.24), transparent 33%),
-        radial-gradient(ellipse at 56% 86%, rgba(255, 83, 126, 0.18), transparent 31%),
-        linear-gradient(160deg, #00020b 0%, #041322 35%, #130322 65%, #05030c 100%);
-      filter: saturate(1.75) contrast(1.13);
+        radial-gradient(circle at 50% 50%, rgba(113, 255, 229, 0.23), transparent 16%),
+        radial-gradient(ellipse at 22% 76%, rgba(27, 255, 139, 0.18), transparent 36%),
+        radial-gradient(ellipse at 83% 24%, rgba(255, 66, 189, 0.18), transparent 34%),
+        radial-gradient(ellipse at 46% 108%, rgba(0, 111, 255, 0.26), transparent 48%),
+        linear-gradient(180deg, #000311 0%, #031833 46%, #050018 100%);
+      filter: saturate(1.85) contrast(1.16);
       text-shadow:
         0 0 3px currentColor,
-        0 0 12px rgba(74, 255, 216, 0.28),
-        0 0 26px rgba(255, 89, 177, 0.16);
+        0 0 11px rgba(88, 253, 255, 0.31),
+        0 0 26px rgba(255, 74, 205, 0.18);
       transform: translateZ(0);
     }
-    #aurora-ramen::selection { background: transparent; }
-    .c0 { color: #172033; text-shadow: none; opacity: 0.72; }
-    .c1 { color: #18f6c8; }
-    .c2 { color: #4cbcff; }
-    .c3 { color: #b875ff; }
-    .c4 { color: #ff5bbd; }
-    .c5 { color: #ffd166; }
-    .c6 { color: #fff4cc; }
-    .c7 { color: #ff8a4c; }
+    #stargate::selection { background: transparent; }
+    .p0 { color: #101a30; text-shadow: none; opacity: 0.78; }
+    .p1 { color: #22ff9c; }
+    .p2 { color: #35f6ff; }
+    .p3 { color: #5f9cff; }
+    .p4 { color: #b35cff; }
+    .p5 { color: #ff4ec7; }
+    .p6 { color: #ffd76d; }
+    .p7 { color: #f8fff4; }
+    .p8 { color: #ff8757; }
   </style>
 </head>
 <body aria-label="Full-screen colorful fluid ASCII animation">
-  <pre id="aurora-ramen" aria-hidden="true"></pre>
+  <pre id="stargate" aria-hidden="true"></pre>
   <script>
     (() => {
       'use strict';
 
-      const marker = 'DAILY_ASCII_2026-05-16_AURORA_RAMEN_NEBULA';
-      const pre = document.getElementById('aurora-ramen');
-      const haze = '    ...,,,---~~~:::===+++***###%%%@@@';
-      const noodles = ['╭','╮','╯','╰','─','│','╱','╲','~','≈','∿','⌁'];
-      const glints = ['✦','✧','✶','✺','✹','✷','◆','◇','◌','○','●','*'];
-      const steam = ['⠁','⠂','⠄','⠆','⠒','⠢','⠔','⠌','⠨','⋰','⋱','⋯'];
-      const sigil = [
-        '        ╭────────╮        ',
-        '     ╭──┤ CHEFIN ├──╮     ',
-        '  ≋≋ │  QUEST  ☾  │ ≋≋  ',
-        '     ╰──┤ RAMEN ├──╯     ',
-        '        ╰────────╯        '
+      const marker = 'DAILY_ASCII_2026-05-17_PRISMATIC_KELP_STARGATE';
+      const pre = document.getElementById('stargate');
+      const deep = '     ..,,::--==++**##%%@@';
+      const foam = ['·','∙','°','o','○','◌','◍','*','✧','✦','+'];
+      const kelp = ['╱','╲','│','┃','╎','╏','∿','⌇','⟆','⟅','{','}'];
+      const portal = ['◜','◝','◞','◟','◠','◡','◌','◎','◉','●','◆','◇','✺','✹'];
+      const sparks = ['✦','✧','✶','✷','✸','✹','✺','✻','✼','✽'];
+      const rune = [
+        '      ◜───────◝      ',
+        '   ◜── CHEFIN ──◝   ',
+        '  ◟── QUEST ∴ GATE ─◞ ',
+        '   ◟──  ABYSS  ──◞   ',
+        '      ◟───────◞      '
       ];
 
       let cols = 0;
@@ -95,16 +97,16 @@
       let last = 0;
       let frame = 0;
       let raf = 0;
-      let sigX = 0;
-      let sigY = 0;
+      let runeX = 0;
+      let runeY = 0;
 
       const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
       const esc = (ch) => ch === '&' ? '&amp;' : ch === '<' ? '&lt;' : ch === '>' ? '&gt;' : ch;
-      const wave = (x, y, t) =>
-        Math.sin(x * 0.115 + t * 1.10) +
-        Math.cos(y * 0.155 - t * 0.82) +
-        Math.sin((x + y) * 0.052 + t * 0.67) +
-        Math.cos(Math.hypot(x - cols * 0.50, y - rows * 0.58) * 0.105 - t * 1.28);
+      const field = (x, y, t) =>
+        Math.sin(x * 0.092 + t * 1.42) +
+        Math.cos(y * 0.137 - t * 0.93) +
+        Math.sin((x - y) * 0.061 + t * 1.11) +
+        Math.cos(Math.hypot(x - cols * 0.5, y - rows * 0.5) * 0.17 - t * 2.15);
 
       function measure() {
         const probe = document.createElement('span');
@@ -118,75 +120,83 @@
       }
 
       function resize() {
-        pre.style.fontSize = `${clamp(Math.min(innerWidth / 72, innerHeight / 34), 8.2, 18)}px`;
+        pre.style.fontSize = `${clamp(Math.min(innerWidth / 78, innerHeight / 36), 7.5, 17)}px`;
         measure();
         const style = getComputedStyle(pre);
         const padX = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
         const padY = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
-        cols = Math.max(48, Math.floor((innerWidth - padX) / charW));
-        rows = Math.max(24, Math.floor((innerHeight - padY) / charH));
-        sigX = Math.max(0, Math.floor((cols - sigil[0].length) / 2));
-        sigY = Math.max(2, Math.floor(rows * 0.48) - 2);
+        cols = Math.max(50, Math.floor((innerWidth - padX) / charW));
+        rows = Math.max(25, Math.floor((innerHeight - padY) / charH));
+        runeX = Math.max(0, Math.floor((cols - rune[0].length) / 2));
+        runeY = Math.max(2, Math.floor(rows * 0.47) - 2);
         draw(performance.now());
       }
 
-      function sigilChar(x, y) {
-        const sy = y - sigY;
-        if (sy < 0 || sy >= sigil.length) return '';
-        const sx = x - sigX;
-        if (sx < 0 || sx >= sigil[sy].length) return '';
-        const ch = sigil[sy][sx];
+      function runeChar(x, y) {
+        const ry = y - runeY;
+        if (ry < 0 || ry >= rune.length) return '';
+        const rx = x - runeX;
+        if (rx < 0 || rx >= rune[ry].length) return '';
+        const ch = rune[ry][rx];
         return ch === ' ' ? '' : ch;
       }
 
       function draw(now) {
         raf = requestAnimationFrame(draw);
-        if (now - last < 42) return;
+        if (now - last < 40) return;
         last = now;
         frame += 1;
         const t = now * 0.001;
+        const cx0 = cols * 0.5 + Math.sin(t * 0.38) * cols * 0.035;
+        const cy0 = rows * 0.49 + Math.cos(t * 0.31) * rows * 0.025;
         const out = [];
 
         for (let y = 0; y < rows; y++) {
           let prevClass = '';
+          const yn = (y / rows) - 0.5;
           for (let x = 0; x < cols; x++) {
-            const cx = x / cols - 0.5;
-            const cy = y / rows - 0.5;
-            const radius = Math.hypot(cx * 1.8, cy * 1.45);
-            const broth = Math.sin((x * 0.23) + Math.sin(y * 0.19 + t) * 2.1 - t * 2.2);
-            const aurora = wave(x, y, t) - radius * 2.05;
-            const bowl = Math.abs((y - rows * 0.64) - Math.sin((x - cols * 0.5) * 0.08 + t * 1.3) * 2.2);
-            const rim = y > rows * 0.50 && y < rows * 0.82 && Math.abs(radius - 0.54) < 0.03 + 0.015 * Math.sin(t + x * 0.18);
-            const moon = Math.hypot(x - cols * 0.78, y - rows * 0.18) < Math.max(2.2, rows * 0.045);
-            const s = sigilChar(x, y);
+            const xn = (x / cols) - 0.5;
+            const dx = (x - cx0) / Math.max(1, cols);
+            const dy = (y - cy0) / Math.max(1, rows);
+            const ang = Math.atan2(dy * 1.7, dx * 2.2);
+            const rad = Math.hypot(dx * 2.2, dy * 1.7);
+            const tide = field(x, y, t) - Math.hypot(xn * 1.25, yn * 1.5) * 1.35;
+            const ring = Math.abs(rad - (0.218 + 0.018 * Math.sin(ang * 7 + t * 1.6)));
+            const inner = rad < 0.205 + 0.018 * Math.sin(ang * 5 - t * 1.3);
+            const kelpSway = Math.sin(y * 0.16 + t * 1.9 + Math.sin(x * 0.05) * 2.0);
+            const kelpCol = Math.abs(Math.sin(x * 0.19 + t * 0.45)) < 0.045 + Math.max(0, yn) * 0.095;
+            const fish = Math.abs(Math.sin((x + y * 2) * 0.055 - t * 1.55)) < 0.012 && Math.sin(y * 0.2 + t) > 0.45;
+            const r = runeChar(x, y);
             let ch = ' ';
-            let cls = 'c0';
+            let cls = 'p0';
 
-            if (moon) {
-              ch = (x + y + frame) % 7 < 2 ? '☾' : '◐';
-              cls = 'c6';
-            } else if (s) {
-              ch = s;
-              cls = ['c5','c6','c7','c4'][(x + y + Math.floor(t * 5)) & 3];
-            } else if (rim) {
-              ch = noodles[(x + y + frame) % noodles.length];
-              cls = ['c5','c7','c4'][Math.abs(Math.floor(aurora * 3)) % 3];
-            } else if (y > rows * 0.56 && y < rows * 0.84 && bowl < 1.15) {
-              ch = noodles[Math.abs(Math.floor((broth + aurora) * 8 + x)) % noodles.length];
-              cls = ['c7','c5','c6','c4'][Math.abs(Math.floor(broth * 6 + t)) % 4];
-            } else if ((aurora > 1.06 && ((x + Math.floor(t * 8)) % 3)) || Math.abs(broth + cy * 2.4) < 0.05) {
-              ch = glints[Math.abs(Math.floor(aurora * 11 + x - y + frame)) % glints.length];
-              cls = ['c1','c2','c3','c4','c5'][Math.abs(Math.floor((aurora + radius) * 5)) % 5];
-            } else if (aurora > -0.45) {
-              const idx = clamp(Math.floor((aurora + 0.55) * 7.8), 0, haze.length - 1);
-              ch = haze[idx];
-              cls = ['c1','c2','c3','c4'][Math.abs(Math.floor((aurora + t + cx) * 4)) % 4];
-            } else if (y < rows * 0.55 && Math.sin(x * 0.31 + y * 0.17 - t * 2.4) > 0.92) {
-              ch = steam[(x * 5 + y * 3 + frame) % steam.length];
-              cls = ['c1','c2','c3'][Math.abs(x + frame) % 3];
-            } else if (((x * 13 + y * 7 + frame) % 173) === 0) {
+            if (r) {
+              ch = r;
+              cls = ['p7','p6','p2','p5'][Math.abs(x + y + frame) % 4];
+            } else if (ring < 0.014) {
+              ch = portal[Math.abs(Math.floor(ang * 9 + t * 10 + x + y)) % portal.length];
+              cls = ['p2','p3','p4','p5','p6','p7'][Math.abs(Math.floor(ang * 4 + frame)) % 6];
+            } else if (inner) {
+              const spiral = Math.sin(ang * 8 - rad * 56 + t * 5.2);
+              ch = sparks[Math.abs(Math.floor((spiral + tide) * 8 + frame)) % sparks.length];
+              cls = ['p2','p4','p5','p7'][Math.abs(Math.floor((spiral + 2) * 3 + x)) % 4];
+            } else if (y > rows * 0.38 && kelpCol && kelpSway > -0.55 && ((x + y + frame) % 3 !== 0)) {
+              ch = kelp[Math.abs(Math.floor(kelpSway * 8 + y + frame)) % kelp.length];
+              cls = ['p1','p2','p6'][Math.abs(Math.floor(kelpSway * 4 + x)) % 3];
+            } else if (fish && x > cols * 0.06 && x < cols * 0.94) {
+              const school = (Math.floor(t * 2 + y) & 1) ? '><>' : '<><';
+              ch = school[(x + frame) % 3];
+              cls = ['p6','p8','p5','p2'][Math.abs(y + frame) % 4];
+            } else if (tide > 0.82 || Math.abs(Math.sin(x * 0.11 + y * 0.23 - t * 2.2)) < 0.028) {
+              ch = foam[Math.abs(Math.floor(tide * 9 + x - y + frame)) % foam.length];
+              cls = ['p2','p3','p4','p5','p6'][Math.abs(Math.floor(tide * 4 + rad * 9)) % 5];
+            } else if (tide > -0.42) {
+              const idx = clamp(Math.floor((tide + 0.5) * 8.8), 0, deep.length - 1);
+              ch = deep[idx];
+              cls = ['p0','p2','p3','p4','p5'][Math.abs(Math.floor((tide + rad + t) * 5)) % 5];
+            } else if (((x * 17 + y * 29 + frame) % 211) === 0) {
               ch = '·';
-              cls = 'c2';
+              cls = 'p2';
             }
 
             if (cls !== prevClass) {
