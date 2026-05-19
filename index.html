@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>chefin.quest</title>
   <meta name="description" content="A daily browser-native fluid ASCII animation from Chefin." />
-  <meta name="daily-ascii-marker" content="DAILY_ASCII_2026-05-18_AURORA_EMBER_LABYRINTH" />
-  <!-- DAILY_ASCII_2026-05-18_AURORA_EMBER_LABYRINTH -->
+  <meta name="daily-ascii-marker" content="DAILY_ASCII_2026-05-19_NEON_TIDE_KOI_CONSTELLATION" />
+  <!-- DAILY_ASCII_2026-05-19_NEON_TIDE_KOI_CONSTELLATION -->
   <style>
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
@@ -18,7 +18,7 @@
       padding: 0;
       overflow: hidden;
       overscroll-behavior: none;
-      background: #030006;
+      background: #01040d;
     }
     body {
       position: fixed;
@@ -35,40 +35,41 @@
       width: 100vw;
       height: 100dvh;
       margin: 0;
-      padding: clamp(2px, 0.48vmin, 8px);
+      padding: clamp(2px, 0.42vmin, 7px);
       border: 0;
       overflow: hidden;
       white-space: pre;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       font-size: 12px;
-      font-weight: 900;
-      line-height: 0.86;
-      letter-spacing: -0.055em;
-      color: #fff5da;
+      font-weight: 850;
+      line-height: 0.88;
+      letter-spacing: -0.052em;
+      color: #d9fffd;
       background:
-        radial-gradient(ellipse at 18% 78%, rgba(255, 104, 36, 0.20), transparent 32%),
-        radial-gradient(ellipse at 80% 70%, rgba(255, 33, 124, 0.19), transparent 30%),
-        radial-gradient(ellipse at 50% 12%, rgba(77, 255, 204, 0.26), transparent 40%),
-        radial-gradient(ellipse at 44% 52%, rgba(127, 55, 255, 0.20), transparent 42%),
-        linear-gradient(180deg, #040014 0%, #071028 42%, #17020c 72%, #050005 100%);
-      filter: saturate(1.75) contrast(1.13);
+        radial-gradient(circle at 14% 24%, rgba(33, 255, 236, 0.22), transparent 31%),
+        radial-gradient(circle at 86% 20%, rgba(255, 83, 205, 0.18), transparent 29%),
+        radial-gradient(ellipse at 51% 79%, rgba(255, 176, 63, 0.20), transparent 36%),
+        radial-gradient(ellipse at 45% 45%, rgba(49, 92, 255, 0.20), transparent 48%),
+        linear-gradient(180deg, #02010a 0%, #021226 36%, #041b22 61%, #120417 100%);
+      filter: saturate(1.8) contrast(1.12);
       text-shadow:
         0 0 3px currentColor,
-        0 0 12px rgba(87, 255, 214, 0.28),
-        0 0 24px rgba(255, 77, 33, 0.20);
+        0 0 13px rgba(25, 255, 224, 0.28),
+        0 0 28px rgba(255, 69, 184, 0.18);
       transform: translateZ(0);
     }
     #field::selection { background: transparent; }
-    .c0 { color: #14152b; text-shadow: none; opacity: 0.78; }
-    .c1 { color: #33ffd7; }
-    .c2 { color: #69a8ff; }
-    .c3 { color: #a55dff; }
-    .c4 { color: #ff4fca; }
-    .c5 { color: #ff7040; }
-    .c6 { color: #ffd166; }
-    .c7 { color: #fff8df; }
-    .c8 { color: #7dff68; }
-    .c9 { color: #ff2f5f; }
+    .c0 { color: #07182c; text-shadow: none; opacity: 0.72; }
+    .c1 { color: #2ffff1; }
+    .c2 { color: #4d8cff; }
+    .c3 { color: #9f6bff; }
+    .c4 { color: #ff59d6; }
+    .c5 { color: #ff8a3d; }
+    .c6 { color: #ffe36f; }
+    .c7 { color: #efffff; }
+    .c8 { color: #54ff8f; }
+    .c9 { color: #ff355f; }
+    .ca { color: #162c44; text-shadow: 0 0 5px rgba(47,255,241,.16); opacity: .84; }
   </style>
 </head>
 <body aria-label="Full-screen colorful fluid ASCII animation">
@@ -77,19 +78,17 @@
     (() => {
       'use strict';
 
-      const marker = 'DAILY_ASCII_2026-05-18_AURORA_EMBER_LABYRINTH';
+      const marker = 'DAILY_ASCII_2026-05-19_NEON_TIDE_KOI_CONSTELLATION';
       const pre = document.getElementById('field');
-      const mist = '     .·:;+=xX#%@';
-      const aurora = ['~','≈','∿','≋','⌁','╱','╲','╳','∕','∖','⟋','⟍'];
-      const ember = ['·','∙','°','*','+','✦','✧','✶','✷','✺'];
-      const maze = ['╭','╮','╰','╯','│','─','┼','╋','╬','╠','╣','╦','╩','═','║'];
-      const crystal = ['◇','◆','◈','⬡','⬢','△','▽','◬','◭','✦'];
-      const sigil = [
-        '      ╭────────╮      ',
-        '   ╭── CHEFIN ──╮   ',
-        '  ╰── QUEST ∴ FLUX ─╯ ',
-        '   ╰── AURORA ──╯   ',
-        '      ╰────────╯      '
+      const water = '     ·.˙°,:;~≈≋=+x%#@';
+      const ripples = ['~','≈','≋','⌁','∿','﹏','＿','_','-','═','─'];
+      const stars = ['·','∙','°','*','✦','✧','✶','✷','✹','✺'];
+      const scales = ['◖','◗','◐','◑','◒','◓','◜','◝','◞','◟','◆','◇','◈'];
+      const coral = ['╱','╲','╳','╎','╏','╽','╿','┊','┋','╬','╫','╪','✶'];
+      const koi = [
+        '        .-""-.        ',
+        '  <(((--{  ◉  }--)))> ',
+        '        `-..-´        '
       ];
 
       let cols = 0;
@@ -98,17 +97,21 @@
       let charH = 10;
       let last = 0;
       let frame = 0;
-      let raf = 0;
-      let sigilX = 0;
-      let sigilY = 0;
+      let koiX = 0;
+      let koiY = 0;
 
       const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
       const esc = (ch) => ch === '&' ? '&amp;' : ch === '<' ? '&lt;' : ch === '>' ? '&gt;' : ch;
-      const wave = (x, y, t) =>
-        Math.sin(x * 0.071 + t * 1.28 + Math.sin(y * 0.033 + t) * 1.6) +
-        Math.cos(y * 0.123 - t * 1.04 + Math.cos(x * 0.041) * 1.1) +
-        Math.sin((x + y) * 0.047 - t * 0.74) +
-        Math.cos(Math.hypot(x - cols * 0.5, y - rows * 0.58) * 0.135 - t * 2.2);
+      const hash = (x, y) => {
+        let n = (x * 374761393 + y * 668265263) ^ (x * y * 1274126177);
+        n = (n ^ (n >>> 13)) * 1274126177;
+        return ((n ^ (n >>> 16)) >>> 0) / 4294967295;
+      };
+      const flow = (x, y, t) =>
+        Math.sin(x * 0.061 + y * 0.018 + t * 1.04) +
+        Math.cos(y * 0.105 - t * 0.88 + Math.sin(x * 0.035) * 2.1) +
+        Math.sin((x - y) * 0.044 + t * 0.67) +
+        Math.cos(Math.hypot(x - cols * 0.54, y - rows * 0.48) * 0.17 - t * 2.15);
 
       function measure() {
         const probe = document.createElement('span');
@@ -122,24 +125,25 @@
       }
 
       function resize() {
-        pre.style.fontSize = `${clamp(Math.min(innerWidth / 82, innerHeight / 38), 7.2, 17)}px`;
+        pre.style.fontSize = `${clamp(Math.min(innerWidth / 86, innerHeight / 40), 7, 17)}px`;
         measure();
         const style = getComputedStyle(pre);
         const padX = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
         const padY = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
-        cols = Math.max(52, Math.floor((innerWidth - padX) / charW));
-        rows = Math.max(26, Math.floor((innerHeight - padY) / charH));
-        sigilX = Math.max(0, Math.floor((cols - sigil[0].length) / 2));
-        sigilY = Math.max(2, Math.floor(rows * 0.50) - 2);
+        cols = Math.max(54, Math.floor((innerWidth - padX) / charW));
+        rows = Math.max(27, Math.floor((innerHeight - padY) / charH));
         draw(performance.now());
       }
 
-      function sigilChar(x, y) {
-        const sy = y - sigilY;
-        if (sy < 0 || sy >= sigil.length) return '';
-        const sx = x - sigilX;
-        if (sx < 0 || sx >= sigil[sy].length) return '';
-        const ch = sigil[sy][sx];
+      function koiChar(x, y, t) {
+        const swim = Math.sin(t * 0.42) * cols * 0.12;
+        koiX = Math.floor(cols * 0.5 - koi[0].length / 2 + swim);
+        koiY = Math.floor(rows * 0.49 + Math.sin(t * 0.53) * rows * 0.07);
+        const ky = y - koiY;
+        if (ky < 0 || ky >= koi.length) return '';
+        const kx = x - koiX;
+        if (kx < 0 || kx >= koi[ky].length) return '';
+        const ch = koi[ky][kx];
         return ch === ' ' ? '' : ch;
       }
 
@@ -153,13 +157,15 @@
       }
 
       function draw(now) {
-        raf = requestAnimationFrame(draw);
-        if (now - last < 42) return;
+        requestAnimationFrame(draw);
+        if (now - last < 41) return;
         last = now;
         frame += 1;
         const t = now * 0.001;
-        const cx = cols * 0.5 + Math.sin(t * 0.25) * cols * 0.06;
-        const cy = rows * 0.54 + Math.cos(t * 0.22) * rows * 0.04;
+        const moonX = cols * (0.18 + 0.025 * Math.sin(t * 0.21));
+        const moonY = rows * 0.18;
+        const vortexX = cols * (0.72 + 0.05 * Math.sin(t * 0.31));
+        const vortexY = rows * (0.58 + 0.04 * Math.cos(t * 0.26));
         const out = [];
 
         for (let y = 0; y < rows; y++) {
@@ -167,44 +173,47 @@
           const yn = y / Math.max(1, rows - 1);
           for (let x = 0; x < cols; x++) {
             const xn = x / Math.max(1, cols - 1);
-            const dx = (x - cx) / Math.max(1, cols);
-            const dy = (y - cy) / Math.max(1, rows);
-            const ang = Math.atan2(dy * 1.45, dx * 2.0);
-            const rad = Math.hypot(dx * 2.0, dy * 1.45);
-            const v = wave(x, y, t);
-            const curtain = Math.sin(x * 0.055 + t * 0.95 + Math.sin(y * 0.08 + t * 0.55) * 2.2);
-            const borealis = yn < 0.62 && Math.abs(curtain + (yn - 0.2) * 1.45) < 0.42;
-            const labyrinth = Math.abs(Math.sin(x * 0.18 + Math.sin(y * 0.12 + t) * 1.8)) < 0.035 || Math.abs(Math.cos(y * 0.22 + t * 0.72 + Math.sin(x * 0.06))) < 0.026;
-            const ring = Math.abs(rad - (0.25 + 0.025 * Math.sin(ang * 6 - t * 1.8)));
-            const emberFall = y > rows * 0.35 && Math.abs(Math.sin(x * 0.31 + y * 0.17 + t * 2.9)) < 0.018;
-            const shard = Math.abs(Math.sin((x - y) * 0.075 + t * 1.35)) < 0.013 && v > 1.15;
-            const s = sigilChar(x, y);
+            const v = flow(x, y, t);
+            const dx = x - vortexX;
+            const dy = (y - vortexY) * 1.55;
+            const rad = Math.hypot(dx / Math.max(1, cols), dy / Math.max(1, rows));
+            const ang = Math.atan2(dy, dx);
+            const spiral = Math.abs(Math.sin(ang * 3.0 + rad * 86 - t * 3.1));
+            const moon = Math.hypot((x - moonX) / cols * 2.1, (y - moonY) / rows * 3.8);
+            const constellation = yn < 0.43 && (hash(Math.floor(x / 3), Math.floor(y / 2)) > 0.965 || (Math.abs(Math.sin(x * 0.21 + y * 0.37 - t * 0.38)) < 0.018 && hash(x, y) > 0.74));
+            const tideLine = Math.abs(Math.sin(y * 0.34 + Math.sin(x * 0.047 + t) * 2.7 + t * 1.05)) < 0.065;
+            const reef = yn > 0.69 && Math.abs(Math.sin(x * 0.24 + t * 0.44) + Math.cos(y * 0.31 - t * 0.61)) < 0.18;
+            const bubble = yn > 0.28 && hash(Math.floor(x + frame * 0.35), Math.floor(y * 2.2)) > 0.986;
+            const fish = koiChar(x, y, t);
             let ch = ' ';
             let cls = 'c0';
 
-            if (s) {
-              ch = s;
-              cls = ['c7','c6','c1','c4','c5'][Math.abs(x + y + frame) % 5];
-            } else if (ring < 0.012 || (rad < 0.21 && Math.abs(Math.sin(ang * 9 + rad * 35 - t * 3.4)) < 0.18)) {
-              ch = maze[Math.abs(Math.floor(ang * 11 + rad * 90 + frame)) % maze.length];
-              cls = ['c3','c4','c5','c6','c7'][Math.abs(Math.floor(ang * 5 + frame)) % 5];
-            } else if (borealis) {
-              ch = aurora[Math.abs(Math.floor((curtain + v) * 7 + x + frame)) % aurora.length];
-              cls = ['c1','c2','c3','c4','c8'][Math.abs(Math.floor((curtain + yn) * 5 + y)) % 5];
-            } else if (emberFall) {
-              ch = ember[Math.abs(Math.floor(t * 16 + x * 3 + y)) % ember.length];
-              cls = ['c5','c6','c9','c7'][Math.abs(x + y + frame) % 4];
-            } else if (shard) {
-              ch = crystal[Math.abs(Math.floor(v * 9 + x - y + frame)) % crystal.length];
-              cls = ['c1','c2','c4','c7'][Math.abs(Math.floor(v * 4 + x)) % 4];
-            } else if (labyrinth && y > rows * 0.24) {
-              ch = maze[Math.abs(Math.floor(x * 0.7 + y * 1.9 + frame * 0.35)) % maze.length];
-              cls = ['c0','c3','c5','c6'][Math.abs(Math.floor(v * 3 + y)) % 4];
-            } else if (v > -0.48) {
-              const idx = clamp(Math.floor((v + 0.55) * 4.8), 0, mist.length - 1);
-              ch = mist[idx];
-              cls = ['c0','c1','c2','c3','c4','c5'][Math.abs(Math.floor(v * 3 + yn * 7 + t)) % 6];
-            } else if (((x * 19 + y * 37 + frame) % 239) === 0) {
+            if (fish) {
+              ch = fish;
+              cls = ['c7','c6','c5','c4','c1'][Math.abs(x + y + frame) % 5];
+            } else if (moon < 0.092 && Math.sin((x - moonX) * 0.42 + t) > -0.55) {
+              ch = ['◌','○','●','◐','◑','◒','◓'][Math.abs(Math.floor((moon * 90) + x + frame)) % 7];
+              cls = ['c6','c7','c1'][Math.abs(x + y) % 3];
+            } else if (rad < 0.24 && (spiral < 0.18 || Math.abs(rad - 0.15 - 0.018 * Math.sin(ang * 7 - t * 2)) < 0.012)) {
+              ch = scales[Math.abs(Math.floor(ang * 9 + rad * 120 + frame * 0.7)) % scales.length];
+              cls = ['c1','c2','c3','c4','c7'][Math.abs(Math.floor(ang * 5 + frame + y)) % 5];
+            } else if (constellation) {
+              ch = stars[Math.abs(Math.floor(hash(x, y) * stars.length + frame * 0.08)) % stars.length];
+              cls = ['c2','c3','c4','c6','c7'][Math.abs(x * 7 + y * 3 + frame) % 5];
+            } else if (reef) {
+              ch = coral[Math.abs(Math.floor(x * 1.7 + y * 2.3 + frame * 0.25)) % coral.length];
+              cls = ['c4','c5','c6','c8','c9'][Math.abs(Math.floor(v * 5 + x + y)) % 5];
+            } else if (tideLine && v > -1.15) {
+              ch = ripples[Math.abs(Math.floor(v * 6 + x * 0.4 + frame * 0.5)) % ripples.length];
+              cls = ['c1','c2','c3','c8','c7'][Math.abs(Math.floor(v * 4 + yn * 8 + t)) % 5];
+            } else if (bubble) {
+              ch = ['°','o','O','◌','○'][Math.abs(x + y + frame) % 5];
+              cls = ['c1','c7','c8'][Math.abs(x + frame) % 3];
+            } else if (v > -0.64) {
+              const idx = clamp(Math.floor((v + 0.78) * 4.7), 0, water.length - 1);
+              ch = water[idx];
+              cls = ['c0','ca','c1','c2','c3','c4'][Math.abs(Math.floor(v * 3 + xn * 9 + frame * 0.08)) % 6];
+            } else if (((x * 29 + y * 43 + frame) % 293) === 0) {
               ch = '·';
               cls = 'c2';
             }
