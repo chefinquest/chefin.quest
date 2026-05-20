@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>chefin.quest</title>
   <meta name="description" content="A daily browser-native fluid ASCII animation from Chefin." />
-  <meta name="daily-ascii-marker" content="DAILY_ASCII_2026-05-19_NEON_TIDE_KOI_CONSTELLATION" />
-  <!-- DAILY_ASCII_2026-05-19_NEON_TIDE_KOI_CONSTELLATION -->
+  <meta name="daily-ascii-marker" content="DAILY_ASCII_2026-05-20_AURORA_FORGE_MOTH_SPIRAL" />
+  <!-- DAILY_ASCII_2026-05-20_AURORA_FORGE_MOTH_SPIRAL -->
   <style>
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
@@ -18,7 +18,7 @@
       padding: 0;
       overflow: hidden;
       overscroll-behavior: none;
-      background: #01040d;
+      background: #02010a;
     }
     body {
       position: fixed;
@@ -35,41 +35,41 @@
       width: 100vw;
       height: 100dvh;
       margin: 0;
-      padding: clamp(2px, 0.42vmin, 7px);
+      padding: clamp(2px, 0.38vmin, 6px);
       border: 0;
       overflow: hidden;
       white-space: pre;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       font-size: 12px;
-      font-weight: 850;
-      line-height: 0.88;
-      letter-spacing: -0.052em;
-      color: #d9fffd;
+      font-weight: 900;
+      line-height: 0.9;
+      letter-spacing: -0.055em;
+      color: #f5fff8;
       background:
-        radial-gradient(circle at 14% 24%, rgba(33, 255, 236, 0.22), transparent 31%),
-        radial-gradient(circle at 86% 20%, rgba(255, 83, 205, 0.18), transparent 29%),
-        radial-gradient(ellipse at 51% 79%, rgba(255, 176, 63, 0.20), transparent 36%),
-        radial-gradient(ellipse at 45% 45%, rgba(49, 92, 255, 0.20), transparent 48%),
-        linear-gradient(180deg, #02010a 0%, #021226 36%, #041b22 61%, #120417 100%);
-      filter: saturate(1.8) contrast(1.12);
+        radial-gradient(circle at 50% 49%, rgba(255, 239, 148, 0.18), transparent 17%),
+        radial-gradient(ellipse at 20% 30%, rgba(39, 255, 178, 0.18), transparent 32%),
+        radial-gradient(ellipse at 82% 24%, rgba(204, 74, 255, 0.17), transparent 31%),
+        radial-gradient(ellipse at 48% 78%, rgba(255, 98, 45, 0.17), transparent 38%),
+        linear-gradient(180deg, #050016 0%, #06132b 34%, #061f24 62%, #18050f 100%);
+      filter: saturate(1.85) contrast(1.14);
       text-shadow:
         0 0 3px currentColor,
-        0 0 13px rgba(25, 255, 224, 0.28),
-        0 0 28px rgba(255, 69, 184, 0.18);
+        0 0 11px rgba(98, 255, 198, 0.25),
+        0 0 25px rgba(255, 112, 54, 0.16);
       transform: translateZ(0);
     }
     #field::selection { background: transparent; }
-    .c0 { color: #07182c; text-shadow: none; opacity: 0.72; }
-    .c1 { color: #2ffff1; }
-    .c2 { color: #4d8cff; }
-    .c3 { color: #9f6bff; }
-    .c4 { color: #ff59d6; }
-    .c5 { color: #ff8a3d; }
-    .c6 { color: #ffe36f; }
-    .c7 { color: #efffff; }
-    .c8 { color: #54ff8f; }
-    .c9 { color: #ff355f; }
-    .ca { color: #162c44; text-shadow: 0 0 5px rgba(47,255,241,.16); opacity: .84; }
+    .p0 { color: #06172a; text-shadow: none; opacity: 0.76; }
+    .p1 { color: #22ffc6; }
+    .p2 { color: #5cf0ff; }
+    .p3 { color: #5f7cff; }
+    .p4 { color: #bd69ff; }
+    .p5 { color: #ff5fcf; }
+    .p6 { color: #ff7a39; }
+    .p7 { color: #ffe26d; }
+    .p8 { color: #f7fff7; }
+    .p9 { color: #8cff5d; }
+    .pa { color: #243a58; text-shadow: 0 0 5px rgba(92,240,255,.12); opacity: .86; }
   </style>
 </head>
 <body aria-label="Full-screen colorful fluid ASCII animation">
@@ -78,167 +78,126 @@
     (() => {
       'use strict';
 
-      const marker = 'DAILY_ASCII_2026-05-19_NEON_TIDE_KOI_CONSTELLATION';
-      const pre = document.getElementById('field');
-      const water = '     ·.˙°,:;~≈≋=+x%#@';
-      const ripples = ['~','≈','≋','⌁','∿','﹏','＿','_','-','═','─'];
-      const stars = ['·','∙','°','*','✦','✧','✶','✷','✹','✺'];
-      const scales = ['◖','◗','◐','◑','◒','◓','◜','◝','◞','◟','◆','◇','◈'];
-      const coral = ['╱','╲','╳','╎','╏','╽','╿','┊','┋','╬','╫','╪','✶'];
-      const koi = [
-        '        .-""-.        ',
-        '  <(((--{  ◉  }--)))> ',
-        '        `-..-´        '
-      ];
-
+      const marker = 'DAILY_ASCII_2026-05-20_AURORA_FORGE_MOTH_SPIRAL';
+      const field = document.getElementById('field');
+      const glyphs = [' ', '.', '`', ',', ':', ';', '-', '~', '=', '+', '*', 'x', '%', '#', '@', '◆', '✦', '✧', '◇', '▲'];
+      const veins = ['╱', '╲', '│', '─', '╳', '╋', '╭', '╮', '╰', '╯'];
+      const logo = ['CHEFIN', 'QUEST'];
       let cols = 0;
       let rows = 0;
-      let charW = 9;
-      let charH = 10;
-      let last = 0;
-      let frame = 0;
-      let koiX = 0;
-      let koiY = 0;
+      let lastFrame = 0;
+      let cached = '';
 
-      const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
-      const esc = (ch) => ch === '&' ? '&amp;' : ch === '<' ? '&lt;' : ch === '>' ? '&gt;' : ch;
-      const hash = (x, y) => {
-        let n = (x * 374761393 + y * 668265263) ^ (x * y * 1274126177);
-        n = (n ^ (n >>> 13)) * 1274126177;
-        return ((n ^ (n >>> 16)) >>> 0) / 4294967295;
+      const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+      const pickClass = (v, heat, wing, ember) => {
+        if (heat > 1.58) return 'p8';
+        if (ember > 0.72) return 'p6';
+        if (wing > 0.68) return v > 0.52 ? 'p7' : 'p5';
+        if (v < -0.58) return 'p0';
+        if (v < -0.2) return 'pa';
+        return ['p1', 'p2', 'p3', 'p4', 'p5', 'p9'][Math.abs((v * 19 + heat * 7) | 0) % 6];
       };
-      const flow = (x, y, t) =>
-        Math.sin(x * 0.061 + y * 0.018 + t * 1.04) +
-        Math.cos(y * 0.105 - t * 0.88 + Math.sin(x * 0.035) * 2.1) +
-        Math.sin((x - y) * 0.044 + t * 0.67) +
-        Math.cos(Math.hypot(x - cols * 0.54, y - rows * 0.48) * 0.17 - t * 2.15);
 
       function measure() {
         const probe = document.createElement('span');
-        probe.textContent = 'MMMMMMMMMM\nMMMMMMMMMM';
-        probe.style.cssText = 'position:absolute;visibility:hidden;white-space:pre;font:inherit;line-height:inherit;letter-spacing:inherit;';
-        pre.appendChild(probe);
+        probe.textContent = 'M';
+        probe.style.visibility = 'hidden';
+        field.appendChild(probe);
         const rect = probe.getBoundingClientRect();
-        charW = rect.width / 10 || 9;
-        charH = rect.height / 2 || 10;
         probe.remove();
+        const charW = Math.max(5.4, rect.width || 7);
+        const charH = Math.max(8.5, rect.height || 11);
+        const style = getComputedStyle(field);
+        const padX = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
+        const padY = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
+        cols = clamp(Math.floor((innerWidth - padX) / charW), 52, 156);
+        rows = clamp(Math.floor((innerHeight - padY) / charH), 28, 72);
+      }
+
+      function sigChar(x, y) {
+        const sx = Math.floor(cols / 2 - logo[0].length / 2);
+        const sy = Math.floor(rows * 0.51) - 1;
+        if (y === sy && x >= sx && x < sx + logo[0].length) return logo[0][x - sx];
+        const sx2 = Math.floor(cols / 2 - logo[1].length / 2);
+        if (y === sy + 2 && x >= sx2 && x < sx2 + logo[1].length) return logo[1][x - sx2];
+        return '';
+      }
+
+      function render(ms) {
+        if (ms - lastFrame < 42) {
+          requestAnimationFrame(render);
+          return;
+        }
+        lastFrame = ms;
+        const t = ms * 0.001;
+        const cx = (cols - 1) / 2;
+        const cy = (rows - 1) / 2;
+        const aspect = cols / Math.max(1, rows);
+        let html = '';
+
+        for (let y = 0; y < rows; y++) {
+          const ny = (y - cy) / rows * 2.35;
+          for (let x = 0; x < cols; x++) {
+            const nx = (x - cx) / cols * 2.35 * aspect;
+            const r = Math.hypot(nx * 0.88, ny * 1.22) + 0.0001;
+            const theta = Math.atan2(ny * 1.4, nx);
+
+            const leftWing = Math.exp(-Math.pow(nx + 0.43 + Math.sin(t * 0.7) * 0.04, 2) * 7.3 - Math.pow(ny + Math.sin(theta * 3 + t) * 0.14, 2) * 2.0);
+            const rightWing = Math.exp(-Math.pow(nx - 0.43 - Math.cos(t * 0.64) * 0.04, 2) * 7.3 - Math.pow(ny - Math.sin(theta * 3 - t) * 0.14, 2) * 2.0);
+            const wing = leftWing + rightWing;
+            const body = Math.exp(-Math.pow(nx, 2) * 72 - Math.pow(ny, 2) * 4.8);
+            const forge = Math.exp(-Math.pow(r * 2.2 - 0.92 - Math.sin(t * 1.1) * 0.08, 2) * 9);
+            const spiral = Math.sin(13.0 * r - 4.2 * theta - t * 3.1);
+            const aurora = Math.sin((nx * 4.6) + Math.cos(ny * 3.2 + t * 0.8) * 2.2 + t * 1.55);
+            const ember = Math.sin((x * 0.47) - (y * 0.31) + t * 7.0 + Math.sin(r * 5.0)) * forge;
+            const flame = Math.sin(1.8 / r + theta * 5.0 + t * 2.0) * 0.34;
+            const v = aurora * 0.35 + spiral * 0.32 + flame + wing * 1.12 + body * 1.42 + forge * 0.45;
+            const heat = body + wing + forge + Math.max(0, ember);
+
+            let idx = clamp(Math.floor((v + 1.05) * 6.2), 0, glyphs.length - 1);
+            let ch = glyphs[idx];
+            const sig = sigChar(x, y);
+            if (sig && wing + body + forge > 0.22) {
+              ch = sig;
+              idx = glyphs.length - 1;
+            } else if (body > 0.58) {
+              ch = y % 2 ? '║' : '┃';
+            } else if (wing > 0.72 && Math.abs(spiral) > 0.78) {
+              ch = veins[Math.abs((theta * 9 + t * 3) | 0) % veins.length];
+            } else if (ember > 0.76) {
+              ch = ['*', '✦', '✧', '◆'][Math.abs((x + y + t * 9) | 0) % 4];
+            } else if (Math.abs(spiral) > 0.93 && r < 1.2) {
+              ch = spiral > 0 ? '╱' : '╲';
+            }
+
+            html += '<span class="' + pickClass(v, heat, wing, ember) + '">' + ch + '</span>';
+          }
+          if (y !== rows - 1) html += '\n';
+        }
+        if (html !== cached) {
+          field.innerHTML = html;
+          cached = html;
+        }
+        requestAnimationFrame(render);
       }
 
       function resize() {
-        pre.style.fontSize = `${clamp(Math.min(innerWidth / 86, innerHeight / 40), 7, 17)}px`;
+        const size = clamp(Math.min(innerWidth / 74, innerHeight / 38), 7.2, 16.5);
+        field.style.fontSize = size.toFixed(2) + 'px';
         measure();
-        const style = getComputedStyle(pre);
-        const padX = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight);
-        const padY = parseFloat(style.paddingTop) + parseFloat(style.paddingBottom);
-        cols = Math.max(54, Math.floor((innerWidth - padX) / charW));
-        rows = Math.max(27, Math.floor((innerHeight - padY) / charH));
-        draw(performance.now());
+        cached = '';
       }
 
-      function koiChar(x, y, t) {
-        const swim = Math.sin(t * 0.42) * cols * 0.12;
-        koiX = Math.floor(cols * 0.5 - koi[0].length / 2 + swim);
-        koiY = Math.floor(rows * 0.49 + Math.sin(t * 0.53) * rows * 0.07);
-        const ky = y - koiY;
-        if (ky < 0 || ky >= koi.length) return '';
-        const kx = x - koiX;
-        if (kx < 0 || kx >= koi[ky].length) return '';
-        const ch = koi[ky][kx];
-        return ch === ' ' ? '' : ch;
-      }
-
-      function append(out, ch, cls, previous) {
-        if (cls !== previous.value) {
-          if (previous.value) out.push('</span>');
-          out.push('<span class="', cls, '">');
-          previous.value = cls;
-        }
-        out.push(esc(ch));
-      }
-
-      function draw(now) {
-        requestAnimationFrame(draw);
-        if (now - last < 41) return;
-        last = now;
-        frame += 1;
-        const t = now * 0.001;
-        const moonX = cols * (0.18 + 0.025 * Math.sin(t * 0.21));
-        const moonY = rows * 0.18;
-        const vortexX = cols * (0.72 + 0.05 * Math.sin(t * 0.31));
-        const vortexY = rows * (0.58 + 0.04 * Math.cos(t * 0.26));
-        const out = [];
-
-        for (let y = 0; y < rows; y++) {
-          const prev = { value: '' };
-          const yn = y / Math.max(1, rows - 1);
-          for (let x = 0; x < cols; x++) {
-            const xn = x / Math.max(1, cols - 1);
-            const v = flow(x, y, t);
-            const dx = x - vortexX;
-            const dy = (y - vortexY) * 1.55;
-            const rad = Math.hypot(dx / Math.max(1, cols), dy / Math.max(1, rows));
-            const ang = Math.atan2(dy, dx);
-            const spiral = Math.abs(Math.sin(ang * 3.0 + rad * 86 - t * 3.1));
-            const moon = Math.hypot((x - moonX) / cols * 2.1, (y - moonY) / rows * 3.8);
-            const constellation = yn < 0.43 && (hash(Math.floor(x / 3), Math.floor(y / 2)) > 0.965 || (Math.abs(Math.sin(x * 0.21 + y * 0.37 - t * 0.38)) < 0.018 && hash(x, y) > 0.74));
-            const tideLine = Math.abs(Math.sin(y * 0.34 + Math.sin(x * 0.047 + t) * 2.7 + t * 1.05)) < 0.065;
-            const reef = yn > 0.69 && Math.abs(Math.sin(x * 0.24 + t * 0.44) + Math.cos(y * 0.31 - t * 0.61)) < 0.18;
-            const bubble = yn > 0.28 && hash(Math.floor(x + frame * 0.35), Math.floor(y * 2.2)) > 0.986;
-            const fish = koiChar(x, y, t);
-            let ch = ' ';
-            let cls = 'c0';
-
-            if (fish) {
-              ch = fish;
-              cls = ['c7','c6','c5','c4','c1'][Math.abs(x + y + frame) % 5];
-            } else if (moon < 0.092 && Math.sin((x - moonX) * 0.42 + t) > -0.55) {
-              ch = ['◌','○','●','◐','◑','◒','◓'][Math.abs(Math.floor((moon * 90) + x + frame)) % 7];
-              cls = ['c6','c7','c1'][Math.abs(x + y) % 3];
-            } else if (rad < 0.24 && (spiral < 0.18 || Math.abs(rad - 0.15 - 0.018 * Math.sin(ang * 7 - t * 2)) < 0.012)) {
-              ch = scales[Math.abs(Math.floor(ang * 9 + rad * 120 + frame * 0.7)) % scales.length];
-              cls = ['c1','c2','c3','c4','c7'][Math.abs(Math.floor(ang * 5 + frame + y)) % 5];
-            } else if (constellation) {
-              ch = stars[Math.abs(Math.floor(hash(x, y) * stars.length + frame * 0.08)) % stars.length];
-              cls = ['c2','c3','c4','c6','c7'][Math.abs(x * 7 + y * 3 + frame) % 5];
-            } else if (reef) {
-              ch = coral[Math.abs(Math.floor(x * 1.7 + y * 2.3 + frame * 0.25)) % coral.length];
-              cls = ['c4','c5','c6','c8','c9'][Math.abs(Math.floor(v * 5 + x + y)) % 5];
-            } else if (tideLine && v > -1.15) {
-              ch = ripples[Math.abs(Math.floor(v * 6 + x * 0.4 + frame * 0.5)) % ripples.length];
-              cls = ['c1','c2','c3','c8','c7'][Math.abs(Math.floor(v * 4 + yn * 8 + t)) % 5];
-            } else if (bubble) {
-              ch = ['°','o','O','◌','○'][Math.abs(x + y + frame) % 5];
-              cls = ['c1','c7','c8'][Math.abs(x + frame) % 3];
-            } else if (v > -0.64) {
-              const idx = clamp(Math.floor((v + 0.78) * 4.7), 0, water.length - 1);
-              ch = water[idx];
-              cls = ['c0','ca','c1','c2','c3','c4'][Math.abs(Math.floor(v * 3 + xn * 9 + frame * 0.08)) % 6];
-            } else if (((x * 29 + y * 43 + frame) % 293) === 0) {
-              ch = '·';
-              cls = 'c2';
-            }
-
-            append(out, ch, cls, prev);
-          }
-          if (prev.value) out.push('</span>');
-          if (y < rows - 1) out.push('\n');
-        }
-        pre.innerHTML = out.join('');
-      }
-
-      function block(e) { e.preventDefault(); }
-      function blockKeys(e) {
-        if ([' ', 'PageUp', 'PageDown', 'End', 'Home', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) e.preventDefault();
-      }
-
+      const prevent = event => event.preventDefault();
+      const scrollKeys = new Set(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' ', 'PageUp', 'PageDown', 'Home', 'End']);
+      addEventListener('wheel', prevent, { passive: false });
+      addEventListener('touchmove', prevent, { passive: false });
+      addEventListener('keydown', event => { if (scrollKeys.has(event.key)) event.preventDefault(); }, { passive: false });
       addEventListener('resize', resize, { passive: true });
       addEventListener('orientationchange', resize, { passive: true });
-      addEventListener('wheel', block, { passive: false });
-      addEventListener('touchmove', block, { passive: false });
-      addEventListener('keydown', blockKeys, { passive: false });
-      addEventListener('scroll', () => scrollTo(0, 0), { passive: true });
       document.documentElement.dataset.marker = marker;
       resize();
+      requestAnimationFrame(render);
     })();
   </script>
 </body>
