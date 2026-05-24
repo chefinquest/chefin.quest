@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>chefin.quest</title>
   <meta name="description" content="A daily browser-native fluid ASCII animation from Chefin." />
-  <meta name="daily-ascii-marker" content="DAILY_ASCII_2026-05-23_ABYSSAL_PRISM_KELP" />
-  <!-- DAILY_ASCII_2026-05-23_ABYSSAL_PRISM_KELP -->
+  <meta name="daily-ascii-marker" content="DAILY_ASCII_2026-05-24_SOLAR_GLASS_ORCHARD" />
+  <!-- DAILY_ASCII_2026-05-24_SOLAR_GLASS_ORCHARD -->
   <style>
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
@@ -18,7 +18,7 @@
       padding: 0;
       overflow: hidden;
       overscroll-behavior: none;
-      background: #01030b;
+      background: #02010a;
     }
     body {
       position: fixed;
@@ -29,7 +29,7 @@
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeSpeed;
     }
-    #reef {
+    #orchard {
       position: fixed;
       inset: 0;
       width: 100vw;
@@ -41,152 +41,151 @@
       white-space: pre;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       font-size: 12px;
-      font-weight: 850;
-      line-height: 0.92;
-      letter-spacing: -0.08em;
-      color: #dffcff;
+      font-weight: 800;
+      line-height: .94;
+      letter-spacing: -.085em;
+      color: #fff7cc;
       background:
-        radial-gradient(circle at 50% 54%, rgba(64, 255, 223, 0.18), transparent 18%),
-        radial-gradient(circle at 22% 80%, rgba(255, 61, 174, 0.24), transparent 21%),
-        radial-gradient(circle at 78% 20%, rgba(151, 93, 255, 0.22), transparent 26%),
-        radial-gradient(ellipse at 50% 112%, rgba(15, 229, 169, 0.32), transparent 42%),
-        linear-gradient(180deg, #01030b 0%, #03102a 37%, #081237 66%, #030615 100%);
-      filter: saturate(1.55) contrast(1.12);
+        radial-gradient(circle at 18% 28%, rgba(255, 89, 186, .24), transparent 22%),
+        radial-gradient(circle at 77% 34%, rgba(36, 227, 255, .22), transparent 25%),
+        radial-gradient(circle at 50% 86%, rgba(255, 205, 64, .20), transparent 30%),
+        conic-gradient(from 210deg at 50% 52%, #07021d, #121249, #0a3c4b, #41143d, #18051d, #07021d);
+      filter: saturate(1.7) contrast(1.1);
       text-shadow:
-        0 0 4px currentColor,
-        0 0 13px rgba(76, 243, 255, .27),
-        0 0 31px rgba(255, 55, 178, .13);
+        0 0 5px currentColor,
+        0 0 16px rgba(255, 203, 87, .28),
+        0 0 34px rgba(62, 228, 255, .15);
       transform: translateZ(0);
     }
-    #reef::selection { background: transparent; }
-    .p0 { color: #020617; text-shadow: none; opacity: .72; }
-    .p1 { color: #082657; text-shadow: none; opacity: .85; }
-    .p2 { color: #0e6bdc; }
-    .p3 { color: #16e7ff; }
-    .p4 { color: #24ffd7; }
-    .p5 { color: #aaff72; }
-    .p6 { color: #fff06f; }
-    .p7 { color: #ff7a42; }
-    .p8 { color: #ff4eb8; }
-    .p9 { color: #b983ff; }
-    .pa { color: #f2ffff; }
+    #orchard::selection { background: transparent; }
+    .c0 { color: #030312; text-shadow: none; opacity: .78; }
+    .c1 { color: #18133d; text-shadow: none; opacity: .86; }
+    .c2 { color: #333080; }
+    .c3 { color: #006be8; }
+    .c4 { color: #20d8ff; }
+    .c5 { color: #3dffcf; }
+    .c6 { color: #a5ff73; }
+    .c7 { color: #ffe66d; }
+    .c8 { color: #ff9b45; }
+    .c9 { color: #ff527f; }
+    .ca { color: #ff61d8; }
+    .cb { color: #b980ff; }
+    .cc { color: #f8fbff; }
   </style>
 </head>
 <body aria-label="Full-screen colorful fluid ASCII animation">
-  <pre id="reef" aria-hidden="true"></pre>
+  <pre id="orchard" aria-hidden="true"></pre>
   <script>
     (() => {
       'use strict';
 
-      const MARKER = 'DAILY_ASCII_2026-05-23_ABYSSAL_PRISM_KELP';
-      const reef = document.getElementById('reef');
-      const glyphs = [' ', '·', '˙', '.', ':', '∿', '~', '-', '+', '*', 'x', 'o', 'O', '0', '@', '#'];
-      const fronds = ['╱', '╲', '│', '╽', '╿', '┃', '╎', '╏'];
-      const bubbles = ['°', 'º', '○', '◌', '◦'];
+      const MARKER = 'DAILY_ASCII_2026-05-24_SOLAR_GLASS_ORCHARD';
+      const field = document.getElementById('orchard');
+      const mist = [' ', '·', '˙', '.', ':', ';', '∴', '∷', '⋅'];
+      const light = ['+', '*', '✦', '✧', '◆', '◇', '◈', '●', '○', '@'];
+      const bough = ['╱', '╲', '│', '┃', '╽', '╿', '╎', '╏'];
+      const fruit = ['◐', '◑', '◒', '◓', '◉', '◎'];
       let cols = 0;
       let rows = 0;
-      let cellW = 8;
+      let cellW = 7;
       let cellH = 11;
       let last = 0;
       let frame = 0;
 
       const clamp = (n, lo, hi) => Math.max(lo, Math.min(hi, n));
-      const esc = (s) => s === '&' ? '&amp;' : s === '<' ? '&lt;' : s === '>' ? '&gt;' : s;
+      const safe = (s) => s === '&' ? '&amp;' : s === '<' ? '&lt;' : s === '>' ? '&gt;' : s;
 
       function measure() {
         const probe = document.createElement('span');
         probe.textContent = 'M';
         probe.style.cssText = 'position:absolute;visibility:hidden;font:inherit;letter-spacing:inherit;line-height:inherit;';
-        reef.appendChild(probe);
+        field.appendChild(probe);
         const box = probe.getBoundingClientRect();
         probe.remove();
-        cellW = Math.max(4.6, box.width || 7.2);
-        cellH = Math.max(7.5, box.height || 10.8);
-        cols = clamp(Math.floor(innerWidth / cellW) + 2, 48, 190);
-        rows = clamp(Math.floor(innerHeight / cellH) + 2, 28, 96);
+        cellW = Math.max(4.7, box.width || 7.1);
+        cellH = Math.max(7.6, box.height || 11.2);
+        cols = clamp(Math.floor(innerWidth / cellW) + 2, 52, 194);
+        rows = clamp(Math.floor(innerHeight / cellH) + 2, 30, 98);
       }
 
-      function current(x, y, t) {
+      function orchardSignal(x, y, t) {
+        const nx = (x / cols) * 2 - 1;
+        const ny = (y / rows) * 2 - 1;
+        const r = Math.hypot(nx * 1.14, ny * .9);
+        const theta = Math.atan2(ny, nx);
+        const sunRing = Math.sin(r * 18.5 - t * 2.2 + Math.sin(theta * 6 + t) * .85);
+        const aurora = Math.sin(x * .115 + Math.sin(y * .17 + t * .9) * 3.4 - t * 1.55);
+        const lattice = Math.cos((nx - ny) * 10.8 + Math.sin((nx + ny) * 4.5 + t * .72));
+        const sap = Math.sin((y / rows) * 13.5 + Math.sin(x * .07 + t * 1.8) * 2.8 - t);
+        return sunRing * .36 + aurora * .30 + lattice * .22 + sap * .25;
+      }
+
+      function glyphFor(x, y, t, energy) {
         const nx = x / cols;
         const ny = y / rows;
-        const tide = Math.sin(nx * 9.0 - t * 1.35 + Math.sin(ny * 5.2 + t * .7));
-        const undertow = Math.cos((nx + ny) * 11.0 + t * .9);
-        const vortex = Math.sin(Math.hypot(nx - .50, ny - .56) * 23.0 - t * 2.15);
-        const kelp = Math.sin((x * .31) + Math.sin(y * .12 + t) * 2.8 + t * 1.5);
-        return tide * .43 + undertow * .27 + vortex * .38 + kelp * .25;
+        const cx = nx - .5;
+        const cy = ny - .55;
+        const dist = Math.hypot(cx * 1.38, cy);
+        const angle = Math.atan2(cy, cx);
+
+        const trunk = Math.abs(cx + Math.sin(ny * 8.5 + t) * .035) < (.022 + (1 - ny) * .045) && ny > .32;
+        const canopy = dist < (.18 + .065 * Math.sin(angle * 7 - t * 1.7)) && ny < .72 && ny > .12;
+        const branch = canopy && Math.abs(Math.sin(angle * 9 + dist * 22 - t * 1.2)) < .14;
+        const halo = Math.abs(dist - (.29 + .035 * Math.sin(angle * 10 + t * 1.1))) < .023;
+        const fruiting = canopy && Math.sin(x * 1.9 + y * 2.7 + t * 3.6) > .91;
+
+        if (fruiting) return fruit[(x + y + frame) % fruit.length];
+        if (trunk) return bough[(y + Math.floor(t * 6)) % bough.length];
+        if (branch) return bough[Math.abs(Math.floor(angle * 5 + frame)) % bough.length];
+        if (halo) return light[(x * 3 + y + frame) % light.length];
+
+        const sparkle = Math.sin(x * 12.9898 + y * 78.233 + Math.floor(t * 9) * 4.91) * 43758.5453;
+        const frac = sparkle - Math.floor(sparkle);
+        if (frac > .986 - Math.max(0, energy) * .012) return light[(x + frame + Math.floor(frac * 100)) % light.length];
+        const idx = clamp(Math.floor((energy + 1.18) * 4.35), 0, mist.length - 1);
+        return mist[idx];
       }
 
       function render(now) {
-        if (now - last < 42) {
+        if (now - last < 40) {
           requestAnimationFrame(render);
           return;
         }
         last = now;
         frame++;
-        const t = now * 0.001;
-        const cx = cols * (.50 + Math.sin(t * .18) * .035);
-        const cy = rows * (.55 + Math.cos(t * .16) * .055);
-        const html = [];
+        const t = now * .001;
+        const parts = [];
 
         for (let y = 0; y < rows; y++) {
-          const depth = y / Math.max(1, rows - 1);
           for (let x = 0; x < cols; x++) {
-            const dx = (x - cx) / cols;
-            const dy = (y - cy) / rows;
-            const r = Math.sqrt(dx * dx * 3.2 + dy * dy * 6.0);
-            const ring = Math.sin(r * 72 - t * 3.2);
-            const flow = current(x, y, t);
-            const shimmer = Math.sin(x * .77 + y * .18 - t * 5.4) * .11;
-            const shaft = Math.max(0, Math.sin((x / cols) * Math.PI * 5.0 + t * .7) - .58) * (1 - depth) * .9;
-            const reefGlow = Math.max(0, 1 - Math.abs(depth - .79) * 4.1) * (Math.sin(x * .19 + t * 1.7) * .5 + .5);
-            const pearl = Math.max(0, .12 - r) * 6.7;
-            let v = flow + ring * .38 + shimmer + shaft + reefGlow * .75 + pearl;
-
-            const kelpStalk = depth > .46 && Math.abs(Math.sin(x * .18 + t * .42) * 12 + (x % 23) - 11) < 1.75;
-            const bubbleTrail = ((x * 13 + y * 7 + frame) % 89 === 0) || (depth < .58 && ((x + Math.floor(t * 10)) % 37 === 0) && ((y + Math.floor(t * 4)) % 11 === 0));
-
-            let g;
-            if (kelpStalk) {
-              g = fronds[(x + y + frame) % fronds.length];
-              v += .78;
-            } else if (bubbleTrail) {
-              g = bubbles[(x + y + frame) % bubbles.length];
-              v += .95;
-            } else {
-              const idx = clamp(Math.floor((v + 1.42) * 4.55), 0, glyphs.length - 1);
-              g = glyphs[idx];
-            }
-
-            let c = clamp(Math.floor((v + 1.25) * 3.7 + depth * 2.2), 0, 10);
-            if (shaft > .22) c = clamp(c + 2, 0, 10);
-            if (bubbleTrail || pearl > .2) c = 10;
-            if (kelpStalk) c = 4 + ((x + frame) % 3);
-            html.push('<span class="p', c.toString(16), '">', esc(g), '</span>');
+            const nx = x / cols;
+            const ny = y / rows;
+            const pulse = orchardSignal(x, y, t);
+            const dawn = Math.sin((nx * 1.9 - ny * 1.25) * Math.PI + t * .85);
+            const rootGlow = Math.max(0, 1 - Math.abs(ny - .86) * 5.5) * Math.sin(x * .18 - t * 2.1);
+            const energy = pulse + dawn * .23 + rootGlow * .28;
+            const chroma = clamp(Math.floor((energy + 1.35) * 4.45 + Math.sin(t + nx * 8) * 1.2), 0, 12);
+            parts.push('<span class="c', chroma.toString(16), '">', safe(glyphFor(x, y, t, energy)), '</span>');
           }
-          if (y !== rows - 1) html.push('\n');
+          if (y < rows - 1) parts.push('\n');
         }
-        reef.innerHTML = html.join('');
+        field.innerHTML = parts.join('');
         requestAnimationFrame(render);
       }
 
-      function resize() {
-        measure();
-        last = 0;
-      }
-
-      const block = (event) => event.preventDefault();
-      addEventListener('wheel', block, { passive: false });
-      addEventListener('touchmove', block, { passive: false });
+      function blockMotion(event) { event.preventDefault(); }
+      addEventListener('wheel', blockMotion, { passive: false });
+      addEventListener('touchmove', blockMotion, { passive: false });
       addEventListener('keydown', (event) => {
-        if ([' ', 'PageUp', 'PageDown', 'End', 'Home', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
+        if ([' ', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'PageUp', 'PageDown', 'Home', 'End'].includes(event.key)) {
           event.preventDefault();
         }
       }, { passive: false });
-      addEventListener('resize', resize, { passive: true });
-      addEventListener('orientationchange', resize, { passive: true });
+      addEventListener('resize', () => { measure(); }, { passive: true });
+      addEventListener('orientationchange', () => { setTimeout(measure, 80); }, { passive: true });
 
       measure();
-      reef.dataset.marker = MARKER;
+      field.dataset.marker = MARKER;
       requestAnimationFrame(render);
     })();
   </script>
