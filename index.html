@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>chefin.quest</title>
   <meta name="description" content="A daily browser-native fluid ASCII animation from Chefin." />
-  <meta name="daily-ascii-marker" content="DAILY_ASCII_2026-05-24_SOLAR_GLASS_ORCHARD" />
-  <!-- DAILY_ASCII_2026-05-24_SOLAR_GLASS_ORCHARD -->
+  <meta name="daily-ascii-marker" content="DAILY_ASCII_2026-05-25_ABYSSAL_NOODLE_NEBULA" />
+  <!-- DAILY_ASCII_2026-05-25_ABYSSAL_NOODLE_NEBULA -->
   <style>
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
@@ -18,7 +18,7 @@
       padding: 0;
       overflow: hidden;
       overscroll-behavior: none;
-      background: #02010a;
+      background: #02030b;
     }
     body {
       position: fixed;
@@ -29,7 +29,7 @@
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeSpeed;
     }
-    #orchard {
+    #nebula {
       position: fixed;
       inset: 0;
       width: 100vw;
@@ -41,50 +41,51 @@
       white-space: pre;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       font-size: 12px;
-      font-weight: 800;
-      line-height: .94;
-      letter-spacing: -.085em;
-      color: #fff7cc;
+      font-weight: 900;
+      line-height: .93;
+      letter-spacing: -.08em;
+      color: #e9ffff;
       background:
-        radial-gradient(circle at 18% 28%, rgba(255, 89, 186, .24), transparent 22%),
-        radial-gradient(circle at 77% 34%, rgba(36, 227, 255, .22), transparent 25%),
-        radial-gradient(circle at 50% 86%, rgba(255, 205, 64, .20), transparent 30%),
-        conic-gradient(from 210deg at 50% 52%, #07021d, #121249, #0a3c4b, #41143d, #18051d, #07021d);
-      filter: saturate(1.7) contrast(1.1);
+        radial-gradient(circle at 12% 76%, rgba(0, 255, 187, .25), transparent 23%),
+        radial-gradient(circle at 82% 18%, rgba(255, 62, 213, .28), transparent 25%),
+        radial-gradient(circle at 48% 48%, rgba(92, 91, 255, .20), transparent 34%),
+        linear-gradient(135deg, #02030b 0%, #081034 31%, #19072e 58%, #031b24 100%);
+      filter: saturate(1.85) contrast(1.08);
       text-shadow:
-        0 0 5px currentColor,
-        0 0 16px rgba(255, 203, 87, .28),
-        0 0 34px rgba(62, 228, 255, .15);
+        0 0 4px currentColor,
+        0 0 14px rgba(90, 255, 228, .28),
+        0 0 36px rgba(255, 62, 213, .16);
       transform: translateZ(0);
     }
-    #orchard::selection { background: transparent; }
-    .c0 { color: #030312; text-shadow: none; opacity: .78; }
-    .c1 { color: #18133d; text-shadow: none; opacity: .86; }
-    .c2 { color: #333080; }
-    .c3 { color: #006be8; }
-    .c4 { color: #20d8ff; }
-    .c5 { color: #3dffcf; }
-    .c6 { color: #a5ff73; }
-    .c7 { color: #ffe66d; }
-    .c8 { color: #ff9b45; }
-    .c9 { color: #ff527f; }
-    .ca { color: #ff61d8; }
-    .cb { color: #b980ff; }
-    .cc { color: #f8fbff; }
+    #nebula::selection { background: transparent; }
+    .c0 { color: #02030b; text-shadow: none; opacity: .74; }
+    .c1 { color: #071032; text-shadow: none; opacity: .88; }
+    .c2 { color: #173072; }
+    .c3 { color: #275cff; }
+    .c4 { color: #00a6ff; }
+    .c5 { color: #22ffe6; }
+    .c6 { color: #8cffb7; }
+    .c7 { color: #f5ff72; }
+    .c8 { color: #ffb347; }
+    .c9 { color: #ff5a7c; }
+    .ca { color: #ff52de; }
+    .cb { color: #a56cff; }
+    .cc { color: #f2fdff; }
   </style>
 </head>
 <body aria-label="Full-screen colorful fluid ASCII animation">
-  <pre id="orchard" aria-hidden="true"></pre>
+  <pre id="nebula" aria-hidden="true"></pre>
   <script>
     (() => {
       'use strict';
 
-      const MARKER = 'DAILY_ASCII_2026-05-24_SOLAR_GLASS_ORCHARD';
-      const field = document.getElementById('orchard');
-      const mist = [' ', '·', '˙', '.', ':', ';', '∴', '∷', '⋅'];
-      const light = ['+', '*', '✦', '✧', '◆', '◇', '◈', '●', '○', '@'];
-      const bough = ['╱', '╲', '│', '┃', '╽', '╿', '╎', '╏'];
-      const fruit = ['◐', '◑', '◒', '◓', '◉', '◎'];
+      const MARKER = 'DAILY_ASCII_2026-05-25_ABYSSAL_NOODLE_NEBULA';
+      const field = document.getElementById('nebula');
+      const steam = [' ', '·', '.', '˙', ':', '∴', '∷', '⋱', '⋰'];
+      const broth = ['~', '≈', '≋', '∿', '⌁', '﹋', '﹌'];
+      const noodles = ['╭', '╮', '╯', '╰', '╱', '╲', '│', '─', '╎', '╏'];
+      const stars = ['✦', '✧', '*', '+', '◆', '◇', '◈', '○', '●', '◎'];
+      const planets = ['◐', '◑', '◒', '◓', '◉', '⬡'];
       let cols = 0;
       let rows = 0;
       let cellW = 7;
@@ -102,52 +103,51 @@
         field.appendChild(probe);
         const box = probe.getBoundingClientRect();
         probe.remove();
-        cellW = Math.max(4.7, box.width || 7.1);
-        cellH = Math.max(7.6, box.height || 11.2);
-        cols = clamp(Math.floor(innerWidth / cellW) + 2, 52, 194);
+        cellW = Math.max(4.8, box.width || 7.0);
+        cellH = Math.max(7.8, box.height || 11.1);
+        cols = clamp(Math.floor(innerWidth / cellW) + 2, 54, 192);
         rows = clamp(Math.floor(innerHeight / cellH) + 2, 30, 98);
       }
 
-      function orchardSignal(x, y, t) {
+      function turbulence(x, y, t) {
         const nx = (x / cols) * 2 - 1;
         const ny = (y / rows) * 2 - 1;
-        const r = Math.hypot(nx * 1.14, ny * .9);
-        const theta = Math.atan2(ny, nx);
-        const sunRing = Math.sin(r * 18.5 - t * 2.2 + Math.sin(theta * 6 + t) * .85);
-        const aurora = Math.sin(x * .115 + Math.sin(y * .17 + t * .9) * 3.4 - t * 1.55);
-        const lattice = Math.cos((nx - ny) * 10.8 + Math.sin((nx + ny) * 4.5 + t * .72));
-        const sap = Math.sin((y / rows) * 13.5 + Math.sin(x * .07 + t * 1.8) * 2.8 - t);
-        return sunRing * .36 + aurora * .30 + lattice * .22 + sap * .25;
+        const swirlA = Math.sin(Math.hypot(nx + .22, ny - .08) * 20.5 - t * 2.6 + Math.atan2(ny, nx) * 3.0);
+        const swirlB = Math.cos(Math.hypot(nx - .32, ny + .18) * 15.0 + t * 1.9 - Math.atan2(ny + .2, nx - .1) * 4.0);
+        const current = Math.sin(x * .095 + Math.sin(y * .13 + t * 1.4) * 3.8 - t * 1.7);
+        const tide = Math.cos((nx * 7.5) - (ny * 5.5) + Math.sin(t + nx * ny * 4.0));
+        return swirlA * .34 + swirlB * .27 + current * .28 + tide * .20;
       }
 
       function glyphFor(x, y, t, energy) {
         const nx = x / cols;
         const ny = y / rows;
         const cx = nx - .5;
-        const cy = ny - .55;
-        const dist = Math.hypot(cx * 1.38, cy);
-        const angle = Math.atan2(cy, cx);
+        const cy = ny - .52;
+        const r = Math.hypot(cx * 1.12, cy * 1.55);
+        const a = Math.atan2(cy, cx);
 
-        const trunk = Math.abs(cx + Math.sin(ny * 8.5 + t) * .035) < (.022 + (1 - ny) * .045) && ny > .32;
-        const canopy = dist < (.18 + .065 * Math.sin(angle * 7 - t * 1.7)) && ny < .72 && ny > .12;
-        const branch = canopy && Math.abs(Math.sin(angle * 9 + dist * 22 - t * 1.2)) < .14;
-        const halo = Math.abs(dist - (.29 + .035 * Math.sin(angle * 10 + t * 1.1))) < .023;
-        const fruiting = canopy && Math.sin(x * 1.9 + y * 2.7 + t * 3.6) > .91;
+        const bowl = ny > .58 + Math.sin((nx - .5) * Math.PI) * .07 && Math.abs(cx) < .43 - (ny - .58) * .58;
+        const rim = Math.abs(ny - (.59 + Math.sin((nx - .5) * Math.PI) * .07)) < .018 && Math.abs(cx) < .44;
+        const vortex = r < (.25 + .035 * Math.sin(a * 7.0 - t * 2.1));
+        const noodleArc = vortex && Math.abs(Math.sin(a * 5.0 + r * 30.0 - t * 3.0)) < .18;
+        const comet = Math.abs((nx + ny * .58 + Math.sin(t * .55) * .12) % .42 - .21) < .011 && Math.sin(y * .33 + t * 2.4) > .42;
+        const planet = Math.sin(x * 1.71 + y * 2.37 + Math.floor(t * 3.0)) > .993 && ny < .72;
 
-        if (fruiting) return fruit[(x + y + frame) % fruit.length];
-        if (trunk) return bough[(y + Math.floor(t * 6)) % bough.length];
-        if (branch) return bough[Math.abs(Math.floor(angle * 5 + frame)) % bough.length];
-        if (halo) return light[(x * 3 + y + frame) % light.length];
+        if (planet) return planets[(x + y + frame) % planets.length];
+        if (rim) return broth[(x + frame) % broth.length];
+        if (bowl && Math.sin(x * .18 + t * 2.2) + Math.cos(y * .29 - t) > .55) return broth[(x * 2 + y + frame) % broth.length];
+        if (noodleArc || comet) return noodles[Math.abs(Math.floor(a * 6 + r * 44 + frame)) % noodles.length];
 
-        const sparkle = Math.sin(x * 12.9898 + y * 78.233 + Math.floor(t * 9) * 4.91) * 43758.5453;
+        const sparkle = Math.sin(x * 12.9898 + y * 78.233 + Math.floor(t * 8) * 9.173) * 43758.5453;
         const frac = sparkle - Math.floor(sparkle);
-        if (frac > .986 - Math.max(0, energy) * .012) return light[(x + frame + Math.floor(frac * 100)) % light.length];
-        const idx = clamp(Math.floor((energy + 1.18) * 4.35), 0, mist.length - 1);
-        return mist[idx];
+        if (frac > .985 - Math.max(0, energy) * .010) return stars[(x + y + frame + Math.floor(frac * 100)) % stars.length];
+        const idx = clamp(Math.floor((energy + 1.22) * 4.15), 0, steam.length - 1);
+        return steam[idx];
       }
 
       function render(now) {
-        if (now - last < 40) {
+        if (now - last < 42) {
           requestAnimationFrame(render);
           return;
         }
@@ -160,11 +160,11 @@
           for (let x = 0; x < cols; x++) {
             const nx = x / cols;
             const ny = y / rows;
-            const pulse = orchardSignal(x, y, t);
-            const dawn = Math.sin((nx * 1.9 - ny * 1.25) * Math.PI + t * .85);
-            const rootGlow = Math.max(0, 1 - Math.abs(ny - .86) * 5.5) * Math.sin(x * .18 - t * 2.1);
-            const energy = pulse + dawn * .23 + rootGlow * .28;
-            const chroma = clamp(Math.floor((energy + 1.35) * 4.45 + Math.sin(t + nx * 8) * 1.2), 0, 12);
+            const pulse = turbulence(x, y, t);
+            const caustic = Math.sin((nx * 2.4 + ny * .7) * Math.PI + t * .9);
+            const deepGlow = Math.max(0, 1 - Math.abs(ny - .74) * 4.8) * Math.cos(x * .16 - t * 1.8);
+            const energy = pulse + caustic * .22 + deepGlow * .32;
+            const chroma = clamp(Math.floor((energy + 1.38) * 4.35 + Math.sin(t * .7 + nx * 7.0 - ny * 3.0) * 1.35), 0, 12);
             parts.push('<span class="c', chroma.toString(16), '">', safe(glyphFor(x, y, t, energy)), '</span>');
           }
           if (y < rows - 1) parts.push('\n');
