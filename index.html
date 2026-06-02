@@ -90,6 +90,10 @@
     pre { white-space: pre-wrap; background: #30231f; color: #fff6df; padding: 16px; border-radius: 16px; overflow: auto; }
     .full { grid-column: 1 / -1; }
     .callout { border-left: 4px solid var(--yellow); padding: 12px 14px; background: rgba(255, 238, 105, .2); border-radius: 0 16px 16px 0; }
+    .code-card { margin: 24px 0; }
+    .code-tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin: 14px 0 16px; }
+    .code-tools p { margin: 0; color: #5b5049; }
+    .source-code { max-height: 72vh; font-size: .82rem; line-height: 1.45; tab-size: 2; }
     footer { padding: 28px 0 46px; color: var(--muted); }
     @media (max-width: 900px) { .stage-grid, .lesson-grid { grid-template-columns: 1fr; } h1 { letter-spacing: -.055em; } }
   </style>
@@ -103,6 +107,7 @@
       <button id="newSeed">New seed</button>
       <button id="savePng">Save PNG</button>
       <a class="pill" href="#tutorial">Read the tutorial</a>
+      <a class="pill" href="#full-code">Exact full code</a>
     </div>
   </header>
 
@@ -242,6 +247,15 @@ pop();</pre>
   updatePixels();
 }</pre>
       </article>
+    </section>
+
+    <section id="full-code" class="lesson-card code-card">
+      <h2>Exact full code for this page</h2>
+      <div class="code-tools">
+        <p>This block loads the actual HTML file you are viewing, including the CSS, controls, tutorial, and p5.js sketch. Copy it into an <code>index.html</code> file and open it in a browser.</p>
+        <button id="copyCode" type="button">Copy full code</button>
+      </div>
+      <pre class="source-code"><code id="sourceCode">Loading source…</code></pre>
     </section>
   </main>
 
@@ -470,8 +484,28 @@ pop();</pre>
       });
     }
 
+    async function loadSourceCode() {
+      const source = document.getElementById('sourceCode');
+      const copy = document.getElementById('copyCode');
+      try {
+        const res = await fetch(window.location.pathname + '?source=' + Date.now(), { cache: 'no-store' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const html = await res.text();
+        source.textContent = html;
+        copy.addEventListener('click', async () => {
+          await navigator.clipboard.writeText(html);
+          copy.textContent = 'Copied';
+          setTimeout(() => copy.textContent = 'Copy full code', 1200);
+        });
+      } catch (err) {
+        source.textContent = `Could not load the source automatically: ${err.message}\n\nFallback: use your browser’s View Source command on this page.`;
+        copy.disabled = true;
+      }
+    }
+
     window.addEventListener('DOMContentLoaded', () => {
       syncControls();
+      loadSourceCode();
       sketchInstance = new p5(sketch);
     });
   </script>
