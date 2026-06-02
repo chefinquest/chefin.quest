@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>chefin.quest</title>
   <meta name="description" content="A daily browser-native fluid ASCII animation from Chefin." />
-  <meta name="daily-ascii-marker" content="DAILY_ASCII_2026-05-26_SAFFRON_CIRCUIT_REEF" />
-  <!-- DAILY_ASCII_2026-05-26_SAFFRON_CIRCUIT_REEF -->
+  <meta name="daily-ascii-marker" content="DAILY_ASCII_2026-06-02_PRISMATIC_NOODLE_NEBULA" />
+  <!-- DAILY_ASCII_2026-06-02_PRISMATIC_NOODLE_NEBULA -->
   <style>
     :root { color-scheme: dark; }
     * { box-sizing: border-box; }
@@ -18,7 +18,7 @@
       padding: 0;
       overflow: hidden;
       overscroll-behavior: none;
-      background: #03020a;
+      background: #02020a;
     }
     body {
       position: fixed;
@@ -29,7 +29,7 @@
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeSpeed;
     }
-    #reef {
+    #nebula {
       position: fixed;
       inset: 0;
       width: 100vw;
@@ -40,57 +40,58 @@
       overflow: hidden;
       white-space: pre;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: clamp(9px, 1.16vw, 13px);
-      font-weight: 850;
-      line-height: .92;
-      letter-spacing: -.075em;
-      color: #fff4c2;
+      font-size: clamp(8px, 1.05vw, 13px);
+      font-weight: 900;
+      line-height: .88;
+      letter-spacing: -.08em;
+      color: #eaf7ff;
       background:
-        radial-gradient(circle at 19% 27%, rgba(255, 184, 46, .32), transparent 22%),
-        radial-gradient(circle at 78% 72%, rgba(0, 255, 210, .25), transparent 26%),
-        radial-gradient(circle at 50% 45%, rgba(135, 70, 255, .25), transparent 36%),
-        linear-gradient(160deg, #04020b 0%, #120329 28%, #05233a 57%, #2a1302 100%);
-      filter: saturate(1.75) contrast(1.07);
+        radial-gradient(circle at 18% 82%, rgba(255, 81, 0, .31), transparent 21%),
+        radial-gradient(circle at 70% 18%, rgba(0, 245, 255, .28), transparent 25%),
+        radial-gradient(circle at 47% 51%, rgba(187, 77, 255, .25), transparent 37%),
+        conic-gradient(from 210deg at 50% 50%, #02020a, #111340, #062f44, #361044, #321008, #02020a);
+      filter: saturate(1.85) contrast(1.08);
       text-shadow:
         0 0 3px currentColor,
-        0 0 13px rgba(255, 190, 66, .22),
-        0 0 30px rgba(0, 255, 214, .14);
+        0 0 12px rgba(70, 220, 255, .20),
+        0 0 28px rgba(255, 53, 184, .13);
       transform: translateZ(0);
     }
-    #reef::selection { background: transparent; }
-    .c0 { color: #03020a; text-shadow: none; opacity: .74; }
-    .c1 { color: #0b1230; text-shadow: none; opacity: .86; }
-    .c2 { color: #143d65; }
-    .c3 { color: #0077ff; }
-    .c4 { color: #00d6ff; }
-    .c5 { color: #18ffd0; }
-    .c6 { color: #b4ff65; }
-    .c7 { color: #fff36d; }
-    .c8 { color: #ffb22d; }
-    .c9 { color: #ff6a25; }
-    .ca { color: #ff3fa6; }
-    .cb { color: #9d6bff; }
-    .cc { color: #fff9df; }
+    #nebula::selection { background: transparent; }
+    .k0 { color: #02020a; text-shadow: none; opacity: .78; }
+    .k1 { color: #07142b; text-shadow: none; opacity: .91; }
+    .k2 { color: #173e68; }
+    .k3 { color: #006cff; }
+    .k4 { color: #00d9ff; }
+    .k5 { color: #18ffd6; }
+    .k6 { color: #6cff8d; }
+    .k7 { color: #f6ff5e; }
+    .k8 { color: #ffb13b; }
+    .k9 { color: #ff5c2b; }
+    .ka { color: #ff35c7; }
+    .kb { color: #a56cff; }
+    .kc { color: #ffffff; }
   </style>
 </head>
 <body aria-label="Full-screen colorful fluid ASCII animation">
-  <pre id="reef" aria-hidden="true"></pre>
+  <pre id="nebula" aria-hidden="true"></pre>
   <script>
     (() => {
       'use strict';
 
-      const MARKER = 'DAILY_ASCII_2026-05-26_SAFFRON_CIRCUIT_REEF';
-      const field = document.getElementById('reef');
-      const mist = [' ', ' ', '·', '.', '˙', ':', '⁘', '∴'];
-      const current = ['~', '≈', '≋', '⌁', '﹋', '﹌', '∿'];
-      const coral = ['╱', '╲', '╳', '╬', '╫', '╪', '┼', '╋', '┃', '━'];
-      const sparks = ['✦', '✧', '+', '*', '◆', '◇', '◈', '●', '○', '◎'];
-      const bubbles = ['○', '◌', '◍', '◉', '⬡', '⬢'];
+      const MARKER = 'DAILY_ASCII_2026-06-02_PRISMATIC_NOODLE_NEBULA';
+      const field = document.getElementById('nebula');
+      const vapor = [' ', ' ', '.', '·', '˙', ':', '∴', '⁘'];
+      const noodles = ['~', '∿', '≈', '≋', '﹋', '﹌', '⌁', '〰'];
+      const glass = ['╱', '╲', '╳', '╋', '┼', '╬', '◇', '◆'];
+      const spice = ['*', '+', '✦', '✧', '✷', '✹', '✺', '✶'];
+      const pearls = ['o', 'O', '○', '◌', '◍', '◉', '⬡', '⬢'];
       const sig = 'CHEFIN.QUEST';
+      const classes = ['k0','k1','k2','k3','k4','k5','k6','k7','k8','k9','ka','kb','kc'];
       let cols = 0;
       let rows = 0;
       let cellW = 7;
-      let cellH = 11;
+      let cellH = 10;
       let last = 0;
       let frame = 0;
 
@@ -104,73 +105,80 @@
         field.appendChild(probe);
         const box = probe.getBoundingClientRect();
         probe.remove();
-        cellW = Math.max(4.6, box.width || 7);
-        cellH = Math.max(7.4, box.height || 11);
-        cols = clamp(Math.floor(innerWidth / cellW) + 2, 58, 204);
-        rows = clamp(Math.floor(innerHeight / cellH) + 2, 32, 104);
+        cellW = Math.max(4.4, box.width || 7);
+        cellH = Math.max(7.0, box.height || 10);
+        cols = clamp(Math.floor(innerWidth / cellW) + 2, 62, 212);
+        rows = clamp(Math.floor(innerHeight / cellH) + 2, 34, 112);
       }
 
-      function reefFlow(x, y, t) {
+      function hashNoise(x, y, f) {
+        const s = Math.sin(x * 127.1 + y * 311.7 + f * 17.17) * 43758.5453123;
+        return s - Math.floor(s);
+      }
+
+      function broth(x, y, t) {
         const nx = (x / cols) * 2 - 1;
         const ny = (y / rows) * 2 - 1;
-        const vortex = Math.sin(Math.atan2(ny + .15, nx - .12) * 5.0 + Math.hypot(nx - .12, ny + .15) * 18.0 - t * 2.2);
-        const thermal = Math.cos((nx * 8.5) + Math.sin(ny * 6.0 + t * 1.35) * 2.7 + t * .7);
-        const filament = Math.sin(x * .17 - y * .075 + Math.sin(t + y * .09) * 4.3);
-        const pulse = Math.cos(Math.hypot(nx + .42, ny - .34) * 23.0 - t * 3.1);
-        return vortex * .34 + thermal * .25 + filament * .26 + pulse * .22;
+        const swirlA = Math.sin(Math.atan2(ny, nx) * 6.0 - Math.hypot(nx, ny) * 18.0 + t * 1.9);
+        const swirlB = Math.cos((nx * 10.5) + Math.sin(ny * 7.2 - t * .8) * 3.5 + t * 1.1);
+        const ribbon = Math.sin((x * .145) + Math.cos(y * .082 + t * 1.4) * 5.2 - t * 2.4);
+        const eddy = Math.cos(Math.hypot(nx + .36, ny - .28) * 24.0 - t * 3.2);
+        return swirlA * .32 + swirlB * .23 + ribbon * .31 + eddy * .20;
       }
 
       function glyphFor(v, bright, x, y, t) {
-        const vein = Math.abs(Math.sin((x * .23) + (y * .19) - t * 2.1 + v * 2.0));
-        const reefLine = Math.abs(Math.sin((x - cols * .5) * .08 + Math.pow((y / rows), 1.7) * 11.0 + t * .9));
-        const sparkle = Math.sin(x * 12.9898 + y * 78.233 + frame * .37) * 43758.5453;
-        const rnd = sparkle - Math.floor(sparkle);
-        if (bright > .86 && rnd > .58) return sparks[(x + y + frame) % sparks.length];
-        if (reefLine < .115 && bright > .38) return coral[(x * 3 + y + frame) % coral.length];
-        if (vein > .91 && bright > .34) return current[(x + frame + y * 2) % current.length];
-        if (rnd > .985 && bright > .2) return bubbles[(x + y + frame) % bubbles.length];
-        if (bright < .18) return mist[(x + y + frame) % mist.length];
-        if (bright < .34) return current[(x * 2 + y + frame) % current.length];
-        if (bright < .54) return coral[(x + y * 5 + frame) % coral.length];
-        if (bright < .74) return sparks[(x * 7 + y + frame) % sparks.length];
-        return bubbles[(x * 5 + y * 3 + frame) % bubbles.length];
+        const noodlePath = Math.abs(Math.sin(x * .115 + y * .245 + Math.sin(t * 1.2 + x * .035) * 4.0 - t * 1.6));
+        const prismShard = Math.abs(Math.cos((x - cols * .5) * .18 - (y - rows * .5) * .11 + t * 1.35));
+        const rnd = hashNoise(x, y, frame);
+        if (bright > .88 && rnd > .54) return spice[(x * 5 + y + frame) % spice.length];
+        if (noodlePath < .105 && bright > .28) return noodles[(x + y * 3 + frame) % noodles.length];
+        if (prismShard < .075 && bright > .42) return glass[(x * 7 + y * 2 + frame) % glass.length];
+        if (rnd > .986 && bright > .18) return pearls[(x + y + frame) % pearls.length];
+        if (bright < .16) return vapor[(x + y + frame) % vapor.length];
+        if (bright < .35) return noodles[(x * 2 + y + frame) % noodles.length];
+        if (bright < .55) return glass[(x + y * 4 + frame) % glass.length];
+        if (bright < .75) return pearls[(x * 3 + y * 5 + frame) % pearls.length];
+        return spice[(x * 11 + y * 3 + frame) % spice.length];
       }
 
       function colorClass(bright, x, y, t) {
-        const band = Math.sin((x / cols) * 8.2 - (y / rows) * 5.7 + t * 1.8) * .5 + .5;
-        const heat = Math.cos(Math.hypot(x - cols * .22, y - rows * .72) * .13 - t * 1.7) * .5 + .5;
-        let idx = Math.floor((bright * 8.5) + band * 2.2 + heat * 1.3);
-        idx = clamp(idx, 0, 12);
-        return ['c0','c1','c2','c3','c4','c5','c6','c7','c8','c9','ca','cb','cc'][idx];
+        const nx = x / cols;
+        const ny = y / rows;
+        const rainbow = Math.sin(nx * 9.7 + ny * 6.1 + t * 1.55) * .5 + .5;
+        const chili = Math.cos(Math.hypot(nx - .23, ny - .78) * 19.0 - t * 2.0) * .5 + .5;
+        const mint = Math.sin(Math.hypot(nx - .75, ny - .22) * 17.0 + t * 1.7) * .5 + .5;
+        const idx = clamp(Math.floor(bright * 7.6 + rainbow * 2.4 + chili * 1.2 + mint * 1.0), 0, 12);
+        return classes[idx];
       }
 
       function signatureGlyph(x, y, t) {
-        const sy = Math.floor(rows * .53 + Math.sin(t * .8) * rows * .035);
+        const waveY = Math.floor(rows * .50 + Math.sin(t * .72) * rows * .045);
         const start = Math.floor((cols - sig.length) * .5);
-        if (y !== sy || x < start || x >= start + sig.length) return null;
-        const shimmer = Math.sin(t * 5 + (x - start) * .8) > -.35;
-        return shimmer ? sig[x - start] : sparks[(x + frame) % sparks.length];
+        if (y !== waveY || x < start || x >= start + sig.length) return null;
+        const i = x - start;
+        return Math.sin(t * 4.9 + i * .77) > -.42 ? sig[i] : spice[(i + frame) % spice.length];
       }
 
       function draw(now) {
         requestAnimationFrame(draw);
-        if (now - last < 38) return;
+        if (now - last < 40) return;
         last = now;
         frame++;
         const t = now * .001;
         const html = [];
         for (let y = 0; y < rows; y++) {
+          const ny = y / rows;
           for (let x = 0; x < cols; x++) {
             const nx = x / cols;
-            const ny = y / rows;
-            const v = reefFlow(x, y, t);
-            const caustic = Math.sin((nx * 17.0) + Math.cos(ny * 9.0 + t) * 3.0 - t * 2.4) * .18;
-            const bloom = Math.exp(-Math.hypot(nx - .73 - Math.sin(t * .22) * .09, ny - .34 - Math.cos(t * .18) * .07) * 4.1);
-            const ember = Math.exp(-Math.hypot(nx - .24 - Math.cos(t * .2) * .06, ny - .74 - Math.sin(t * .24) * .05) * 4.6);
-            const bright = clamp(.43 + v * .31 + caustic + bloom * .36 + ember * .28, 0, 1);
+            const v = broth(x, y, t);
+            const prism = Math.sin(nx * 21.0 - ny * 13.0 + Math.sin(t + ny * 5.0) * 2.2 + t * 1.6) * .16;
+            const cyanPool = Math.exp(-Math.hypot(nx - .72 - Math.sin(t * .19) * .08, ny - .25 - Math.cos(t * .16) * .06) * 4.7);
+            const chiliPool = Math.exp(-Math.hypot(nx - .25 - Math.cos(t * .23) * .07, ny - .78 - Math.sin(t * .21) * .05) * 4.2);
+            const centerGlow = Math.exp(-Math.hypot(nx - .50, ny - .50) * 2.6) * .18;
+            const bright = clamp(.40 + v * .32 + prism + cyanPool * .32 + chiliPool * .30 + centerGlow, 0, 1);
             const signed = signatureGlyph(x, y, t);
             const glyph = signed || glyphFor(v, bright, x, y, t);
-            const cls = signed ? 'cc' : colorClass(bright, x, y, t);
+            const cls = signed ? 'kc' : colorClass(bright, x, y, t);
             html.push('<span class="', cls, '">', esc(glyph), '</span>');
           }
           if (y !== rows - 1) html.push('\n');
