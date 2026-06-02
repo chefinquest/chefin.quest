@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>chefin.quest · Toshiba data cherry p5.js study</title>
+  <meta name="description" content="A p5.js cherry rendered like a vintage Toshiba technical advertisement: spiky ferrite-pin texture, vertical data columns, Japanese headline, paper grain, and print noise." />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/p5.min.js"></script>
+  <style>
+    :root { color-scheme: light; --paper:#edf0e7; --ink:#191d1f; --muted:#64706d; --red:#ed1b24; --line:rgba(20,32,30,.16); --card:rgba(247,249,241,.84); --shadow:0 26px 90px rgba(19,30,28,.18); }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:radial-gradient(circle at 72% 18%, rgba(255,45,32,.10), transparent 28rem), radial-gradient(circle at 12% 82%, rgba(31,72,67,.12), transparent 26rem), linear-gradient(135deg,#f6f7ef 0%,#edf0e7 58%,#e0e7dc 100%); color:var(--ink); font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; line-height:1.55; }
+    a { color:#9b1d24; }
+    header, main, footer { width:min(1220px, calc(100% - 32px)); margin:0 auto; }
+    header { padding:32px 0 18px; }
+    .eyebrow { text-transform:uppercase; letter-spacing:.18em; font-size:.72rem; color:var(--muted); font-weight:850; }
+    h1 { margin:10px 0 12px; font-size:clamp(2.15rem, 6vw, 5.7rem); line-height:.9; letter-spacing:-.07em; max-width:1040px; }
+    .lede { max-width:890px; font-size:clamp(1.04rem, 2vw, 1.32rem); color:#42504d; }
+    .top-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+    button, .pill { border:1px solid rgba(23,34,32,.22); background:rgba(255,255,255,.55); color:var(--ink); padding:10px 13px; border-radius:999px; font:inherit; font-weight:800; cursor:pointer; box-shadow:0 8px 24px rgba(26,40,36,.08); backdrop-filter:blur(10px); text-decoration:none; }
+    button:hover, .pill:hover { transform:translateY(-1px); border-color:rgba(237,27,36,.45); }
+    .stage-grid { display:grid; grid-template-columns:minmax(0,1fr) 330px; gap:22px; align-items:start; margin:18px 0 26px; }
+    .art-card, .panel, .lesson-card { border:1px solid var(--line); border-radius:28px; background:var(--card); box-shadow:var(--shadow); overflow:hidden; backdrop-filter:blur(12px); }
+    .art-card { padding:clamp(10px, 1.5vw, 18px); }
+    #canvas-wrap { width:100%; aspect-ratio:1180 / 820; display:grid; place-items:center; border-radius:20px; overflow:hidden; background:#edf0e7; box-shadow:inset 0 0 0 1px rgba(30,45,41,.14); }
+    #canvas-wrap canvas { width:100% !important; height:100% !important; display:block; }
+    .panel { padding:20px; }
+    .panel h2, .lesson-card h2 { margin:0 0 10px; line-height:1; letter-spacing:-.03em; }
+    .panel p, .panel li { color:#51615d; font-size:.96rem; }
+    .swatches { display:flex; gap:7px; flex-wrap:wrap; margin:12px 0 16px; }
+    .swatch { width:27px; height:27px; border-radius:50%; border:2px solid rgba(255,255,255,.72); box-shadow:0 2px 7px rgba(0,0,0,.16); }
+    .callout { border-left:4px solid var(--red); padding:12px 14px; background:rgba(237,27,36,.08); border-radius:0 16px 16px 0; }
+    .lesson-card { padding:clamp(18px,3vw,28px); margin:22px 0; }
+    pre { white-space:pre-wrap; background:#1d2322; color:#f8f3e6; padding:16px; border-radius:16px; overflow:auto; font-size:.84rem; }
+    footer { padding:28px 0 46px; color:var(--muted); }
+    @media (max-width: 900px) { .stage-grid { grid-template-columns:1fr; } h1 { letter-spacing:-.055em; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="eyebrow">chefin.quest / p5.js field studies / Study 002</div>
+    <h1>A cherry made of vertical data.</h1>
+    <p class="lede">A p5.js interpretation of the Toshiba-style reference: pale technical-ad paper, Japanese vertical copy, a cable-stem, a blocky data-core cherry, and a glossy red cherry built from hundreds of tiny ferrite-like pins.</p>
+    <div class="top-actions">
+      <button id="savePng" type="button">Save PNG</button>
+      <button id="rerender" type="button">Rebuild texture</button>
+      <a class="pill" href="./">Garden Plotter study</a>
+      <a class="pill" href="#notes">Process notes</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="stage-grid" aria-label="Live Toshiba-inspired p5.js cherry artwork">
+      <div class="art-card"><div id="canvas-wrap"></div></div>
+      <aside class="panel">
+        <h2>Study 002: Toshiba Data Cherry</h2>
+        <p>The source image has a very specific mix: corporate technical layout, printer grain, hard black Japanese copy, red product-gloss, and spiky magnetic-media texture. This sketch turns the cherry into a sphere of tiny standing data pins.</p>
+        <div class="swatches" aria-label="Palette swatches">
+          <span class="swatch" style="background:#edf0e7"></span><span class="swatch" style="background:#ed1b24"></span><span class="swatch" style="background:#ff3b14"></span><span class="swatch" style="background:#ff9b00"></span><span class="swatch" style="background:#142b25"></span><span class="swatch" style="background:#ffe7ef"></span>
+        </div>
+        <p class="callout"><strong>Press S</strong> to save the poster. <strong>Press R</strong> to rebuild the deterministic texture pass.</p>
+        <ul>
+          <li>Left column: faux technical copy and disk diagrams.</li>
+          <li>Center: vertical rectangular data extrusions.</li>
+          <li>Right: ferrite-pin cherry with glossy highlights.</li>
+          <li>Whole poster: paper grain and aged print speckle.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section id="notes" class="lesson-card">
+      <h2>Process notes</h2>
+      <p>I treated the reference as an old electronics advertisement rather than a fruit illustration. The cherry is a product-demo object: red flesh becomes data density, the stem becomes a braided cable, and the spiky surface echoes vertical magnetic recording / ferrite particles.</p>
+      <pre>// Core trick: place pins on an elliptical sphere, then color them by position,
+// highlight masks, shadow patches, and radial extrusion.
+for (let y = -r * .92; y <= r * .92; y += 9.5) {
+  let rowR = sqrt(max(0, r*r - y*y));
+  for (let x = -rowR; x <= rowR; x += 8.7) drawFerritePin(x, y);
+}</pre>
+    </section>
+  </main>
+
+  <footer>Built as a live p5.js study for chefin.quest. Study 001: <a href="./">Garden Plotter</a>.</footer>
+
+<script>
+p5.disableFriendlyErrors = true;
+const CONFIG = { seed: 1983 };
+let grainLayer, sketchCanvas;
+const posterW = 1180, posterH = 820;
+
+function setup() {
+  sketchCanvas = createCanvas(posterW, posterH);
+  sketchCanvas.parent('canvas-wrap');
+  pixelDensity(1);
+  randomSeed(CONFIG.seed);
+  noiseSeed(CONFIG.seed);
+  textFont('Helvetica Neue, Arial, sans-serif');
+  grainLayer = createGraphics(width, height);
+  grainLayer.pixelDensity(1);
+  buildPaperGrain();
+  noLoop();
+}
+
+function draw() {
+  randomSeed(CONFIG.seed);
+  noiseSeed(CONFIG.seed);
+  background('#edf0e7');
+  drawPaperField();
+  drawLeftTechnicalColumn();
+  drawCableStem();
+  drawStackedDataCherry(430, 520, 220, 168);
+  drawSpikyCherry(790, 380, 190);
+  drawJapaneseHeadline();
+  drawFooter();
+  image(grainLayer, 0, 0);
+}
+
+function buildPaperGrain() {
+  grainLayer.clear();
+  grainLayer.loadPixels();
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const i = 4 * (y * width + x);
+      const fleck = random() < 0.018;
+      const v = fleck ? random(95, 160) : random(210, 255);
+      grainLayer.pixels[i] = v; grainLayer.pixels[i+1] = v + random(-8, 7); grainLayer.pixels[i+2] = v + random(-15, 10); grainLayer.pixels[i+3] = fleck ? random(30, 70) : random(0, 20);
+    }
+  }
+  grainLayer.updatePixels();
+}
+
+function drawPaperField() {
+  noStroke();
+  for (let y = 0; y < height; y += 3) { const c = lerpColor(color('#f4f5ee'), color('#e3e9de'), y / height); fill(red(c), green(c), blue(c), 22); rect(0, y, width, 3); }
+  stroke(196, 203, 194, 90); strokeWeight(1); line(0, height - 44, width, height - 44);
+  for (let i = 0; i < 220; i++) { stroke(random(170, 240), random(170, 235), random(165, 215), random(10, 35)); point(random(width), random(height)); }
+}
+
+function drawLeftTechnicalColumn() {
+  push(); translate(28, 18); noStroke(); fill(25, 30, 31); textStyle(BOLD); textSize(34); text('TOSHIBA', 0, 18); textStyle(NORMAL);
+  const jp = ['色鮮やかにふくらむ粒子。新しいディスクシステムは、','横から縦へ、密度を情報量へ変換します。球面に並ぶ','小さな記憶素子は、光を受けて赤から橙へ変化し、','中心の影には深い緑のアドレスが残ります。','','● 高密度フェライト配列による立体的な読み取り','● 垂直方向に立ち上がるデータパターン','● 微細なノイズまで保持する新しい表面処理'];
+  fill(42, 48, 48); textSize(8.3); let yy = 64; for (const line of jp) { text(line, 0, yy); yy += line === '' ? 11 : 12; }
+  drawMiniDiagrams(0, 250); drawFloppyIcon(12, 570);
+  fill(30, 38, 42); textStyle(BOLD); textSize(15); text('バリウム  フェライト', 5, 685); textSize(13); text('フロッピーディスク', 5, 716); textStyle(NORMAL); fill(38, 55, 75); rect(8, 699, 118, 17); fill('#f7f4eb'); textSize(9); text('記憶容量 3.5” 4MB', 14, 711); pop();
+}
+
+function drawMiniDiagrams(x, y) {
+  push(); translate(x, y); stroke(90, 120, 140, 90); strokeWeight(0.8); fill(245, 248, 245, 110);
+  for (let i = 0; i < 3; i++) { rect(0, i * 92, 172, 66); line(8, i * 92 + 48, 160, i * 92 + 48); for (let j = 0; j < 4; j++) { const xx = 16 + j * 36; noFill(); ellipse(xx, i*92 + 28, 25, 14); line(xx - 10, i*92 + 28, xx + 10, i*92 + 28 + random(-7, 7)); } }
+  noStroke(); fill('#f4abb7'); for (let i = 0; i < 20; i++) rect(8 + i * 7, 31 + (i%2)*91, 5, 10);
+  fill(36, 45, 47); textSize(7); for (let i = 0; i < 8; i++) text('磁性体の配列と垂直記録方式', 0, 78 + i * 23); pop();
+}
+
+function drawFloppyIcon(x, y) {
+  push(); translate(x, y); rotate(-0.18); stroke('#315a70'); strokeWeight(4); fill(238, 242, 238, 170); rect(0, 0, 66, 48); rect(52, -14, 58, 48); rect(22, 18, 80, 54); strokeWeight(2); line(12, 8, 58, 36); line(67, -5, 96, 22); pop();
+  push(); translate(x + 97, y + 72); noFill(); stroke(38, 45, 47); strokeWeight(1.2); for (let i = 0; i < 8; i++) hexagon((i%3)*15, floor(i/3)*13, 7); pop();
+}
+function hexagon(x, y, r) { beginShape(); for (let a = 0; a < TAU; a += TAU / 6) vertex(x + cos(a) * r, y + sin(a) * r); endShape(CLOSE); }
+
+function drawCableStem() {
+  push(); noFill();
+  for (let pass = 0; pass < 5; pass++) { stroke(pass < 2 ? color(23, 44, 37, 180) : color(174, 142, 62, 105)); strokeWeight(pass < 2 ? 7 - pass * 2 : 1.5); beginShape(); for (let t = 0; t <= 1; t += 0.018) { const x = bezierPoint(355, 430, 560, 690, t); const y = bezierPoint(-18, 82, 196, 270, t); const wob = sin(t * 80 + pass * 1.7) * 4; vertex(x + wob, y + cos(t * 50 + pass) * 3); } endShape(); }
+  translate(362, 0); for (let y = -10; y < 448; y += 42) { stroke(30, 45, 45, 185); strokeWeight(1); fill(60, 74, 71, 120); rect(-10 + random(-2,2), y, 23 + random(-3, 4), 37); fill(209, 184, 73, 110); rect(5, y + 2, 7, 32); stroke(230, 237, 214, 150); line(-2, y, 0, y + 37); }
+  pop();
+}
+
+function drawStackedDataCherry(cx, cy, rx, ry) {
+  push(); translate(cx, cy); noStroke();
+  for (let ix = -rx; ix <= rx; ix += 6) for (let iy = -ry; iy <= ry; iy += 10) { const nx = ix / rx, ny = iy / ry, d = nx*nx + ny*ny; if (d < 1.02 && random() > 0.18) { const ridge = floor((sin(ix * 0.07) + noise(ix*0.02, iy*0.03) * 2) * 7); const h = map(1 - d, 0, 1, 13, 52) + ridge + random(-6, 8); const col = lerpColor(color('#f20b13'), color('#ff8b00'), constrain((ix + rx) / (rx*2) * 0.55 + (iy+ry)/(ry*2)*0.45, 0, 1)); fill(red(col), green(col), blue(col), random(130, 235)); rect(ix, iy - h/2, 8, h); if (random() < 0.28) { fill(255, 229, 177, random(90, 170)); rect(ix + 1, iy - h/2, 2, h); } } }
+  fill('#ff1218'); for (let a = PI; a < TAU; a += 0.045) { const x = cos(a) * rx, y = sin(a) * ry; triangle(x, y, x + cos(a - .025) * 13, y + sin(a - .025) * 18, x + cos(a + .025) * 13, y + sin(a + .025) * 18); }
+  fill(255, 215, 232, 190); rect(105, -65, 26, 115); fill(255, 248, 255, 120); rect(118, -58, 10, 101); pop();
+}
+
+function drawSpikyCherry(cx, cy, r) {
+  push(); translate(cx, cy); noStroke();
+  for (let rr = r; rr > 0; rr -= 4) { const t = rr / r; fill(170 + 58*t, 5 + 15*t, 10 + 8*t, 16); ellipse(0, 0, rr*2.05, rr*1.92); }
+  const pts = [];
+  for (let y = -r * 0.92; y <= r * 0.92; y += 9.5) { const rowR = sqrt(max(0, r*r - y*y)); for (let x = -rowR; x <= rowR; x += 8.7) { if (random() < 0.08) continue; const sx = x + random(-1.8, 1.8), sy = y + random(-1.8, 1.8), d = sqrt(sx*sx + sy*sy) / r; const rightWarm = constrain(map(sx + sy*.55, -r, r, 0, 1), 0, 1); let base = lerpColor(color('#bd1016'), color('#ff3b14'), rightWarm); base = lerpColor(base, color('#ff9b00'), pow(constrain((sx + sy + r*0.3)/(r*1.8),0,1), 2) * .55); const shade = map(d, 0, 1, 1.1, .45) + noise(sx*.02, sy*.02)*.24; const darkPatch = dist(sx, sy, -62, -64) < 54 || (dist(sx, sy, -108, 35) < 66 && sx < -70); const hi1 = dist(sx, sy, 55, -47) < 46; const hi2 = dist(sx, sy, -10, 54) < 28; const warmRing = abs(dist(sx, sy, -52, -25) - 62) < 10 && sy < 20; let c = base; if (darkPatch) c = lerpColor(c, color('#142b25'), 0.82); if (warmRing) c = lerpColor(c, color('#ffb000'), 0.55); if (hi1 || hi2) c = lerpColor(c, color('#ffe7ef'), hi1 ? 0.78 : 0.65); pts.push({x:sx, y:sy, d, c, shade}); } }
+  pts.sort((a,b)=>a.y-b.y);
+  for (const p of pts) { const extrusion = map(p.d, 0, 1, 3, 14) + noise(p.x*.07, p.y*.07)*7; const mag = sqrt(p.x*p.x + p.y*p.y) || 1; const ox = p.x / mag, oy = p.y / mag; const tipX = p.x + ox * extrusion, tipY = p.y + oy * extrusion; const w = map(p.d, 0, 1, 7.5, 4.2); fill(red(p.c)*p.shade, green(p.c)*p.shade, blue(p.c)*p.shade, 235); ellipse(p.x, p.y, w, w*.86); fill(red(p.c)*1.12, green(p.c)*1.08, blue(p.c)*0.95, 150); triangle(p.x-w*.35, p.y, p.x+w*.35, p.y, tipX, tipY); if (random() < 0.13) { fill(255, 190, 88, 105); ellipse(tipX, tipY, 2.2, 1.5); } }
+  for (let a = -PI; a < PI; a += 0.035) { const er = r * (0.98 + noise(a*3)*0.035); const x = cos(a) * er, y = sin(a) * er * .94; const len = 10 + 12 * noise(a*8); const c = lerpColor(color('#720b12'), color('#ff8c00'), constrain((cos(a)+sin(a)+1.5)/3,0,1)); stroke(red(c), green(c), blue(c), 180); strokeWeight(1.2); line(x, y, x + cos(a)*len, y + sin(a)*len); }
+  noStroke(); for (let i = 0; i < 90; i++) { const a = random(-2.8, -0.65), rr = random(8, 70) * (random() < .5 ? .75 : 1); const x = -62 + cos(a) * rr, y = -87 + sin(a) * rr * .62; fill(random(['#142a22','#21371e','#46331a','#746421'])); ellipse(x, y, random(5,10), random(4,8)); }
+  fill(18, 38, 30, 230); triangle(-95,-98, -30,-78, -67,-34); fill(70, 74, 25, 170); triangle(-112,-80, -48,-105, -75,-36); pop();
+}
+
+function drawJapaneseHeadline() { push(); translate(width - 80, 64); fill(18, 23, 25); textStyle(BOLD); textSize(34); const chars = '横から縦へ、きわ立つ情報量。'; for (let i = 0; i < chars.length; i++) text(chars[i], 0, i * 38); stroke('#ed1b24'); strokeWeight(8); line(-18, 650, 12, 588); strokeWeight(1); stroke(190, 190, 184); line(-32, 676, 38, 676); pop(); }
+function drawFooter() { fill(35, 38, 38); textSize(13); text('先端技術を未来へ — E&E の東芝', 690, height - 18); stroke(190, 196, 188, 110); line(20, height - 44, width - 20, height - 44); }
+function keyPressed() { if (key === 's' || key === 'S') saveCanvas('toshiba-data-cherry-p5js', 'png'); if (key === 'r' || key === 'R') { CONFIG.seed = millis(); randomSeed(CONFIG.seed); noiseSeed(CONFIG.seed); buildPaperGrain(); redraw(); } }
+window.addEventListener('DOMContentLoaded', () => { document.getElementById('savePng').addEventListener('click', () => saveCanvas('toshiba-data-cherry-p5js', 'png')); document.getElementById('rerender').addEventListener('click', () => { CONFIG.seed = Date.now(); randomSeed(CONFIG.seed); noiseSeed(CONFIG.seed); buildPaperGrain(); redraw(); }); });
+</script>
+</body>
+</html>
