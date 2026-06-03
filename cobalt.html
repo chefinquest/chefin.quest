@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>chefin.quest · Cobalt eclipse p5.js study</title>
+  <meta name="description" content="A cobalt-blue p5.js generative print study: stippled eclipse discs, warped moiré arcs, diagonal scratches, ragged ink fields, and risograph-style paper grain." />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/p5.min.js"></script>
+  <style>
+    :root { color-scheme: dark; --paper:#06143a; --ink:#ecf3ff; --muted:#a9b8dd; --blue:#0047ab; --cobalt:#0b52c0; --line:rgba(219,232,255,.16); --card:rgba(6,20,58,.78); --shadow:0 30px 100px rgba(0,18,76,.42); --warm:#d3a238; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:radial-gradient(circle at 20% 10%, rgba(64,116,218,.42), transparent 28rem), radial-gradient(circle at 88% 30%, rgba(0,71,171,.62), transparent 34rem), linear-gradient(135deg,#020817 0%,#06143a 48%,#0a2f7c 100%); color:var(--ink); font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; line-height:1.55; }
+    a { color:#c8dcff; }
+    header, main, footer { width:min(1220px, calc(100% - 32px)); margin:0 auto; }
+    header { padding:32px 0 18px; }
+    .eyebrow { text-transform:uppercase; letter-spacing:.18em; font-size:.72rem; color:var(--muted); font-weight:850; }
+    h1 { margin:10px 0 12px; font-size:clamp(2.2rem, 6.5vw, 5.8rem); line-height:.88; letter-spacing:-.055em; max-width:1020px; }
+    .lede { max-width:900px; font-size:clamp(1.04rem, 2vw, 1.32rem); color:#d4def7; }
+    .top-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+    button, .pill { border:1px solid rgba(219,232,255,.24); background:rgba(255,255,255,.10); color:var(--ink); padding:10px 13px; border-radius:999px; font:inherit; font-weight:800; cursor:pointer; box-shadow:0 8px 26px rgba(0,0,0,.18); backdrop-filter:blur(10px); text-decoration:none; }
+    button:hover, .pill:hover { transform:translateY(-1px); border-color:rgba(211,162,56,.65); }
+    .stage-grid { display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:22px; align-items:start; margin:18px 0 26px; }
+    .art-card, .panel, .lesson-card { border:1px solid var(--line); border-radius:28px; background:var(--card); box-shadow:var(--shadow); overflow:hidden; backdrop-filter:blur(14px); }
+    .art-card { padding:clamp(10px, 1.5vw, 18px); }
+    #canvas-wrap { width:100%; aspect-ratio:1 / 1; display:grid; place-items:center; border-radius:20px; overflow:hidden; background:#06143a; box-shadow:inset 0 0 0 1px rgba(219,232,255,.16); }
+    #canvas-wrap canvas { width:100% !important; height:100% !important; display:block; }
+    .panel, .lesson-card { padding:clamp(18px,3vw,28px); }
+    .panel h2, .lesson-card h2 { margin:0 0 10px; line-height:1; letter-spacing:-.03em; }
+    .panel p, .panel li, .lesson-card p, .lesson-card li { color:#c5d1ee; font-size:.96rem; }
+    .control { margin:15px 0; }
+    .control label { display:flex; justify-content:space-between; gap:12px; font-size:.84rem; font-weight:850; color:#d8e2ff; }
+    input[type="range"] { width:100%; accent-color:#2d67d8; }
+    .swatches { display:flex; gap:7px; flex-wrap:wrap; margin:12px 0 16px; }
+    .swatch { width:27px; height:27px; border-radius:50%; border:2px solid rgba(255,255,255,.45); box-shadow:0 2px 9px rgba(0,0,0,.28); }
+    .callout { border-left:4px solid var(--warm); padding:12px 14px; background:rgba(211,162,56,.12); border-radius:0 16px 16px 0; }
+    .lesson-card { margin:22px 0; }
+    pre { white-space:pre-wrap; background:#020817; color:#eef5ff; padding:16px; border-radius:16px; overflow:auto; font-size:.84rem; }
+    footer { padding:28px 0 46px; color:var(--muted); }
+    @media (max-width: 900px) { .stage-grid { grid-template-columns:1fr; } h1 { letter-spacing:-.055em; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="eyebrow">chefin.quest / p5.js field studies / Study 003</div>
+    <h1>Cobalt eclipses, stippled until the light breaks.</h1>
+    <p class="lede">A p5.js print study based on the supplied image’s vocabulary: massive cropped circles, dense stipple, curved moiré fields, diagonal scratches, and an imperfect ink border — shifted into a cobalt-blue night-print palette.</p>
+    <div class="top-actions" role="navigation" aria-label="Field study tabs">
+      <button id="newSeed" type="button">New seed</button>
+      <button id="savePng" type="button">Save PNG</button>
+      <a class="pill" href="./">Garden Plotter</a>
+      <a class="pill" href="cherry.html">Toshiba Cherry</a>
+      <a class="pill" href="#notes">Process notes</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="stage-grid" aria-label="Live cobalt p5.js artwork and controls">
+      <div class="art-card"><div id="canvas-wrap"></div></div>
+      <aside class="panel">
+        <h2>Study 003: Cobalt Eclipse Field</h2>
+        <p>The reference reads like an ink test plate: two large circular bodies, a bent field of dot arcs, and scratches crossing a dark sea of stipple. This version uses cobalt as the dominant ink and bone-gold as exposed paper.</p>
+        <div class="swatches" aria-label="Palette swatches">
+          <span class="swatch" style="background:#06143a"></span><span class="swatch" style="background:#0047ab"></span><span class="swatch" style="background:#0b52c0"></span><span class="swatch" style="background:#ecf3ff"></span><span class="swatch" style="background:#d3a238"></span><span class="swatch" style="background:#020817"></span>
+        </div>
+        <div class="control"><label>Stipple density <span id="densityVal"></span></label><input id="density" type="range" min="45000" max="135000" step="5000" value="95000"></div>
+        <div class="control"><label>Moiré arcs <span id="arcVal"></span></label><input id="arcs" type="range" min="20" max="115" step="5" value="75"></div>
+        <div class="control"><label>Scratch brightness <span id="scratchVal"></span></label><input id="scratches" type="range" min="0" max="100" value="72"></div>
+        <div class="control"><label>Paper erosion <span id="erosionVal"></span></label><input id="erosion" type="range" min="0" max="100" value="66"></div>
+        <p class="callout"><strong>Press S</strong> to save, <strong>R</strong> for a new seed. The sliders change density, warped arc structure, scratch exposure, and ragged-edge erosion.</p>
+      </aside>
+    </section>
+
+    <section id="notes" class="lesson-card">
+      <h2>Process notes</h2>
+      <p>I treated your reference as layered printmaking, not as vector geometry. The circles are masking events; tone is built from thousands of independent stipple marks; the arcing region is a field of repeated curves; the diagonal marks are scratches where a warm underlayer cuts through the cobalt ink.</p>
+      <pre>// Core decision: each dot asks whether it lives in a disc, arc-field, or dark sea.
+const tone = discTone(x, y) + arcTone(x, y) - erosionAtEdge(x, y);
+if (random() < tone) drawStipple(x, y, chooseInk(tone));</pre>
+    </section>
+  </main>
+
+  <footer>Built as a live p5.js study for chefin.quest. Studies: <a href="./">Garden Plotter</a> · <a href="cherry.html">Toshiba Cherry</a>.</footer>
+
+<script>
+p5.disableFriendlyErrors = true;
+const CONFIG = { seed: 47103, density: 95000, arcs: 75, scratches: 72, erosion: 66 };
+const W = 1180, H = 1180;
+let sketchCanvas;
+const ui = {};
+
+function setup() {
+  sketchCanvas = createCanvas(W, H);
+  sketchCanvas.parent('canvas-wrap');
+  pixelDensity(1);
+  noLoop();
+  wireControls();
+}
+
+function draw() {
+  randomSeed(CONFIG.seed);
+  noiseSeed(CONFIG.seed);
+  background('#06143a');
+  drawCobaltPaper();
+  drawFieldWash();
+  drawEclipseBodies();
+  drawMoireArcs();
+  drawStipplePlate();
+  drawScratches();
+  drawBorderErosion();
+  drawGrain();
+}
+
+function wireControls() {
+  ui.density = select('#density'); ui.arcs = select('#arcs'); ui.scratches = select('#scratches'); ui.erosion = select('#erosion');
+  ui.densityVal = select('#densityVal'); ui.arcVal = select('#arcVal'); ui.scratchVal = select('#scratchVal'); ui.erosionVal = select('#erosionVal');
+  const sync = () => {
+    CONFIG.density = Number(ui.density.value()); CONFIG.arcs = Number(ui.arcs.value()); CONFIG.scratches = Number(ui.scratches.value()); CONFIG.erosion = Number(ui.erosion.value());
+    ui.densityVal.html(CONFIG.density.toLocaleString()); ui.arcVal.html(CONFIG.arcs); ui.scratchVal.html(CONFIG.scratches + '%'); ui.erosionVal.html(CONFIG.erosion + '%');
+    redraw();
+  };
+  [ui.density, ui.arcs, ui.scratches, ui.erosion].forEach(el => el.input(sync));
+  select('#newSeed').mousePressed(() => { CONFIG.seed = floor(random(1000000)); sync(); });
+  select('#savePng').mousePressed(() => saveCanvas('chefin-cobalt-eclipse-' + CONFIG.seed, 'png'));
+  sync();
+}
+
+function drawCobaltPaper() {
+  noStroke();
+  for (let y = 0; y < height; y += 2) {
+    const c = lerpColor(color('#020817'), color('#0b52c0'), y / height);
+    fill(red(c), green(c), blue(c), 28);
+    rect(0, y, width, 2);
+  }
+  fill(3, 13, 42, 160); rect(24, 24, width - 48, height - 48);
+  fill(211, 162, 56, 36); rect(0, 0, width, height);
+}
+
+function drawFieldWash() {
+  noStroke();
+  for (let i = 0; i < 2600; i++) {
+    const x = random(28, width - 28), y = random(28, height - 28);
+    const n = fbm(x * .0034, y * .0034, 4);
+    const a = map(n, .22, .82, 5, 48, true);
+    fill(0, 71 + random(-8, 18), 171 + random(-18, 28), a);
+    ellipse(x, y, random(10, 58), random(6, 38));
+  }
+}
+
+function drawEclipseBodies() {
+  push();
+  noStroke();
+  // Broad under-ink discs make the cropped eclipse bodies readable before stipple buries them.
+  const bodies = [
+    { x: 276, y: 108, r: 356, alpha: 118, warm: 1.0 },
+    { x: 1084, y: 560, r: 336, alpha: 108, warm: .82 }
+  ];
+  for (const b of bodies) {
+    for (let rr = b.r; rr > 0; rr -= 5) {
+      const k = rr / b.r;
+      const wob = 1 + .012 * Math.sin(rr * .073 + CONFIG.seed);
+      fill(232, 240, 255, b.alpha * Math.pow(1 - k, .18) * .22);
+      ellipse(b.x, b.y, rr * 2 * wob, rr * 2 * wob);
+    }
+    // Dark stippled core/shadow, like the reference's heavy ink bloom inside each moon.
+    for (let i = 0; i < 4200; i++) {
+      const x = randomGaussian(b.x - b.r * .18, b.r * .28);
+      const y = randomGaussian(b.y - b.r * .17, b.r * .26);
+      if (normalizedDisc(x, y, b) > .98) continue;
+      fill(1, 7, 22, random(35, 115));
+      ellipse(x, y, random(.8, 2.8));
+    }
+  }
+  pop();
+}
+
+function drawMoireArcs() {
+  push();
+  noFill();
+  const arcCount = CONFIG.arcs;
+  for (let i = 0; i < arcCount; i++) {
+    const r = 170 + i * 9.2;
+    const wobble = map(noise(i * .07, CONFIG.seed * .01), 0, 1, -35, 35);
+    stroke(235, 242, 255, 22 + i * .11);
+    strokeWeight(i % 7 === 0 ? 1.45 : .75);
+    beginShape();
+    for (let a = -1.65; a < 1.55; a += .012) {
+      const cx = width * .64, cy = height * .12;
+      const warp = 28 * noise(Math.cos(a) * .7 + i * .02, Math.sin(a) * .7 - i * .02);
+      const x = cx + Math.cos(a + .33) * (r + warp + wobble);
+      const y = cy + Math.sin(a * .92 + .18) * (r * 1.13 + warp * .6);
+      if (x > 35 && x < width - 35 && y > 35 && y < height - 35) curveVertex(x, y);
+    }
+    endShape();
+  }
+  pop();
+}
+
+function drawStipplePlate() {
+  noStroke();
+  const leftDisc = { x: 276, y: 108, r: 350 };
+  const rightDisc = { x: 1084, y: 560, r: 330 };
+  for (let i = 0; i < CONFIG.density; i++) {
+    const x = random(26, width - 26), y = random(26, height - 26);
+    if (edgeErosion(x, y) > random(1)) continue;
+    const l = normalizedDisc(x, y, leftDisc), r = normalizedDisc(x, y, rightDisc);
+    const arc = arcField(x, y);
+    const ground = fbm(x * .008, y * .008, 4);
+    let tone = .18 + ground * .35 + arc * .34;
+    if (l < 1) tone += map(l, 0, 1, .86, .1);
+    if (r < 1) tone += map(r, 0, 1, .64, .08);
+    if (random() > constrain(tone, .05, .97)) continue;
+    const brightDisc = (l < .95 || r < .95) && random() < .56;
+    const arcInk = arc > .28 && random() < .42;
+    if (brightDisc) fill(232 + random(-12, 18), 240 + random(-8, 12), 255, random(70, 175));
+    else if (arcInk) fill(191, 211, 255, random(45, 130));
+    else fill(random(0, 10), random(12, 28), random(36, 75), random(115, 220));
+    const s = random() < .92 ? random(.65, 1.9) : random(2.2, 4.2);
+    ellipse(x, y, s, s * random(.75, 1.3));
+  }
+  // denser shadow knots inside the two discs, echoing the reference's dark patches.
+  for (let i = 0; i < 19000; i++) {
+    const inRight = random() < .52;
+    const cx = inRight ? 1032 : 250, cy = inRight ? 478 : 68;
+    const x = randomGaussian(cx, inRight ? 110 : 135), y = randomGaussian(cy, inRight ? 88 : 120);
+    if (x < 30 || x > width - 30 || y < 30 || y > height - 30) continue;
+    fill(1, 7, 22, random(90, 210));
+    ellipse(x, y, random(.7, 2.2));
+  }
+}
+
+function drawScratches() {
+  push();
+  const count = floor(map(CONFIG.scratches, 0, 100, 0, 18));
+  for (let i = 0; i < count; i++) {
+    const x = random(180, width - 180), y = random(355, height - 92);
+    const len = random(62, 146), ang = random(.74, .93);
+    stroke(211, 162, 56, random(80, 185)); strokeWeight(random(2, 5));
+    line(x, y, x + Math.cos(ang) * len, y + Math.sin(ang) * len);
+    stroke(238, 246, 255, random(28, 75)); strokeWeight(random(.45, 1.1));
+    line(x + 5, y - 4, x + Math.cos(ang) * (len * .9), y + Math.sin(ang) * (len * .9) - 4);
+  }
+  pop();
+}
+
+function drawBorderErosion() {
+  noStroke();
+  fill(211, 162, 56, 210);
+  rect(0, 0, width, 24); rect(0, height - 24, width, 24); rect(0, 0, 24, height); rect(width - 24, 0, 24, height);
+  fill(6, 20, 58, 210);
+  for (let i = 0; i < 2600; i++) {
+    const side = floor(random(4));
+    let x = side < 2 ? random(width) : (side === 2 ? random(17, 36) : random(width - 36, width - 17));
+    let y = side < 2 ? (side === 0 ? random(17, 36) : random(height - 36, height - 17)) : random(height);
+    if (random() < CONFIG.erosion / 115) ellipse(x, y, random(1, 5));
+  }
+}
+
+function drawGrain() {
+  loadPixels();
+  for (let i = 0; i < pixels.length; i += 4) {
+    const n = random(-18, 18);
+    pixels[i] = constrain(pixels[i] + n * .35, 0, 255);
+    pixels[i + 1] = constrain(pixels[i + 1] + n * .45, 0, 255);
+    pixels[i + 2] = constrain(pixels[i + 2] + n * .65, 0, 255);
+    if (random() < .006) { pixels[i] = 2; pixels[i+1] = 7; pixels[i+2] = 20; }
+    if (random() < .0025) { pixels[i] = 222; pixels[i+1] = 231; pixels[i+2] = 255; }
+  }
+  updatePixels();
+}
+
+function normalizedDisc(x, y, d) {
+  const dx = (x - d.x) / d.r, dy = (y - d.y) / d.r;
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+function arcField(x, y) {
+  const cx = width * .62, cy = height * .12;
+  const dx = x - cx, dy = (y - cy) * .88;
+  const rr = Math.sqrt(dx * dx + dy * dy);
+  const band = 1 - Math.min(1, Math.abs((rr % 17) - 8.5) / 8.5);
+  const sector = x > width * .44 && y < height * .66 ? 1 : 0;
+  return band * sector * map(fbm(x * .006 + 40, y * .006 - 15, 3), .2, .8, .15, 1, true);
+}
+
+function edgeErosion(x, y) {
+  const m = Math.min(x, y, width - x, height - y);
+  const e = map(CONFIG.erosion, 0, 100, 0, 1);
+  if (m > 54) return 0;
+  return e * map(54 - m, 0, 54, 0, .92) * noise(x * .04, y * .04);
+}
+
+function fbm(x, y, octaves) {
+  let v = 0, amp = .5, freq = 1, norm = 0;
+  for (let i = 0; i < octaves; i++) { v += noise(x * freq, y * freq) * amp; norm += amp; freq *= 2; amp *= .5; }
+  return v / norm;
+}
+
+function keyPressed() {
+  if (key === 's' || key === 'S') saveCanvas('chefin-cobalt-eclipse-' + CONFIG.seed, 'png');
+  if (key === 'r' || key === 'R') { CONFIG.seed = floor(random(1000000)); redraw(); }
+}
+</script>
+</body>
+</html>
