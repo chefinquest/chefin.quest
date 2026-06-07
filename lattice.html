@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>chefin.quest · Chromatic lattice p5.js study</title>
+  <meta name="description" content="A p5.js generative study recreating a dense red/cyan/white chromatic moiré lattice: warped dash fields, scanline bands, channel offsets, circuit seams, and black letterbox margins." />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/p5.min.js"></script>
+  <style>
+    :root { color-scheme: dark; --paper:#030303; --ink:#f5fff9; --muted:#9bc2b7; --red:#ff1717; --cyan:#33ffd7; --yellow:#ffe600; --line:rgba(112,255,224,.20); --card:rgba(5,8,7,.82); --shadow:0 32px 110px rgba(0,0,0,.58); }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; background:#000; }
+    body { margin:0; background:radial-gradient(circle at 16% 12%, rgba(255,0,0,.13), transparent 26rem), radial-gradient(circle at 86% 18%, rgba(0,255,211,.12), transparent 30rem), linear-gradient(135deg,#000 0%,#04100d 45%,#000 100%); color:var(--ink); font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; line-height:1.55; }
+    a { color:#8dffe9; }
+    header, main, footer { width:min(1220px, calc(100% - 32px)); margin:0 auto; }
+    header { padding:32px 0 18px; }
+    .eyebrow { text-transform:uppercase; letter-spacing:.18em; font-size:.72rem; color:var(--muted); font-weight:850; }
+    h1 { margin:10px 0 12px; font-size:clamp(2.15rem,6.2vw,5.85rem); line-height:.88; letter-spacing:-.055em; max-width:1080px; }
+    .lede { max-width:920px; font-size:clamp(1.04rem,2vw,1.32rem); color:#c7e8df; }
+    .top-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+    button, .pill { border:1px solid rgba(142,255,235,.24); background:rgba(255,255,255,.08); color:var(--ink); padding:10px 13px; border-radius:999px; font:inherit; font-weight:800; cursor:pointer; box-shadow:0 8px 26px rgba(0,0,0,.26); backdrop-filter:blur(10px); text-decoration:none; }
+    button:hover, .pill:hover { transform:translateY(-1px); border-color:rgba(255,23,23,.72); }
+    .stage-grid { display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:22px; align-items:start; margin:18px 0 26px; }
+    .art-card, .panel, .lesson-card { border:1px solid var(--line); border-radius:28px; background:var(--card); box-shadow:var(--shadow); overflow:hidden; backdrop-filter:blur(14px); }
+    .art-card { padding:clamp(10px,1.5vw,18px); }
+    #canvas-wrap { width:100%; aspect-ratio:1080/1250; display:grid; place-items:center; border-radius:20px; overflow:hidden; background:#000; box-shadow:inset 0 0 0 1px rgba(142,255,235,.16); }
+    #canvas-wrap canvas { width:100% !important; height:100% !important; display:block; image-rendering:auto; }
+    .panel, .lesson-card { padding:clamp(18px,3vw,28px); }
+    .panel h2, .lesson-card h2 { margin:0 0 10px; line-height:1; letter-spacing:-.03em; }
+    .panel p, .panel li, .lesson-card p, .lesson-card li { color:#b7d8cf; font-size:.96rem; }
+    .control { margin:15px 0; }
+    .control label { display:flex; justify-content:space-between; gap:12px; font-size:.84rem; font-weight:850; color:#d7fff6; }
+    input[type="range"] { width:100%; accent-color:#33ffd7; }
+    .swatches { display:flex; gap:7px; flex-wrap:wrap; margin:12px 0 16px; }
+    .swatch { width:27px; height:27px; border-radius:50%; border:2px solid rgba(255,255,255,.32); box-shadow:0 2px 9px rgba(0,0,0,.35); }
+    .callout { border-left:4px solid var(--red); padding:12px 14px; background:rgba(255,23,23,.10); border-radius:0 16px 16px 0; }
+    .lesson-card { margin:22px 0; }
+    pre { white-space:pre-wrap; background:#050707; color:#eafffa; padding:16px; border-radius:16px; overflow:auto; font-size:.84rem; }
+    footer { padding:28px 0 46px; color:var(--muted); }
+    @media (max-width:900px) { .stage-grid { grid-template-columns:1fr; } h1 { letter-spacing:-.055em; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="eyebrow">chefin.quest / p5.js field studies / Study 004</div>
+    <h1>Chromatic weave, bent until the pixels hallucinate.</h1>
+    <p class="lede">A close p5.js interpretation of the reference: black letterbox field, red/cyan channel separation, thousands of tiny slanted woven dashes, yellow warning sparks, scanline bands, and circuit-like seams dragged through a warped grid.</p>
+    <div class="top-actions" role="navigation" aria-label="Field study tabs">
+      <button id="newSeed" type="button">New seed</button>
+      <button id="savePng" type="button">Save PNG</button>
+      <a class="pill" href="./">Garden Plotter</a>
+      <a class="pill" href="cherry.html">Toshiba Cherry</a>
+      <a class="pill" href="cobalt.html">Cobalt Eclipse</a>
+      <a class="pill" href="#notes">Process notes</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="stage-grid" aria-label="Live chromatic lattice p5.js artwork and controls">
+      <div class="art-card"><div id="canvas-wrap"></div></div>
+      <aside class="panel">
+        <h2>Study 004: Chromatic Lattice</h2>
+        <p>The reference is all density and interference: tiny rotated blocks repeat like a textile, then the whole grid bends into electronic corridors. This sketch builds that effect by drawing each mark three times, as misregistered red, cyan, and pale ink.</p>
+        <div class="swatches" aria-label="Palette swatches">
+          <span class="swatch" style="background:#000"></span><span class="swatch" style="background:#ff1717"></span><span class="swatch" style="background:#33ffd7"></span><span class="swatch" style="background:#f5fff9"></span><span class="swatch" style="background:#ffe600"></span><span class="swatch" style="background:#063b31"></span>
+        </div>
+        <div class="control"><label>Weave density <span id="densityVal"></span></label><input id="density" type="range" min="7" max="14" step="1" value="9"></div>
+        <div class="control"><label>Warp turbulence <span id="warpVal"></span></label><input id="warp" type="range" min="0" max="100" value="72"></div>
+        <div class="control"><label>Channel split <span id="splitVal"></span></label><input id="split" type="range" min="1" max="9" step="1" value="4"></div>
+        <div class="control"><label>Circuit seams <span id="seamVal"></span></label><input id="seams" type="range" min="0" max="100" value="78"></div>
+        <p class="callout"><strong>Press S</strong> to save, <strong>R</strong> for a new seed. The density slider changes the spacing of the woven dash field, which makes the moiré either breathe or overload.</p>
+        <ul>
+          <li>Black bars preserved above and below the image area.</li>
+          <li>Horizontal strata echo the reference’s upper, middle, and lower bands.</li>
+          <li>Red/cyan misregistration creates the vibrating 3D-print feeling.</li>
+          <li>Yellow appears only as rare sparks inside the densest corridors.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section id="notes" class="lesson-card">
+      <h2>Process notes</h2>
+      <p>I treated the image as a damaged RGB textile/circuit print. The main move is not a single filter — it is a field of small marks whose positions are domain-warped, clipped into bands, and then redrawn with chromatic offsets.</p>
+      <pre>// Core trick: one woven dash becomes three misregistered ink passes.
+const p = warpPoint(x, y);
+const a = fieldAngle(p.x, p.y);
+drawDash(p.x - split, p.y, a, redInk);
+drawDash(p.x + split, p.y, a, cyanInk);
+drawDash(p.x, p.y + 1, a, whiteInk);</pre>
+    </section>
+  </main>
+
+  <footer>Built as a live p5.js study for chefin.quest. Studies: <a href="./">Garden Plotter</a> · <a href="cherry.html">Toshiba Cherry</a> · <a href="cobalt.html">Cobalt Eclipse</a>.</footer>
+
+<script>
+p5.disableFriendlyErrors = true;
+const CONFIG = { seed: 91477, density: 9, warp: 72, split: 4, seams: 78 };
+const W = 1080, H = 1250;
+const ART_TOP = 112, ART_BOTTOM = 1175;
+let sketchCanvas;
+const ui = {};
+
+function setup() {
+  sketchCanvas = createCanvas(W, H);
+  sketchCanvas.parent('canvas-wrap');
+  pixelDensity(1);
+  rectMode(CENTER);
+  noLoop();
+  wireControls();
+}
+
+function draw() {
+  randomSeed(CONFIG.seed);
+  noiseSeed(CONFIG.seed);
+  background(0);
+  drawFaintGlow();
+  drawWeaveField();
+  drawCircuitBands();
+  drawContourCurrents();
+  drawLowerTerminalStrip();
+  drawScanDamage();
+  drawBorderAndGrain();
+}
+
+function wireControls() {
+  ui.density = select('#density'); ui.warp = select('#warp'); ui.split = select('#split'); ui.seams = select('#seams');
+  ui.densityVal = select('#densityVal'); ui.warpVal = select('#warpVal'); ui.splitVal = select('#splitVal'); ui.seamVal = select('#seamVal');
+  const sync = () => {
+    CONFIG.density = Number(ui.density.value()); CONFIG.warp = Number(ui.warp.value()); CONFIG.split = Number(ui.split.value()); CONFIG.seams = Number(ui.seams.value());
+    ui.densityVal.html(CONFIG.density + ' px'); ui.warpVal.html(CONFIG.warp + '%'); ui.splitVal.html(CONFIG.split + ' px'); ui.seamVal.html(CONFIG.seams + '%');
+    redraw();
+  };
+  [ui.density, ui.warp, ui.split, ui.seams].forEach(el => el.input(sync));
+  select('#newSeed').mousePressed(() => { CONFIG.seed = floor(random(1000000)); redraw(); });
+  select('#savePng').mousePressed(() => saveCanvas('chefin-chromatic-lattice', 'png'));
+  sync();
+}
+
+function artContains(x, y) {
+  const rag = 5 * noise(x * .013, y * .013) - 2;
+  return y > ART_TOP + rag && y < ART_BOTTOM + rag && x > -4 && x < width + 4;
+}
+
+function drawFaintGlow() {
+  noStroke();
+  for (let i = 0; i < 70; i++) {
+    const x = random(width), y = random(ART_TOP, ART_BOTTOM);
+    const c = random(['rgba(255,0,0,.025)', 'rgba(0,255,210,.022)', 'rgba(255,230,0,.018)']);
+    fill(c); ellipse(x, y, random(120, 360), random(18, 72));
+  }
+}
+
+function warpPoint(x, y) {
+  const k = CONFIG.warp / 100;
+  const band = Math.sin(y * .016) * 18 + Math.sin(y * .041 + 1.7) * 7;
+  const nx = noise(x * .0035, y * .007, .3) - .5;
+  const ny = noise(x * .006 + 30, y * .0035, 2.2) - .5;
+  const pinch = 52 * Math.sin((x - width * .56) * .014) * Math.exp(-Math.pow((y - height * .48) / 210, 2));
+  return { x: x + k * (band + nx * 74 + pinch), y: y + k * (ny * 52 + Math.sin(x * .019 + y * .003) * 10) };
+}
+
+function fieldAngle(x, y) {
+  const n = noise(x * .006, y * .007);
+  const wave = Math.sin(y * .026) * .42 + Math.cos(x * .018) * .28;
+  return -0.58 + n * 1.16 + wave;
+}
+
+function drawDash(x, y, a, col, len, thick, alphaScale = 1) {
+  if (!artContains(x, y)) return;
+  push(); translate(x, y); rotate(a);
+  noStroke(); fill(red(col), green(col), blue(col), alpha(col) * alphaScale);
+  rect(0, 0, len, thick, 1.6);
+  pop();
+}
+
+function drawWeaveField() {
+  const step = CONFIG.density;
+  const split = CONFIG.split;
+  const redInk = color(255, 18, 18, 188);
+  const cyanInk = color(38, 255, 210, 174);
+  const whiteInk = color(244, 255, 247, 154);
+  const yellowInk = color(255, 231, 0, 165);
+  blendMode(BLEND);
+  for (let y = ART_TOP; y <= ART_BOTTOM; y += step) {
+    const bandBoost = bandDensity(y);
+    for (let x = -20; x <= width + 20; x += step) {
+      const p = warpPoint(x, y);
+      if (!artContains(p.x, p.y)) continue;
+      const n = noise(p.x * .008, p.y * .009);
+      const gate = .23 + .22 * noise(p.x * .026 + 11, p.y * .019 - 4) - bandBoost;
+      if (n < gate) continue;
+      const a = fieldAngle(p.x, p.y);
+      const len = step * random(.58, 1.38) + 2 * bandBoost;
+      const th = random(1.4, 3.8);
+      drawDash(p.x - split, p.y - 1, a, redInk, len, th, random(.55, 1));
+      drawDash(p.x + split, p.y + 1, a, cyanInk, len * random(.86, 1.2), th, random(.5, .95));
+      if (random() < .72) drawDash(p.x, p.y, a + random(-.08, .08), whiteInk, len * random(.52, 1.05), th * .82, random(.38, .88));
+      if (random() < .017 + bandBoost * .045) drawDash(p.x + random(-3, 3), p.y + random(-3, 3), a, yellowInk, len * random(.5, 1.15), th * 1.15, random(.5, 1));
+    }
+  }
+}
+
+function bandDensity(y) {
+  let b = 0;
+  b += Math.exp(-Math.pow((y - 150) / 58, 2)) * .28;
+  b += Math.exp(-Math.pow((y - 330) / 42, 2)) * .22;
+  b += Math.exp(-Math.pow((y - 615) / 110, 2)) * .16;
+  b += Math.exp(-Math.pow((y - 980) / 50, 2)) * .25;
+  b += Math.exp(-Math.pow((y - 1065) / 34, 2)) * .19;
+  return b;
+}
+
+function drawCircuitBands() {
+  const strength = CONFIG.seams / 100;
+  const bands = [150, 305, 505, 915, 1018, 1092];
+  noFill();
+  for (const by of bands) {
+    for (let pass = 0; pass < 3; pass++) {
+      const off = pass === 0 ? -CONFIG.split : pass === 1 ? CONFIG.split : 0;
+      stroke(pass === 0 ? color(255, 0, 0, 170 * strength) : pass === 1 ? color(0, 255, 213, 160 * strength) : color(245, 255, 248, 125 * strength));
+      strokeWeight(pass === 2 ? 2 : 2.6);
+      beginShape();
+      for (let x = -20; x <= width + 24; x += 18) {
+        const y = by + Math.sin(x * .018 + by * .02) * 12 + (noise(x * .011, by * .03) - .5) * 22;
+        vertex(x + off, y);
+      }
+      endShape();
+    }
+  }
+  drawHardRects();
+}
+
+function drawHardRects() {
+  const blocks = [
+    [130, 136, 120, 42], [250, 154, 82, 25], [704, 175, 165, 48], [942, 160, 110, 72],
+    [98, 350, 150, 52], [305, 408, 170, 70], [707, 352, 78, 48], [820, 365, 60, 46],
+    [300, 560, 245, 86], [690, 560, 220, 95], [795, 735, 210, 100],
+    [115, 1022, 150, 42], [330, 1050, 190, 64], [740, 1062, 95, 140], [885, 1050, 110, 48]
+  ];
+  rectMode(CENTER); noFill();
+  for (const [x, y, w, h] of blocks) {
+    for (let i = 0; i < 3; i++) {
+      const off = i === 0 ? -CONFIG.split : i === 1 ? CONFIG.split : 0;
+      stroke(i === 0 ? color(255, 22, 22, 142) : i === 1 ? color(30, 255, 210, 132) : color(248, 255, 248, 90));
+      strokeWeight(i === 2 ? 2 : 3);
+      rect(x + off, y + random(-2, 2), w, h, 6);
+      line(x - w / 2 + off, y, x + w / 2 + off, y + random(-5, 5));
+    }
+  }
+}
+
+function drawContourCurrents() {
+  noFill();
+  const paths = 52;
+  for (let j = 0; j < paths; j++) {
+    let y0 = map(j, 0, paths - 1, 385, 910) + random(-8, 8);
+    for (let pass = 0; pass < 3; pass++) {
+      const off = pass === 0 ? -CONFIG.split : pass === 1 ? CONFIG.split : 0;
+      stroke(pass === 0 ? color(255, 0, 0, 116) : pass === 1 ? color(36, 255, 214, 112) : color(245, 255, 248, 84));
+      strokeWeight(pass === 2 ? 1.2 : 1.7);
+      beginShape();
+      for (let x = -30; x <= width + 30; x += 13) {
+        const pinch = 56 * Math.sin((x - 580) * .016) * Math.exp(-Math.pow((y0 - 625) / 170, 2));
+        const yy = y0 + Math.sin(x * .013 + j * .34) * 21 + Math.sin(x * .041 + j) * 7 + pinch;
+        vertex(x + off, yy);
+      }
+      endShape();
+    }
+  }
+}
+
+function drawLowerTerminalStrip() {
+  for (let x = 0; x < width; x += 22) {
+    const h = random(18, 110) * (noise(x * .02, 42) > .33 ? 1 : .35);
+    const y = 1028 + random(-22, 28);
+    drawDash(x - CONFIG.split, y, HALF_PI + random(-.14, .14), color(255, 0, 0, 160), h, random(2, 5), .9);
+    drawDash(x + CONFIG.split, y + 1, HALF_PI + random(-.14, .14), color(35, 255, 211, 145), h * random(.7, 1.1), random(2, 5), .86);
+    if (random() < .22) drawDash(x, y + random(-8, 8), 0, color(255, 232, 0, 150), random(16, 52), 4, .9);
+  }
+}
+
+function drawScanDamage() {
+  blendMode(BLEND);
+  noFill();
+  for (let i = 0; i < 80; i++) {
+    const y = random(ART_TOP, ART_BOTTOM);
+    stroke(random() < .5 ? color(0, 0, 0, random(40, 135)) : color(240, 255, 245, random(25, 70)));
+    strokeWeight(random(.6, 2.5));
+    line(random(-40, 120), y, random(width - 120, width + 40), y + random(-4, 4));
+  }
+  for (let i = 0; i < 1200; i++) {
+    const x = random(width), y = random(ART_TOP, ART_BOTTOM);
+    stroke(random(['#ff1717', '#33ffd7', '#f5fff9', '#000000']));
+    strokeWeight(random(.4, 1.5));
+    point(x, y);
+  }
+}
+
+function drawBorderAndGrain() {
+  noFill();
+  stroke(0); strokeWeight(16); rect(width / 2, (ART_TOP + ART_BOTTOM) / 2, width + 12, ART_BOTTOM - ART_TOP + 10);
+  stroke(40, 255, 214, 105); strokeWeight(2); line(0, ART_TOP + 1, width, ART_TOP - 1); line(0, ART_BOTTOM, width, ART_BOTTOM + 1);
+  stroke(255, 0, 0, 95); line(0, ART_TOP + 5, width, ART_TOP + 2); line(0, ART_BOTTOM - 4, width, ART_BOTTOM - 2);
+  noStroke();
+  for (let i = 0; i < 2800; i++) {
+    fill(random() < .5 ? color(255, 255, 255, random(9, 28)) : color(0, 0, 0, random(18, 65)));
+    rect(random(width), random(height), random(.5, 2), random(.5, 2));
+  }
+}
+
+function keyPressed() {
+  if (key === 's' || key === 'S') saveCanvas('chefin-chromatic-lattice', 'png');
+  if (key === 'r' || key === 'R') { CONFIG.seed = floor(random(1000000)); redraw(); }
+}
+</script>
+</body>
+</html>
