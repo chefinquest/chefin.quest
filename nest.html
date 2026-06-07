@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>chefin.quest · Coral Nest p5.js study</title>
+  <meta name="description" content="A p5.js generative art study: a bird-nest tangle rebuilt as coral, shell, anemone, and sea-glass strands against a textured marine background." />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/p5.min.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --abyss:#061523;
+      --ink:#fff8ef;
+      --muted:#a9d8cf;
+      --line:rgba(160, 244, 225, .20);
+      --card:rgba(5, 23, 35, .78);
+      --coral:#ff7d72;
+      --pearl:#fff2d4;
+      --foam:#8ff4df;
+      --shadow:0 32px 110px rgba(0, 7, 15, .62);
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; background:#03101a; }
+    body {
+      margin:0;
+      min-height:100vh;
+      background:
+        radial-gradient(circle at 18% 8%, rgba(255,125,114,.18), transparent 27rem),
+        radial-gradient(circle at 82% 18%, rgba(57,221,203,.16), transparent 30rem),
+        radial-gradient(circle at 56% 100%, rgba(6,75,105,.45), transparent 36rem),
+        linear-gradient(135deg,#03101a 0%,#07314a 44%,#04131e 100%);
+      color:var(--ink);
+      font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      line-height:1.55;
+    }
+    a { color:#91ffea; }
+    header, main, footer { width:min(1220px, calc(100% - 32px)); margin:0 auto; }
+    header { padding:32px 0 18px; }
+    .eyebrow { text-transform:uppercase; letter-spacing:.18em; font-size:.72rem; color:var(--muted); font-weight:850; }
+    h1 { margin:10px 0 12px; font-size:clamp(2.25rem,6.4vw,6rem); line-height:.88; letter-spacing:-.06em; max-width:1080px; }
+    .lede { max-width:930px; font-size:clamp(1.04rem,2vw,1.34rem); color:#c8ebe3; }
+    .top-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+    button, .pill {
+      border:1px solid rgba(145,255,234,.25);
+      background:rgba(255,255,255,.075);
+      color:var(--ink);
+      padding:10px 13px;
+      border-radius:999px;
+      font:inherit;
+      font-weight:800;
+      cursor:pointer;
+      box-shadow:0 8px 26px rgba(0,0,0,.24);
+      backdrop-filter:blur(10px);
+      text-decoration:none;
+    }
+    button:hover, .pill:hover { transform:translateY(-1px); border-color:rgba(255,125,114,.72); }
+    .stage-grid { display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:22px; align-items:start; margin:18px 0 26px; }
+    .art-card, .panel, .lesson-card { border:1px solid var(--line); border-radius:28px; background:var(--card); box-shadow:var(--shadow); overflow:hidden; backdrop-filter:blur(14px); }
+    .art-card { padding:clamp(10px,1.5vw,18px); }
+    #canvas-wrap { width:100%; aspect-ratio:1080/1250; display:grid; place-items:center; border-radius:20px; overflow:hidden; background:#03101a; box-shadow:inset 0 0 0 1px rgba(145,255,234,.15); }
+    #canvas-wrap canvas { width:100% !important; height:100% !important; display:block; }
+    .panel, .lesson-card { padding:clamp(18px,3vw,28px); }
+    .panel h2, .lesson-card h2 { margin:0 0 10px; line-height:1; letter-spacing:-.03em; }
+    .panel p, .panel li, .lesson-card p, .lesson-card li { color:#bde2da; font-size:.96rem; }
+    .control { margin:15px 0; }
+    .control label { display:flex; justify-content:space-between; gap:12px; font-size:.84rem; font-weight:850; color:#e2fff9; }
+    input[type="range"] { width:100%; accent-color:#ff7d72; }
+    .swatches { display:flex; gap:7px; flex-wrap:wrap; margin:12px 0 16px; }
+    .swatch { width:27px; height:27px; border-radius:50%; border:2px solid rgba(255,255,255,.35); box-shadow:0 2px 9px rgba(0,0,0,.35); }
+    .callout { border-left:4px solid var(--coral); padding:12px 14px; background:rgba(255,125,114,.11); border-radius:0 16px 16px 0; }
+    .lesson-card { margin:22px 0; }
+    pre { white-space:pre-wrap; background:#03131d; color:#eafffa; padding:16px; border-radius:16px; overflow:auto; font-size:.84rem; }
+    footer { padding:28px 0 46px; color:var(--muted); }
+    @media (max-width:900px) { .stage-grid { grid-template-columns:1fr; } h1 { letter-spacing:-.055em; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="eyebrow">chefin.quest / p5.js field studies / Study 005</div>
+    <h1>A bird nest, reimagined as coral reef architecture.</h1>
+    <p class="lede">The reference’s dry grass bowl becomes a marine tangle: shell-white ribs, salmon coral twigs, sea-glass filaments, anemone loops, and a luminous hollow suspended over a textured lagoon floor.</p>
+    <div class="top-actions" role="navigation" aria-label="Field study tabs">
+      <button id="newSeed" type="button">New seed</button>
+      <button id="savePng" type="button">Save PNG</button>
+      <a class="pill" href="./">Garden Plotter</a>
+      <a class="pill" href="cherry.html">Toshiba Cherry</a>
+      <a class="pill" href="cobalt.html">Cobalt Eclipse</a>
+      <a class="pill" href="lattice.html">Chromatic Lattice</a>
+      <a class="pill" href="#notes">Process notes</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="stage-grid" aria-label="Live coral nest p5.js artwork and controls">
+      <div class="art-card"><div id="canvas-wrap"></div></div>
+      <aside class="panel">
+        <h2>Study 005: Coral Nest</h2>
+        <p>Instead of copying the photo literally, this keeps the important structure: an elliptical woven bowl, a dark hollow, straw-like overlaps, wild protruding arcs, and a background with enough texture to make the nest feel found.</p>
+        <div class="swatches" aria-label="Palette swatches">
+          <span class="swatch" style="background:#04131e"></span><span class="swatch" style="background:#0a4760"></span><span class="swatch" style="background:#38d9c8"></span><span class="swatch" style="background:#ff7d72"></span><span class="swatch" style="background:#ffad8a"></span><span class="swatch" style="background:#fff2d4"></span><span class="swatch" style="background:#ba5b87"></span>
+        </div>
+        <div class="control"><label>Strand density <span id="densityVal"></span></label><input id="density" type="range" min="260" max="760" step="20" value="520"></div>
+        <div class="control"><label>Bowl curl <span id="curlVal"></span></label><input id="curl" type="range" min="0" max="100" value="74"></div>
+        <div class="control"><label>Coral glow <span id="glowVal"></span></label><input id="glow" type="range" min="0" max="100" value="66"></div>
+        <div class="control"><label>Background texture <span id="textureVal"></span></label><input id="texture" type="range" min="0" max="100" value="82"></div>
+        <p class="callout"><strong>Press S</strong> to save, <strong>R</strong> for a new seed. Drag the sliders and the algorithm redraws a new reef-built version of the nest.</p>
+        <ul>
+          <li>Layered arcs mimic dry grass, but the palette is coral, pearl, seafoam, and deep lagoon teal.</li>
+          <li>Caustic curves and reef speckles create the cool marine background texture.</li>
+          <li>The center is deliberately darker so the woven rim reads as a nest instead of a flat wreath.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section id="notes" class="lesson-card">
+      <h2>Process notes</h2>
+      <p>The nest is drawn as hundreds of short Bezier splines arranged around an ellipse. Each strand chooses a lane: outer rim, inner bowl, cross-weave, or escaped filament. Color and thickness vary per lane so the composition keeps the photo’s fragile straw energy while shifting into a reef palette.</p>
+      <pre>// Core move: one elliptical nest strand with noisy control points.
+const a0 = random(TWO_PI);
+const a1 = a0 + random(-0.9, 0.9) + CONFIG.curl * 0.006;
+const p0 = nestPoint(a0, random(0.72, 1.22));
+const p3 = nestPoint(a1, random(0.72, 1.22));
+bezier(p0.x, p0.y, c1.x, c1.y, c2.x, c2.y, p3.x, p3.y);</pre>
+    </section>
+  </main>
+
+  <footer>Built as a live p5.js study for chefin.quest. Studies: <a href="./">Garden Plotter</a> · <a href="cherry.html">Toshiba Cherry</a> · <a href="cobalt.html">Cobalt Eclipse</a> · <a href="lattice.html">Chromatic Lattice</a>.</footer>
+
+<script>
+p5.disableFriendlyErrors = true;
+const CONFIG = { seed: 58123, density: 520, curl: 74, glow: 66, texture: 82 };
+const W = 1080, H = 1250;
+let sketchCanvas;
+const ui = {};
+
+const INKS = {
+  pearl: '#fff2d4', shell: '#ffe7bd', coral: '#ff7d72', peach: '#ffad8a', rose: '#cf6f91', aqua: '#8ff4df', mint: '#bdf9e3', shadow: '#321d2b'
+};
+
+function setup() {
+  sketchCanvas = createCanvas(W, H);
+  sketchCanvas.parent('canvas-wrap');
+  pixelDensity(1);
+  noLoop();
+  wireControls();
+}
+
+function draw() {
+  randomSeed(CONFIG.seed);
+  noiseSeed(CONFIG.seed);
+  colorMode(RGB, 255, 255, 255, 255);
+  blendMode(BLEND);
+  drawMarineBackground();
+  drawDistantGrassEchoes();
+  drawNestShadow();
+  drawOuterGlow();
+  drawBackStrands();
+  drawInnerHollow();
+  drawMainWeave();
+  drawEscapedFilaments();
+  drawPearlHighlights();
+  drawForegroundGrain();
+}
+
+function drawMarineBackground() {
+  background('#04131e');
+  noStroke();
+  for (let y = 0; y < H; y += 3) {
+    const t = y / H;
+    const r = lerp(4, 11, t), g = lerp(20, 78, t), b = lerp(33, 88, t);
+    fill(r, g, b, 238);
+    rect(0, y, W, 4);
+  }
+  for (let i = 0; i < 42; i++) {
+    const x = random(W), y = random(H), s = random(130, 420);
+    const c = random([color(20, 155, 156, 18), color(255, 125, 114, 12), color(120, 244, 220, 16), color(8, 52, 74, 58)]);
+    fill(c); circle(x, y, s);
+  }
+
+  const amt = CONFIG.texture / 100;
+  strokeWeight(1);
+  noFill();
+  for (let i = 0; i < 78 * amt; i++) {
+    const y = random(70, H - 80);
+    const amp = random(10, 34);
+    const len = random(260, 740);
+    const x0 = random(-180, W - 80);
+    stroke(143, 255, 226, random(10, 32));
+    beginShape();
+    for (let k = 0; k < 28; k++) {
+      const x = x0 + (k / 27) * len;
+      const yy = y + sin(k * .7 + i) * amp * .18 + (noise(i * .2, k * .13) - .5) * amp;
+      curveVertex(x, yy);
+    }
+    endShape();
+  }
+
+  noStroke();
+  for (let i = 0; i < 4200 * amt; i++) {
+    const x = random(W), y = random(H);
+    const n = noise(x * .009, y * .009);
+    if (n < .34) continue;
+    fill(180 + random(50), 242 + random(13), 225 + random(25), random(10, 42));
+    circle(x, y, random(.6, 2.4));
+  }
+  for (let i = 0; i < 170 * amt; i++) {
+    const x = random(W), y = random(80, H - 80), s = random(4, 20);
+    noFill(); stroke(177, 255, 238, random(18, 45)); strokeWeight(random(.8, 1.8));
+    circle(x, y, s);
+  }
+}
+
+function drawDistantGrassEchoes() {
+  // A subtle nod to the photo's grassy field, translated into swaying reef fronds.
+  for (let i = 0; i < 230; i++) {
+    const x = random(-60, W + 60);
+    const base = random(H * .52, H + 60);
+    const h = random(120, 430);
+    const lean = random(-80, 80);
+    const col = random() < .55 ? color(92, 210, 182, random(18, 48)) : color(255, 139, 126, random(8, 25));
+    stroke(col); strokeWeight(random(.6, 2.2)); noFill();
+    bezier(x, base, x + lean * .3, base - h * .35, x + lean, base - h * .72, x + lean * 1.25, base - h);
+  }
+}
+
+function nestPoint(a, radiusScale = 1) {
+  const cx = W * .52, cy = H * .57;
+  const rx = W * .365 * radiusScale;
+  const ry = H * .205 * radiusScale;
+  const warp = (noise(cos(a) * 1.7 + 9, sin(a) * 1.7 + 4) - .5) * 44;
+  return createVector(cx + cos(a) * (rx + warp), cy + sin(a) * (ry + warp * .55));
+}
+
+function normalAt(a, d) {
+  return createVector(cos(a) * d, sin(a) * d * .62);
+}
+
+function drawNestShadow() {
+  noStroke();
+  for (let i = 0; i < 24; i++) {
+    fill(0, 8, 16, 8);
+    ellipse(W * .52, H * .615 + i * .65, W * (.72 + i * .002), H * (.31 + i * .002));
+  }
+}
+
+function drawOuterGlow() {
+  const alpha = CONFIG.glow * .75;
+  noFill();
+  for (let i = 0; i < 36; i++) {
+    stroke(255, 125, 114, alpha / (i + 6));
+    strokeWeight(18 - i * .35);
+    ellipse(W * .52, H * .57, W * (.67 + i * .004), H * (.39 + i * .004));
+  }
+  for (let i = 0; i < 18; i++) {
+    stroke(143, 244, 223, alpha / (i + 8));
+    strokeWeight(10 - i * .25);
+    ellipse(W * .52, H * .56, W * (.76 + i * .005), H * (.45 + i * .005));
+  }
+}
+
+function drawBackStrands() {
+  for (let i = 0; i < 170; i++) drawStrand('back');
+}
+
+function drawMainWeave() {
+  for (let i = 0; i < CONFIG.density; i++) drawStrand(random() < .72 ? 'rim' : 'cross');
+}
+
+function drawStrand(kind) {
+  const curl = map(CONFIG.curl, 0, 100, .18, 1.05);
+  let a0, a1, r0, r1;
+  if (kind === 'cross') {
+    a0 = random(TWO_PI); a1 = a0 + PI + random(-.86, .86);
+    r0 = random(.42, .96); r1 = random(.42, .96);
+  } else if (kind === 'back') {
+    a0 = random(TWO_PI); a1 = a0 + random(-.75, .75) + curl * random(.25, .68);
+    r0 = random(.82, 1.22); r1 = random(.82, 1.24);
+  } else {
+    a0 = random(TWO_PI); a1 = a0 + random(-.52, .98) + curl * random(.12, .5);
+    r0 = random(.68, 1.18); r1 = random(.68, 1.2);
+  }
+  const p0 = nestPoint(a0, r0);
+  const p3 = nestPoint(a1, r1);
+  const mid = (a0 + a1) * .5;
+  const lift = kind === 'cross' ? random(-72, 54) : random(-36, 42);
+  const c1 = p5.Vector.lerp(p0, p3, .32).add(normalAt(a0 + HALF_PI, random(-60, 60))).add(0, lift);
+  const c2 = p5.Vector.lerp(p0, p3, .68).add(normalAt(a1 - HALF_PI, random(-60, 60))).add(0, -lift * .45 + (noise(mid) - .5) * 80);
+
+  const palette = kind === 'back'
+    ? [INKS.aqua, INKS.mint, INKS.rose, INKS.shell]
+    : [INKS.pearl, INKS.shell, INKS.coral, INKS.peach, INKS.aqua, INKS.rose];
+  const base = color(random(palette));
+  const alpha = kind === 'cross' ? random(68, 142) : random(86, 185);
+  base.setAlpha(alpha);
+  stroke(base);
+  strokeWeight(kind === 'cross' ? random(.65, 2.1) : random(1.1, 4.2));
+  noFill();
+  bezier(p0.x, p0.y, c1.x, c1.y, c2.x, c2.y, p3.x, p3.y);
+
+  if (random() < .26) {
+    const hi = color(random([INKS.pearl, INKS.mint, INKS.aqua])); hi.setAlpha(random(50, 120));
+    stroke(hi); strokeWeight(random(.35, 1));
+    bezier(p0.x + random(-3,3), p0.y + random(-3,3), c1.x, c1.y, c2.x, c2.y, p3.x + random(-3,3), p3.y + random(-3,3));
+  }
+}
+
+function drawInnerHollow() {
+  blendMode(BLEND);
+  noStroke();
+  for (let i = 0; i < 30; i++) {
+    fill(5, 15, 25, 9);
+    ellipse(W * .52, H * .585, W * (.36 - i * .002), H * (.18 - i * .001));
+  }
+  for (let i = 0; i < 90; i++) {
+    const a = random(TWO_PI), rr = sqrt(random());
+    const x = W * .52 + cos(a) * W * .19 * rr;
+    const y = H * .585 + sin(a) * H * .095 * rr;
+    stroke(255, 212, 178, random(20, 70));
+    strokeWeight(random(.35, 1.2));
+    line(x - random(16, 42), y + random(-8, 8), x + random(16, 42), y + random(-8, 8));
+  }
+}
+
+function drawEscapedFilaments() {
+  noFill();
+  for (let i = 0; i < 115; i++) {
+    const a = random(TWO_PI);
+    const p0 = nestPoint(a, random(.95, 1.18));
+    const len = random(90, 360) * (random() < .18 ? 1.55 : 1);
+    const outward = createVector(cos(a), sin(a) * .65).mult(len);
+    const p3 = p5.Vector.add(p0, outward).add(random(-90,90), random(-72,72));
+    const c1 = p5.Vector.lerp(p0, p3, .25).add(random(-58,58), random(-80,80));
+    const c2 = p5.Vector.lerp(p0, p3, .72).add(random(-90,90), random(-86,86));
+    const col = color(random([INKS.pearl, INKS.aqua, INKS.coral, INKS.shell]));
+    col.setAlpha(random(42, 128));
+    stroke(col); strokeWeight(random(.55, 2.3));
+    bezier(p0.x, p0.y, c1.x, c1.y, c2.x, c2.y, p3.x, p3.y);
+  }
+}
+
+function drawPearlHighlights() {
+  blendMode(SCREEN);
+  for (let i = 0; i < 150; i++) {
+    const a = random(TWO_PI);
+    const p = nestPoint(a, random(.72, 1.18));
+    noStroke();
+    fill(random([255, 255, 143]), random([236, 244, 255]), random([202, 223, 225]), random(34, 95));
+    ellipse(p.x + random(-14,14), p.y + random(-10,10), random(2, 8), random(.8, 3.5));
+  }
+  blendMode(BLEND);
+}
+
+function drawForegroundGrain() {
+  noStroke();
+  for (let i = 0; i < 2600; i++) {
+    const warm = random() < .32;
+    fill(warm ? 255 : 185, warm ? random(120, 185) : random(220,255), warm ? random(110, 150) : random(225,245), random(6, 24));
+    circle(random(W), random(H), random(.5, 1.7));
+  }
+  noFill(); stroke(255, 242, 212, 24); strokeWeight(2);
+  ellipse(W * .52, H * .565, W * .70, H * .405);
+}
+
+function wireControls() {
+  ['density','curl','glow','texture'].forEach(id => {
+    ui[id] = document.getElementById(id);
+    ui[id + 'Val'] = document.getElementById(id + 'Val');
+    ui[id].addEventListener('input', () => {
+      CONFIG[id] = Number(ui[id].value);
+      updateLabels(); redraw();
+    });
+  });
+  document.getElementById('newSeed').addEventListener('click', () => reseed());
+  document.getElementById('savePng').addEventListener('click', () => saveCanvas(sketchCanvas, 'chefin-coral-nest-' + CONFIG.seed, 'png'));
+  updateLabels(); redraw();
+}
+
+function updateLabels() {
+  ui.densityVal.textContent = CONFIG.density;
+  ui.curlVal.textContent = CONFIG.curl + '%';
+  ui.glowVal.textContent = CONFIG.glow + '%';
+  ui.textureVal.textContent = CONFIG.texture + '%';
+}
+
+function reseed() {
+  CONFIG.seed = floor(random(100000, 999999));
+  redraw();
+}
+
+function keyPressed() {
+  if (key === 's' || key === 'S') saveCanvas(sketchCanvas, 'chefin-coral-nest-' + CONFIG.seed, 'png');
+  if (key === 'r' || key === 'R') reseed();
+}
+</script>
+</body>
+</html>
