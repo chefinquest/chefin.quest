@@ -99,7 +99,7 @@
         <div class="swatches" aria-label="Palette swatches">
           <span class="swatch" style="background:#04131e"></span><span class="swatch" style="background:#0a4760"></span><span class="swatch" style="background:#38d9c8"></span><span class="swatch" style="background:#ff7d72"></span><span class="swatch" style="background:#ffad8a"></span><span class="swatch" style="background:#fff2d4"></span><span class="swatch" style="background:#ba5b87"></span>
         </div>
-        <div class="control"><label>Strand density <span id="densityVal"></span></label><input id="density" type="range" min="260" max="760" step="20" value="520"></div>
+        <div class="control"><label>Strand density <span id="densityVal"></span></label><input id="density" type="range" min="520" max="1500" step="20" value="1120"></div>
         <div class="control"><label>Bowl curl <span id="curlVal"></span></label><input id="curl" type="range" min="0" max="100" value="74"></div>
         <div class="control"><label>Coral glow <span id="glowVal"></span></label><input id="glow" type="range" min="0" max="100" value="66"></div>
         <div class="control"><label>Background texture <span id="textureVal"></span></label><input id="texture" type="range" min="0" max="100" value="82"></div>
@@ -114,7 +114,7 @@
 
     <section id="notes" class="lesson-card">
       <h2>Process notes</h2>
-      <p>The nest is drawn as hundreds of short Bezier splines arranged around an ellipse. Each strand chooses a lane: outer rim, inner bowl, cross-weave, or escaped filament. Color and thickness vary per lane so the composition keeps the photo’s fragile straw energy while shifting into a reef palette.</p>
+      <p>The nest is drawn as over a thousand hairline Bezier splines arranged around an ellipse. Each strand chooses a lane: outer rim, inner bowl, cross-weave, or escaped filament. Color and thickness vary per lane so the composition keeps the photo’s fragile straw energy while shifting into a reef palette.</p>
       <pre>// Core move: one elliptical nest strand with noisy control points.
 const a0 = random(TWO_PI);
 const a1 = a0 + random(-0.9, 0.9) + CONFIG.curl * 0.006;
@@ -128,7 +128,7 @@ bezier(p0.x, p0.y, c1.x, c1.y, c2.x, c2.y, p3.x, p3.y);</pre>
 
 <script>
 p5.disableFriendlyErrors = true;
-const CONFIG = { seed: 58123, density: 520, curl: 74, glow: 66, texture: 82 };
+const CONFIG = { seed: 58123, density: 1120, curl: 74, glow: 66, texture: 82 };
 const W = 1080, H = 1250;
 let sketchCanvas;
 const ui = {};
@@ -259,11 +259,11 @@ function drawOuterGlow() {
 }
 
 function drawBackStrands() {
-  for (let i = 0; i < 170; i++) drawStrand('back');
+  for (let i = 0; i < 330; i++) drawStrand('back');
 }
 
 function drawMainWeave() {
-  for (let i = 0; i < CONFIG.density; i++) drawStrand(random() < .72 ? 'rim' : 'cross');
+  for (let i = 0; i < CONFIG.density; i++) drawStrand(random() < .64 ? 'rim' : 'cross');
 }
 
 function drawStrand(kind) {
@@ -290,16 +290,16 @@ function drawStrand(kind) {
     ? [INKS.aqua, INKS.mint, INKS.rose, INKS.shell]
     : [INKS.pearl, INKS.shell, INKS.coral, INKS.peach, INKS.aqua, INKS.rose];
   const base = color(random(palette));
-  const alpha = kind === 'cross' ? random(68, 142) : random(86, 185);
+  const alpha = kind === 'cross' ? random(46, 112) : random(62, 152);
   base.setAlpha(alpha);
   stroke(base);
-  strokeWeight(kind === 'cross' ? random(.65, 2.1) : random(1.1, 4.2));
+  strokeWeight(kind === 'cross' ? random(.28, 1.05) : kind === 'back' ? random(.35, 1.28) : random(.42, 1.75));
   noFill();
   bezier(p0.x, p0.y, c1.x, c1.y, c2.x, c2.y, p3.x, p3.y);
 
   if (random() < .26) {
     const hi = color(random([INKS.pearl, INKS.mint, INKS.aqua])); hi.setAlpha(random(50, 120));
-    stroke(hi); strokeWeight(random(.35, 1));
+    stroke(hi); strokeWeight(random(.18, .58));
     bezier(p0.x + random(-3,3), p0.y + random(-3,3), c1.x, c1.y, c2.x, c2.y, p3.x + random(-3,3), p3.y + random(-3,3));
   }
 }
@@ -311,19 +311,19 @@ function drawInnerHollow() {
     fill(5, 15, 25, 9);
     ellipse(W * .52, H * .585, W * (.36 - i * .002), H * (.18 - i * .001));
   }
-  for (let i = 0; i < 90; i++) {
+  for (let i = 0; i < 180; i++) {
     const a = random(TWO_PI), rr = sqrt(random());
     const x = W * .52 + cos(a) * W * .19 * rr;
     const y = H * .585 + sin(a) * H * .095 * rr;
     stroke(255, 212, 178, random(20, 70));
-    strokeWeight(random(.35, 1.2));
+    strokeWeight(random(.2, .72));
     line(x - random(16, 42), y + random(-8, 8), x + random(16, 42), y + random(-8, 8));
   }
 }
 
 function drawEscapedFilaments() {
   noFill();
-  for (let i = 0; i < 115; i++) {
+  for (let i = 0; i < 240; i++) {
     const a = random(TWO_PI);
     const p0 = nestPoint(a, random(.95, 1.18));
     const len = random(90, 360) * (random() < .18 ? 1.55 : 1);
@@ -332,8 +332,8 @@ function drawEscapedFilaments() {
     const c1 = p5.Vector.lerp(p0, p3, .25).add(random(-58,58), random(-80,80));
     const c2 = p5.Vector.lerp(p0, p3, .72).add(random(-90,90), random(-86,86));
     const col = color(random([INKS.pearl, INKS.aqua, INKS.coral, INKS.shell]));
-    col.setAlpha(random(42, 128));
-    stroke(col); strokeWeight(random(.55, 2.3));
+    col.setAlpha(random(32, 106));
+    stroke(col); strokeWeight(random(.22, 1.12));
     bezier(p0.x, p0.y, c1.x, c1.y, c2.x, c2.y, p3.x, p3.y);
   }
 }
