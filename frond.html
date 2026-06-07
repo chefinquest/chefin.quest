@@ -104,7 +104,7 @@
         <div class="control"><label>Frond density <span id="densityVal"></span></label><input id="density" type="range" min="42" max="96" step="2" value="72"></div>
         <div class="control"><label>Arc curvature <span id="curveVal"></span></label><input id="curve" type="range" min="40" max="110" value="82"></div>
         <div class="control"><label>Hot overprint <span id="heatVal"></span></label><input id="heat" type="range" min="0" max="100" value="72"></div>
-        <div class="control"><label>Static grain <span id="grainVal"></span></label><input id="grain" type="range" min="30" max="100" value="88"></div>
+        <div class="control"><label>Static grain <span id="grainVal"></span></label><input id="grain" type="range" min="30" max="100" value="96"></div>
         <p class="callout"><strong>Press S</strong> to save, <strong>R</strong> for a new seed. The sliders redraw the print, changing leaflet count, rib curvature, color-temperature, and grain load.</p>
         <ul>
           <li>Leaflets are multi-pass Bezier strokes, not flat shapes, so their tips dissolve into noise.</li>
@@ -132,7 +132,7 @@ for (let pass = 0; pass < 5; pass++) {
 
 <script>
 p5.disableFriendlyErrors = true;
-const CONFIG = { seed: 91864, density: 72, curve: 82, heat: 72, grain: 88 };
+const CONFIG = { seed: 91864, density: 72, curve: 82, heat: 72, grain: 96 };
 const W = 969, H = 1196;
 let sketchCanvas;
 const ui = {};
@@ -163,6 +163,7 @@ function draw() {
   drawLowerDashes();
   drawOverprintFog();
   drawStaticGrain();
+  drawUnifyingGrainVeil();
   drawSoftVignette();
 }
 
@@ -349,14 +350,53 @@ function drawOverprintFog() {
 
 function drawStaticGrain() {
   noStroke();
-  const top = Math.floor(map(CONFIG.grain, 30, 100, 12000, 38000));
+  const top = Math.floor(map(CONFIG.grain, 30, 100, 18000, 52000));
   for (let i = 0; i < top; i++) {
     const x = random(W), y = random(H);
-    const c = random([PAL.dust, PAL.cyan, PAL.magenta, PAL.orange, PAL.violet]);
-    fill(c[0], c[1], c[2], random(8, 34));
-    const s = random(.4, 2.2);
+    const n = noise(x * .018, y * .018, i * .0009);
+    const c = random([PAL.dust, PAL.cyan, PAL.magenta, PAL.orange, PAL.violet, PAL.haze]);
+    fill(c[0] + random(-18, 18), c[1] + random(-18, 18), c[2] + random(-18, 18), random(10, 42) + n * 14);
+    const s = random(.35, 2.7 + n * 1.4);
     ellipse(x, y, s, s);
   }
+}
+
+function drawUnifyingGrainVeil() {
+  const veil = map(CONFIG.grain, 30, 100, .35, 1);
+  noStroke();
+  blendMode(BLEND);
+
+  // A translucent paper-and-scanner haze sits above every layer so the hot
+  // frond strokes and cool substrate feel printed into one surface, not pasted on.
+  for (let i = 0; i < 34; i++) {
+    const y = random(-40, H + 40);
+    const h = random(24, 86);
+    const c = random([PAL.haze, PAL.dust, PAL.paper, PAL.lavender]);
+    fill(c[0], c[1], c[2], random(3, 8) * veil);
+    rect(0, y, W, h);
+  }
+
+  blendMode(MULTIPLY);
+  const flecks = Math.floor(map(CONFIG.grain, 30, 100, 9000, 26000));
+  for (let i = 0; i < flecks; i++) {
+    const x = random(W), y = random(H);
+    const n = noise(x * .032 + 12, y * .032 - 4);
+    const warm = random() < .42 + CONFIG.heat * .002;
+    const c = warm ? random([PAL.peach, PAL.rose, PAL.dust]) : random([PAL.haze, PAL.cyan, PAL.lavender]);
+    fill(c[0], c[1], c[2], random(5, 18) * veil);
+    const s = random(.35, 1.35 + n * 1.1);
+    rect(x, y, s, s);
+  }
+
+  blendMode(SCREEN);
+  const brightDust = Math.floor(map(CONFIG.grain, 30, 100, 2500, 8000));
+  for (let i = 0; i < brightDust; i++) {
+    const x = random(W), y = random(H);
+    const c = random([PAL.dust, PAL.haze, PAL.cyan]);
+    fill(c[0], c[1], c[2], random(2, 8) * veil);
+    ellipse(x, y, random(.5, 2.1), random(.5, 2.1));
+  }
+  blendMode(BLEND);
 }
 
 function drawSoftVignette() {
