@@ -1,0 +1,404 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>chefin.quest · Electric Frond p5.js study</title>
+  <meta name="description" content="A p5.js generative art study emulating a noisy lavender risograph field with sweeping palm-frond arcs in violet, cyan, magenta, and orange pigment." />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/p5.min.js"></script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --paper:#151027;
+      --ink:#fff3ff;
+      --muted:#d8c2ff;
+      --line:rgba(231, 201, 255, .22);
+      --card:rgba(30, 20, 54, .78);
+      --violet:#7b39ff;
+      --cyan:#45d8ff;
+      --magenta:#ff236d;
+      --orange:#ff6a16;
+      --shadow:0 34px 120px rgba(16, 6, 42, .62);
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; background:#130d25; }
+    body {
+      margin:0;
+      min-height:100vh;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(89, 205, 255, .20), transparent 26rem),
+        radial-gradient(circle at 82% 14%, rgba(255, 55, 128, .22), transparent 32rem),
+        radial-gradient(circle at 58% 98%, rgba(255, 106, 22, .20), transparent 38rem),
+        linear-gradient(135deg,#110c22 0%,#35225c 48%,#1a1230 100%);
+      color:var(--ink);
+      font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      line-height:1.55;
+    }
+    a { color:#78e2ff; }
+    header, main, footer { width:min(1220px, calc(100% - 32px)); margin:0 auto; }
+    header { padding:32px 0 18px; }
+    .eyebrow { text-transform:uppercase; letter-spacing:.18em; font-size:.72rem; color:var(--muted); font-weight:850; }
+    h1 { margin:10px 0 12px; font-size:clamp(2.25rem,6.4vw,6rem); line-height:.88; letter-spacing:-.065em; max-width:1120px; }
+    .lede { max-width:940px; font-size:clamp(1.04rem,2vw,1.34rem); color:#eadcff; }
+    .top-actions { display:flex; flex-wrap:wrap; gap:10px; margin-top:22px; }
+    button, .pill {
+      border:1px solid rgba(216,194,255,.27);
+      background:rgba(255,255,255,.075);
+      color:var(--ink);
+      padding:10px 13px;
+      border-radius:999px;
+      font:inherit;
+      font-weight:800;
+      cursor:pointer;
+      box-shadow:0 8px 26px rgba(0,0,0,.24);
+      backdrop-filter:blur(10px);
+      text-decoration:none;
+    }
+    button:hover, .pill:hover { transform:translateY(-1px); border-color:rgba(255,35,109,.78); }
+    .stage-grid { display:grid; grid-template-columns:minmax(0,1fr) 340px; gap:22px; align-items:start; margin:18px 0 26px; }
+    .art-card, .panel, .lesson-card { border:1px solid var(--line); border-radius:28px; background:var(--card); box-shadow:var(--shadow); overflow:hidden; backdrop-filter:blur(14px); }
+    .art-card { padding:clamp(10px,1.5vw,18px); }
+    #canvas-wrap { width:100%; aspect-ratio:969/1196; display:grid; place-items:center; border-radius:20px; overflow:hidden; background:#a38cd7; box-shadow:inset 0 0 0 1px rgba(231,201,255,.16); }
+    #canvas-wrap canvas { width:100% !important; height:100% !important; display:block; }
+    .panel, .lesson-card { padding:clamp(18px,3vw,28px); }
+    .panel h2, .lesson-card h2 { margin:0 0 10px; line-height:1; letter-spacing:-.03em; }
+    .panel p, .panel li, .lesson-card p, .lesson-card li { color:#ddceff; font-size:.96rem; }
+    .control { margin:15px 0; }
+    .control label { display:flex; justify-content:space-between; gap:12px; font-size:.84rem; font-weight:850; color:#fff1ff; }
+    input[type="range"] { width:100%; accent-color:#ff236d; }
+    .swatches { display:flex; gap:7px; flex-wrap:wrap; margin:12px 0 16px; }
+    .swatch { width:27px; height:27px; border-radius:50%; border:2px solid rgba(255,255,255,.36); box-shadow:0 2px 9px rgba(0,0,0,.35); }
+    .callout { border-left:4px solid var(--magenta); padding:12px 14px; background:rgba(255,35,109,.11); border-radius:0 16px 16px 0; }
+    .lesson-card { margin:22px 0; }
+    pre { white-space:pre-wrap; background:#140d25; color:#fff4ff; padding:16px; border-radius:16px; overflow:auto; font-size:.84rem; }
+    footer { padding:28px 0 46px; color:var(--muted); }
+    @media (max-width:900px) { .stage-grid { grid-template-columns:1fr; } h1 { letter-spacing:-.055em; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="eyebrow">chefin.quest / p5.js field studies / Study 006</div>
+    <h1>A lavender noise print with an electric palm frond burning through it.</h1>
+    <p class="lede">This study rebuilds the supplied image as layered p5.js pigment: a speckled lilac substrate, curved cyan-violet ribs, hot magenta leaflets, orange lower sparks, and thousands of individual grain marks that make the surface shimmer like an over-inked risograph scan.</p>
+    <div class="top-actions" role="navigation" aria-label="Field study tabs">
+      <button id="newSeed" type="button">New seed</button>
+      <button id="savePng" type="button">Save PNG</button>
+      <a class="pill" href="./">Garden Plotter</a>
+      <a class="pill" href="cherry.html">Toshiba Cherry</a>
+      <a class="pill" href="cobalt.html">Cobalt Eclipse</a>
+      <a class="pill" href="lattice.html">Chromatic Lattice</a>
+      <a class="pill" href="nest.html">Coral Nest</a>
+      <a class="pill" href="#notes">Process notes</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="stage-grid" aria-label="Live electric frond p5.js artwork and controls">
+      <div class="art-card"><div id="canvas-wrap"></div></div>
+      <aside class="panel">
+        <h2>Study 006: Electric Frond</h2>
+        <p>The reference is less about one clean leaf than about noisy overprint density: curved palm ribs partially swallowed by lavender static, with color shifting from cool violet/cyan at the top to magenta and orange near the lower stem.</p>
+        <div class="swatches" aria-label="Palette swatches">
+          <span class="swatch" style="background:#a78de1"></span><span class="swatch" style="background:#7b39ff"></span><span class="swatch" style="background:#45d8ff"></span><span class="swatch" style="background:#ff236d"></span><span class="swatch" style="background:#ff6a16"></span><span class="swatch" style="background:#f2c7e8"></span><span class="swatch" style="background:#9f89c9"></span>
+        </div>
+        <div class="control"><label>Frond density <span id="densityVal"></span></label><input id="density" type="range" min="42" max="96" step="2" value="72"></div>
+        <div class="control"><label>Arc curvature <span id="curveVal"></span></label><input id="curve" type="range" min="40" max="110" value="82"></div>
+        <div class="control"><label>Hot overprint <span id="heatVal"></span></label><input id="heat" type="range" min="0" max="100" value="72"></div>
+        <div class="control"><label>Static grain <span id="grainVal"></span></label><input id="grain" type="range" min="30" max="100" value="88"></div>
+        <p class="callout"><strong>Press S</strong> to save, <strong>R</strong> for a new seed. The sliders redraw the print, changing leaflet count, rib curvature, color-temperature, and grain load.</p>
+        <ul>
+          <li>Leaflets are multi-pass Bezier strokes, not flat shapes, so their tips dissolve into noise.</li>
+          <li>Cool and hot pigment layers are intentionally misregistered by a few pixels.</li>
+          <li>Background stipple is drawn both before and after the frond to imitate scan noise and ink dust.</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section id="notes" class="lesson-card">
+      <h2>Process notes</h2>
+      <p>I decomposed the reference into substrate, shadowed sweeping arcs, central stem, detached lower dash marks, and high-frequency grain. The sketch draws each leaflet several times: a broad translucent under-paint, a saturated core, a cyan/violet offset edge, then a final field of dots that partially buries the shape.</p>
+      <pre>// Core move: build one palm leaflet as a noisy stack of Bezier strokes.
+const base = frondPoint(t);
+const tip = frondPoint(t + span);
+for (let pass = 0; pass < 5; pass++) {
+  strokeWeight(w * (1 - pass * .16));
+  stroke(r, g, b, alpha * (1 - pass * .13));
+  bezier(base.x, base.y, c1.x, c1.y, c2.x, c2.y, tip.x, tip.y);
+}</pre>
+    </section>
+  </main>
+
+  <footer>Built as a live p5.js study for chefin.quest. Studies: <a href="./">Garden Plotter</a> · <a href="cherry.html">Toshiba Cherry</a> · <a href="cobalt.html">Cobalt Eclipse</a> · <a href="lattice.html">Chromatic Lattice</a> · <a href="nest.html">Coral Nest</a>.</footer>
+
+<script>
+p5.disableFriendlyErrors = true;
+const CONFIG = { seed: 91864, density: 72, curve: 82, heat: 72, grain: 88 };
+const W = 969, H = 1196;
+let sketchCanvas;
+const ui = {};
+
+const PAL = {
+  paper: [165, 141, 215], haze: [198, 172, 226], lavender: [138, 98, 229], violet: [110, 55, 255], cyan: [62, 210, 255], magenta: [255, 35, 109], rose: [222, 75, 165], orange: [255, 100, 22], peach: [247, 128, 86], dust: [236, 202, 232]
+};
+
+function setup() {
+  sketchCanvas = createCanvas(W, H);
+  sketchCanvas.parent('canvas-wrap');
+  pixelDensity(1);
+  noLoop();
+  wireControls();
+}
+
+function draw() {
+  randomSeed(CONFIG.seed);
+  noiseSeed(CONFIG.seed);
+  colorMode(RGB, 255, 255, 255, 255);
+  blendMode(BLEND);
+  drawSubstrate();
+  drawBuriedBands();
+  drawGhostFronds();
+  drawMainFrondShadow();
+  drawLeafletFan();
+  drawCentralRib();
+  drawLowerDashes();
+  drawOverprintFog();
+  drawStaticGrain();
+  drawSoftVignette();
+}
+
+function drawSubstrate() {
+  background(PAL.paper[0], PAL.paper[1], PAL.paper[2]);
+  noStroke();
+  for (let y = 0; y < H; y += 3) {
+    const mix = y / H;
+    fill(146 + 52 * mix, 118 + 38 * Math.sin(mix * Math.PI), 218 + 18 * (1 - mix), 38);
+    rect(0, y, W, 4);
+  }
+  const grains = Math.floor(map(CONFIG.grain, 30, 100, 18000, 56000));
+  for (let i = 0; i < grains; i++) {
+    const x = random(W), y = random(H);
+    const n = noise(x * .011, y * .011);
+    const hot = random() < .36 + CONFIG.heat * .002;
+    const c = hot ? random([PAL.magenta, PAL.orange, PAL.rose, PAL.dust]) : random([PAL.cyan, PAL.violet, PAL.haze, PAL.lavender]);
+    fill(c[0] + random(-22, 22), c[1] + random(-22, 22), c[2] + random(-18, 18), random(12, 42) + n * 22);
+    const s = random(.45, 1.9 + n * 1.2);
+    rect(x, y, s, s);
+  }
+}
+
+function drawBuriedBands() {
+  noFill();
+  for (let i = 0; i < 19; i++) {
+    const y = 75 + i * 56 + random(-16, 16);
+    const amp = random(38, 96);
+    const c = random([PAL.cyan, PAL.violet, PAL.magenta, PAL.haze]);
+    stroke(c[0], c[1], c[2], random(18, 36));
+    strokeWeight(random(9, 28));
+    beginShape();
+    for (let x = -80; x <= W + 80; x += 34) {
+      const yy = y + Math.sin(x * .006 + i * .7) * amp + noise(x * .006, i * .13) * 55;
+      curveVertex(x, yy);
+    }
+    endShape();
+  }
+}
+
+function drawGhostFronds() {
+  push();
+  translate(W * .66, H * .74);
+  rotate(-0.42);
+  for (let side of [-1, 1]) {
+    for (let i = 0; i < 22; i++) {
+      const t = i / 22;
+      const len = lerp(220, 620, 1 - Math.abs(t - .45));
+      const a = -2.72 + t * 1.85 + side * .09;
+      stroke(70, 215, 255, random(16, 31));
+      strokeWeight(random(5, 16));
+      noFill();
+      bezier(0, 0, Math.cos(a) * len * .22, Math.sin(a) * len * .32, Math.cos(a + side * .22) * len * .64, Math.sin(a + side * .20) * len * .78, Math.cos(a + side * .31) * len, Math.sin(a + side * .31) * len);
+    }
+  }
+  pop();
+}
+
+function drawMainFrondShadow() {
+  blendMode(MULTIPLY);
+  noFill();
+  stroke(91, 55, 171, 36);
+  for (let i = 0; i < 16; i++) {
+    strokeWeight(18 + i * 2.2);
+    const off = i * 1.4;
+    bezier(W * .18 + off, H * .98, W * .34, H * .68, W * .56, H * .48, W * .86, H * .33 - off);
+  }
+  blendMode(BLEND);
+}
+
+function drawLeafletFan() {
+  const count = CONFIG.density;
+  for (let i = 0; i < count; i++) {
+    const t = i / (count - 1);
+    const side = i < count * .73 ? -1 : 1;
+    const base = frondPoint(t * .94 + .03);
+    const angle = leafletAngle(t, side);
+    const lenProfile = Math.sin(Math.PI * constrain(t * 1.08, 0, 1));
+    const len = (210 + 520 * lenProfile) * random(.72, 1.11) * (side === 1 ? .74 : 1);
+    const widthBand = random(10, 25) * (1 + lenProfile * 1.1);
+    const hueT = constrain((t - .25) / .68, 0, 1);
+    let c = paletteFor(t, side);
+    const warmPush = CONFIG.heat / 100;
+    if (t > .54 && random() < warmPush * .42) c = random([PAL.magenta, PAL.orange, PAL.peach]);
+    drawLeaflet(base.x, base.y, angle, len, widthBand, c, t, side);
+    if (random() < .42) {
+      const edge = side < 0 ? PAL.cyan : PAL.violet;
+      drawLeaflet(base.x + random(-5, 5), base.y + random(-5, 5), angle + random(-.025, .025), len * random(.86, 1.04), widthBand * .34, edge, t, side, true);
+    }
+  }
+}
+
+function frondPoint(t) {
+  const x = W * .25 + W * .58 * t + Math.sin(t * Math.PI * 1.15) * 90;
+  const y = H * 1.02 - H * .73 * t + Math.sin(t * Math.PI * .86 + .5) * 55 - t * t * 165;
+  return { x, y };
+}
+
+function leafletAngle(t, side) {
+  const curl = map(CONFIG.curve, 40, 110, .46, 1.12);
+  const base = -2.22 + t * 1.08;
+  const splay = side < 0 ? -curl : curl * .88;
+  return base + splay + Math.sin(t * Math.PI * 2.2) * .18;
+}
+
+function paletteFor(t, side) {
+  if (t < .22) return random([PAL.orange, PAL.peach, PAL.magenta]);
+  if (t < .48) return random([PAL.magenta, PAL.violet, PAL.rose]);
+  if (t < .78) return random([PAL.violet, PAL.lavender, PAL.cyan]);
+  return random([PAL.cyan, PAL.violet, PAL.haze]);
+}
+
+function drawLeaflet(x, y, a, len, w, c, t, side, edgeOnly=false) {
+  const bend = map(CONFIG.curve, 40, 110, .18, .52) * side;
+  const tip = { x: x + Math.cos(a) * len, y: y + Math.sin(a) * len };
+  const c1 = { x: x + Math.cos(a + bend) * len * .32, y: y + Math.sin(a + bend) * len * .32 };
+  const c2 = { x: x + Math.cos(a + bend * 1.4) * len * .74, y: y + Math.sin(a + bend * 1.4) * len * .72 };
+  noFill();
+  for (let pass = 0; pass < (edgeOnly ? 3 : 7); pass++) {
+    const k = pass / 6;
+    const jitter = edgeOnly ? 3 : 7;
+    const alpha = edgeOnly ? random(35, 72) : random(24, 58) * (1 - k * .06);
+    stroke(c[0] + random(-12, 12), c[1] + random(-10, 10), c[2] + random(-12, 12), alpha);
+    strokeWeight(Math.max(.7, w * (1 - k * .15) + random(-2, 2)));
+    bezier(x + random(-jitter, jitter), y + random(-jitter, jitter), c1.x + random(-jitter, jitter), c1.y + random(-jitter, jitter), c2.x + random(-jitter, jitter), c2.y + random(-jitter, jitter), tip.x + random(-jitter, jitter), tip.y + random(-jitter, jitter));
+  }
+  if (!edgeOnly && random() < .7) {
+    stroke(236, 207, 255, random(14, 34));
+    strokeWeight(random(.7, 2.3));
+    bezier(x, y, c1.x, c1.y, c2.x, c2.y, tip.x, tip.y);
+  }
+}
+
+function drawCentralRib() {
+  noFill();
+  for (let pass = 0; pass < 13; pass++) {
+    const c = pass % 3 === 0 ? PAL.orange : pass % 3 === 1 ? PAL.magenta : PAL.violet;
+    stroke(c[0], c[1], c[2], 38 - pass * 1.5);
+    strokeWeight(26 - pass * 1.55);
+    beginShape();
+    for (let i = 0; i <= 60; i++) {
+      const p = frondPoint(i / 60);
+      curveVertex(p.x + random(-2, 2), p.y + random(-2, 2));
+    }
+    endShape();
+  }
+  stroke(255, 105, 35, 44);
+  strokeWeight(5);
+  beginShape();
+  for (let i = 0; i <= 60; i++) {
+    const p = frondPoint(i / 60);
+    curveVertex(p.x, p.y);
+  }
+  endShape();
+}
+
+function drawLowerDashes() {
+  const hotCount = Math.floor(map(CONFIG.heat, 0, 100, 22, 74));
+  for (let i = 0; i < hotCount; i++) {
+    const x = random(W * .32, W * .95);
+    const y = random(H * .69, H * .97);
+    const c = random([PAL.orange, PAL.peach, PAL.magenta]);
+    push();
+    translate(x, y);
+    rotate(random(-1.9, -1.1));
+    noStroke();
+    fill(c[0], c[1], c[2], random(52, 92));
+    rect(-random(4, 13), -random(14, 36), random(10, 29), random(44, 108), random(9, 22));
+    pop();
+  }
+}
+
+function drawOverprintFog() {
+  blendMode(SCREEN);
+  noStroke();
+  for (let i = 0; i < 900; i++) {
+    const x = random(W), y = random(H);
+    const c = random([PAL.cyan, PAL.haze, PAL.magenta, PAL.violet]);
+    fill(c[0], c[1], c[2], random(3, 12));
+    ellipse(x, y, random(12, 72), random(4, 32));
+  }
+  blendMode(BLEND);
+}
+
+function drawStaticGrain() {
+  noStroke();
+  const top = Math.floor(map(CONFIG.grain, 30, 100, 12000, 38000));
+  for (let i = 0; i < top; i++) {
+    const x = random(W), y = random(H);
+    const c = random([PAL.dust, PAL.cyan, PAL.magenta, PAL.orange, PAL.violet]);
+    fill(c[0], c[1], c[2], random(8, 34));
+    const s = random(.4, 2.2);
+    ellipse(x, y, s, s);
+  }
+}
+
+function drawSoftVignette() {
+  noFill();
+  for (let i = 0; i < 44; i++) {
+    stroke(63, 33, 115, 2.6);
+    strokeWeight(18);
+    rect(i * 2, i * 2, W - i * 4, H - i * 4, 22);
+  }
+}
+
+function wireControls() {
+  for (const id of ['density', 'curve', 'heat', 'grain']) {
+    ui[id] = document.getElementById(id);
+    ui[id + 'Val'] = document.getElementById(id + 'Val');
+    ui[id].addEventListener('input', () => {
+      CONFIG[id] = Number(ui[id].value);
+      updateLabels();
+      redraw();
+    });
+  }
+  document.getElementById('newSeed').addEventListener('click', () => reseed());
+  document.getElementById('savePng').addEventListener('click', () => saveCanvas(sketchCanvas, 'chefin-electric-frond-' + CONFIG.seed, 'png'));
+  updateLabels();
+}
+
+function updateLabels() {
+  ui.densityVal.textContent = CONFIG.density;
+  ui.curveVal.textContent = CONFIG.curve;
+  ui.heatVal.textContent = CONFIG.heat;
+  ui.grainVal.textContent = CONFIG.grain;
+}
+
+function reseed() {
+  CONFIG.seed = Math.floor(random(100000, 999999));
+  redraw();
+}
+
+function keyPressed() {
+  if (key === 's' || key === 'S') saveCanvas(sketchCanvas, 'chefin-electric-frond-' + CONFIG.seed, 'png');
+  if (key === 'r' || key === 'R') reseed();
+}
+</script>
+</body>
+</html>
